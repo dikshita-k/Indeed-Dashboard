@@ -438,10 +438,42 @@ function makeChart(id, labels, applied, reg, live, horizontal) {
   });
 }
 
+function findCols(headerRow) {
+  // Dynamically find column indices from header row
+  const cols = { tier:-1, region:-1, app:-1, reg:-1, live:-1, wApp:-1, wReg:-1, wAct:-1 };
+  if (!headerRow || !headerRow.c) return cols;
+  headerRow.c.forEach((cell, i) => {
+    const v = (cell?.v||'').toString().toLowerCase().trim();
+    if (v.includes('tier') && cols.tier===-1) cols.tier = i;
+    else if ((v.includes('target') || v.includes('region') || v.includes('area') || v.includes('location')) && cols.region===-1) cols.region = i;
+    else if (v.includes('total applicant') && cols.app===-1) cols.app = i;
+    else if ((v.includes('registered') || v.includes('onboarded')) && !v.includes('not') && !v.includes('week') && cols.reg===-1) cols.reg = i;
+    else if ((v.includes('live') || v.includes('activat')) && !v.includes('week') && !v.includes('applied') && cols.live===-1) cols.live = i;
+    else if (v.includes('week') && v.includes('app') && cols.wApp===-1) cols.wApp = i;
+    else if (v.includes('week') && (v.includes('reg') || v.includes('onboard')) && cols.wReg===-1) cols.wReg = i;
+    else if (v.includes('week') && (v.includes('live') || v.includes('activ')) && cols.wAct===-1) cols.wAct = i;
+  });
+  // Fallback: if dynamic detection fails, use positional defaults
+  if (cols.tier===-1) cols.tier=0;
+  if (cols.region===-1) cols.region=1;
+  if (cols.app===-1) cols.app=2;
+  if (cols.reg===-1) cols.reg=3;
+  if (cols.live===-1) cols.live=4;
+  if (cols.wApp===-1) cols.wApp=8;
+  if (cols.wReg===-1) cols.wReg=9;
+  if (cols.wAct===-1) cols.wAct=10;
+  return cols;
+}
+
+let COLS = null;
+
 function makeLocCard(row) {
-  const region = (cv(row,1)||'').toString().trim();
-  const app=num(cv(row,2)), reg=num(cv(row,3)), live=num(cv(row,4));
-  const wApp=num(cv(row,8)), wReg=num(cv(row,9)), wAct=num(cv(row,10));
+  const C = COLS;
+  const region = (cv(row, C.region)||'').toString().trim();
+  const app=num(cv(row,C.app)), reg=num(cv(row,C.reg)), live=num(cv(row,C.live));
+  const wApp=C.wApp>=0?num(cv(row,C.wApp)):0;
+  const wReg=C.wReg>=0?num(cv(row,C.wReg)):0;
+  const wAct=C.wAct>=0?num(cv(row,C.wAct)):0;
   const hasAct = wApp > 0 || wReg > 0 || wAct > 0;
   const isNew = app > 0 && app === wApp;
   return `<div class="loc-card ${hasAct?'has-activity':''}" title="This week: ${wApp} applied · ${wReg} reg · ${wAct} live">
@@ -454,11 +486,12 @@ function makeLocCard(row) {
   </div>`;
 }
 
-function makeTierPanel(rows, accentColor) {
-  const total = rows.reduce((s,r)=>s+num(cv(r,2)),0);
-  const totalReg = rows.reduce((s,r)=>s+num(cv(r,3)),0);
-  const totalLive = rows.reduce((s,r)=>s+num(cv(r,4)),0);
-  const sorted = [...rows].sort((a,b)=>num(cv(b,2))-num(cv(a,2)));
+function makeTierPanel(rows) {
+  const C = COLS;
+  const total = rows.reduce((s,r)=>s+num(cv(r,C.app)),0);
+  const totalReg = rows.reduce((s,r)=>s+num(cv(r,C.reg)),0);
+  const totalLive = rows.reduce((s,r)=>s+num(cv(r,C.live)),0);
+  const sorted = [...rows].sort((a,b)=>num(cv(b,C.app))-num(cv(a,C.app)));
   return `
     <div class="tier-summary">
       <div class="ts-badge"><div class="ts-label">Total Applied</div><div class="ts-val" style="color:var(--purple)">${fmt(total)}</div></div>
@@ -527,21 +560,24 @@ async function load() {
     document.getElementById('at-lpct').textContent=pct(regLivePct)+' of reg.';
     document.getElementById('at-conv').textContent=pct(appLivePct);
 
-    // Parse regional
+    // Parse regional — detect columns from header row
+    COLS = findCols(dRows[0]);
+    console.log('Detected columns:', COLS);
+
     const buckets = {VIP:[],T1:[],T2:[],HS:[],HD:[]};
     const newLocs = [];
     const SKIP_TIERS = ['retired'];
 
     for(let i=1;i<dRows.length;i++){
       const row=dRows[i];
-      const tier=(cv(row,0)||'').toString().trim();
-      const region=(cv(row,1)||'').toString().trim();
+      const tier=(cv(row,COLS.tier)||'').toString().trim();
+      const region=(cv(row,COLS.region)||'').toString().trim();
       if(!region||region==='—') continue;
       if(tier.includes('TOTAL')||tier.includes('GRAND')) continue;
       if(SKIP_TIERS.some(s=>tier.toLowerCase().includes(s))) continue;
 
-      const wkApp=num(cv(row,8));
-      const totalA=num(cv(row,2));
+      const wkApp=COLS.wApp>=0?num(cv(row,COLS.wApp)):0;
+      const totalA=num(cv(row,COLS.app));
       if(totalA>0&&totalA===wkApp) newLocs.push({name:region,tier,count:wkApp});
 
       if(tier==='VIP') buckets.VIP.push(row);
@@ -559,12 +595,12 @@ async function load() {
 
     // Charts
     function chartData(rows) {
-      const sorted=[...rows].sort((a,b)=>num(cv(b,2))-num(cv(a,2)));
+      const sorted=[...rows].sort((a,b)=>num(cv(b,COLS.app))-num(cv(a,COLS.app)));
       return {
-        labels: sorted.map(r=>(cv(r,1)||'').toString().replace(' (Colorado)','').replace(' (Florida)','').replace('/ Duluth (Minnesota)','').trim()),
-        applied: sorted.map(r=>num(cv(r,2))),
-        reg: sorted.map(r=>num(cv(r,3))),
-        live: sorted.map(r=>num(cv(r,4)))
+        labels: sorted.map(r=>(cv(r,COLS.region)||'').toString().replace(' (Colorado)','').replace(' (Florida)','').replace('/ Duluth (Minnesota)','').trim()),
+        applied: sorted.map(r=>num(cv(r,COLS.app))),
+        reg: sorted.map(r=>num(cv(r,COLS.reg))),
+        live: sorted.map(r=>num(cv(r,COLS.live)))
       };
     }
 
