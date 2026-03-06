@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>yhangry · Chef Recruitment Intelligence</title>
+<title>yhangry · Chef Recruitment</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
@@ -11,169 +11,210 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
 html{scroll-behavior:smooth}
 :root{
-  --green:#1a3a2a;--green-mid:#2a5c40;--green-bright:#3d7a56;
-  --green-light:#ecf4ef;--green-pale:#f5f9f6;
-  --coral:#e05a30;--beige:#f5f0e8;--beige2:#ede7da;--cream:#faf7f2;
-  --ink:#0f1f16;--ink2:#2a3d30;--stone:#6b7d70;--stone2:#9eb0a2;
-  --border:rgba(26,58,42,0.09);--border2:rgba(26,58,42,0.16);
-  --shadow:0 2px 14px rgba(15,31,22,0.07),0 1px 3px rgba(15,31,22,0.04);
-  --shadow-lg:0 12px 48px rgba(15,31,22,0.12),0 3px 10px rgba(15,31,22,0.06);
+  /* yhangry exact brand colours */
+  --midnight:#1D1D55;
+  --midnight2:#2d2d7a;
+  --salmon:#ff6854;
+  --salmon-light:#fff1ee;
+  --stone:#e7ddd4;
+  --stone-dark:#c8bdb3;
+  --lilac:#ccc3e2;
+  --cream:#faf8f5;
+  --white:#ffffff;
+  --ink:#111118;
+  --ink2:#2a2a4a;
+  --muted:#7a7a9a;
+  --muted2:#aba8c0;
+  --border:rgba(29,29,85,0.08);
+  --border2:rgba(29,29,85,0.15);
+  --shadow:0 2px 14px rgba(17,17,24,0.06),0 1px 3px rgba(17,17,24,0.04);
+  --shadow-lg:0 12px 48px rgba(17,17,24,0.12),0 3px 10px rgba(17,17,24,0.06);
 }
 body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;overflow-x:hidden;line-height:1.6}
-#loader{position:fixed;inset:0;background:var(--green);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;transition:opacity 0.9s,visibility 0.9s}
+
+/* LOADER */
+#loader{position:fixed;inset:0;background:var(--midnight);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;transition:opacity 0.9s,visibility 0.9s}
 #loader.gone{opacity:0;visibility:hidden;pointer-events:none}
 .ld-penguin{font-size:62px;animation:waddle 0.65s ease-in-out infinite alternate}
 @keyframes waddle{from{transform:rotate(-10deg) translateY(0)}to{transform:rotate(10deg) translateY(-9px)}}
 .ld-logo{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:white;letter-spacing:-0.5px;text-align:center}
-.ld-logo em{color:#8fcfaa;font-style:italic}
+.ld-logo em{color:var(--salmon);font-style:italic}
 .ld-tag{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.35)}
 .ld-bar{width:110px;height:2px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden}
-.ld-fill{height:100%;background:linear-gradient(90deg,#8fcfaa,#e05a30);animation:lfill 1.6s ease-in-out infinite}
+.ld-fill{height:100%;background:linear-gradient(90deg,var(--lilac),var(--salmon));animation:lfill 1.6s ease-in-out infinite}
 @keyframes lfill{0%{width:0;margin-left:0}55%{width:60%;margin-left:20%}100%{width:0;margin-left:100%}}
-nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,0.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);padding:0 48px}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(250,248,245,0.9);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);padding:0 48px}
 .nav-in{max-width:1280px;margin:0 auto;height:60px;display:flex;align-items:center;justify-content:space-between}
 .nav-brand{display:flex;flex-direction:column}
 .nav-logo{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;letter-spacing:-0.3px;color:var(--ink)}
-.nav-logo em{color:var(--green-bright);font-style:italic}
-.nav-sub{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--stone);margin-top:1px}
+.nav-logo em{color:var(--midnight);font-style:italic}
+.nav-sub{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-top:1px}
 .nav-chips{display:flex;gap:8px;align-items:center}
-.chip{display:inline-flex;align-items:center;gap:6px;background:white;border:1px solid var(--border);border-radius:100px;padding:5px 14px;font-size:11px;color:var(--stone);box-shadow:var(--shadow)}
+.chip{display:inline-flex;align-items:center;gap:6px;background:white;border:1px solid var(--border);border-radius:100px;padding:5px 14px;font-size:11px;color:var(--muted);box-shadow:var(--shadow)}
 .live-dot{width:5px;height:5px;border-radius:50%;background:#3cb87a;animation:blink 2s ease infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+
+/* LAYOUT */
 .wrap{max-width:1280px;margin:0 auto;padding:0 48px 100px}
 .sh{display:flex;align-items:center;gap:14px;margin:54px 0 22px}
-.sh-label{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--stone);white-space:nowrap}
+.sh-label{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);white-space:nowrap}
 .sh-line{flex:1;height:1px;background:var(--border)}
+
+/* THIS WEEK */
 .week-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border2);border-radius:24px;overflow:hidden}
 .wc{background:white;padding:34px 32px;position:relative;overflow:hidden;cursor:default;transition:background 0.15s}
-.wc:hover{background:#fdfcf8}
-.wc-eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--stone);margin-bottom:12px}
+.wc:hover{background:#fefdfb}
+.wc-eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
 .wc-num{font-family:'Cormorant Garamond',serif;font-size:74px;font-weight:700;line-height:1;letter-spacing:-3px;margin-bottom:4px}
-.wc1 .wc-num{color:var(--ink)}.wc2 .wc-num{color:var(--green-mid)}.wc3 .wc-num{color:var(--coral)}
-.wc-label{font-size:13px;color:var(--stone)}
-.wc-ghost{position:absolute;bottom:-16px;right:-6px;font-family:'Cormorant Garamond',serif;font-size:120px;font-weight:700;opacity:0.025;pointer-events:none;line-height:1}
+.wc1 .wc-num{color:var(--midnight)}
+.wc2 .wc-num{color:var(--midnight2)}
+.wc3 .wc-num{color:var(--salmon)}
+.wc-label{font-size:13px;color:var(--muted)}
+.wc-ghost{position:absolute;bottom:-16px;right:-6px;font-family:'Cormorant Garamond',serif;font-size:120px;font-weight:700;opacity:0.03;pointer-events:none;line-height:1}
+
+/* PHOTOS */
 .photo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .pc{border-radius:18px;overflow:hidden;aspect-ratio:3/4;position:relative;cursor:pointer;box-shadow:var(--shadow)}
 .pc img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s cubic-bezier(.25,.46,.45,.94)}
 .pc:hover img{transform:scale(1.07)}
-.pc-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,20,13,0.9) 0%,rgba(8,20,13,0.05) 55%,transparent 100%)}
+.pc-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(17,17,40,0.92) 0%,rgba(17,17,40,0.05) 55%,transparent 100%)}
 .pc-tier{position:absolute;top:12px;right:12px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(255,255,255,0.13);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);color:white;padding:3px 9px;border-radius:100px}
 .pc-info{position:absolute;bottom:0;padding:16px 15px}
 .pc-city{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;color:white;line-height:1.2;margin-bottom:6px}
 .pc-stats{display:flex;gap:12px}
 .pc-stat{font-size:11px;color:rgba(255,255,255,0.65)}
 .pc-stat strong{color:white;font-weight:600}
-.pingu-strip{background:var(--green);border-radius:22px;padding:26px 30px;display:flex;align-items:stretch;gap:0;overflow:hidden;position:relative}
-.pingu-strip::after{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,0.025);pointer-events:none}
-.pingu-left{display:flex;flex-direction:column;align-items:center;justify-content:center;padding-right:28px;border-right:1px solid rgba(255,255,255,0.08);min-width:110px;flex-shrink:0;gap:6px}
-.pingu-face{font-size:46px;animation:pfloat 3s ease-in-out infinite;cursor:default}
-@keyframes pfloat{0%,100%{transform:translateY(0) rotate(0deg)}40%{transform:translateY(-7px) rotate(-3deg)}70%{transform:translateY(-4px) rotate(2deg)}}
-.pingu-name-tag{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.4)}
-.pingu-badge{font-size:10px;color:rgba(255,255,255,0.55);background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);padding:2px 8px;border-radius:100px;margin-top:2px}
-.pingu-right{flex:1;padding-left:28px;display:grid;grid-template-columns:1fr 1fr 1fr 1.2fr;gap:14px;align-items:center}
-.pi{display:flex;flex-direction:column;gap:3px}
-.pi-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.4)}
-.pi-val{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;color:white;line-height:1;letter-spacing:-0.5px}
-.pi-val.mint{color:#8fcfaa}.pi-val.coral{color:#f28060}
-.pi-desc{font-size:11px;color:rgba(255,255,255,0.5);line-height:1.4;margin-top:1px}
-.pingu-speech{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:5px}
-.ps-label{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.35)}
-.ps-text{font-size:12.5px;color:rgba(255,255,255,0.82);line-height:1.5;font-style:italic}
+
+/* PIPELINE + ALL-TIME */
 .mid-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:10px}
 .card{background:white;border:1px solid var(--border);border-radius:20px;padding:26px 28px;box-shadow:var(--shadow)}
-.card-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;letter-spacing:-0.3px;margin-bottom:22px}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;letter-spacing:-0.3px;margin-bottom:22px;color:var(--midnight)}
 .fs{margin-bottom:16px}
 .fs-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
 .fs-name{font-size:13px;font-weight:500;color:var(--ink2)}
 .fs-num{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;letter-spacing:-0.5px}
-.fn-ink{color:var(--ink)}.fn-green{color:var(--green-mid)}.fn-coral{color:var(--coral)}
-.fs-track{height:3px;background:var(--beige2);border-radius:2px;overflow:hidden}
+.fn-mid{color:var(--midnight)}.fn-mid2{color:var(--midnight2)}.fn-sal{color:var(--salmon)}
+.fs-track{height:3px;background:var(--stone);border-radius:2px;overflow:hidden}
 .fs-fill{height:100%;border-radius:2px;transition:width 1.8s cubic-bezier(.16,1,.3,1);width:0}
-.ff-ink{background:var(--ink)}.ff-green{background:var(--green-mid)}.ff-coral{background:var(--coral)}
-.fs-conv{font-size:10px;color:var(--stone2);margin-top:4px}
+.ff-mid{background:var(--midnight)}.ff-mid2{background:var(--midnight2)}.ff-sal{background:var(--salmon)}
 .at-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.at-item{background:var(--beige);border-radius:14px;padding:16px 18px;border:1px solid var(--border);transition:border-color 0.2s}
-.at-item:hover{border-color:var(--border2)}
-.at-label{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--stone);margin-bottom:6px}
-.at-num{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;letter-spacing:-0.8px}
-.at-sub{font-size:11px;color:var(--green-mid);font-weight:500;margin-top:2px}
+.at-item{background:var(--stone);border-radius:14px;padding:16px 18px;border:1px solid var(--stone-dark);transition:border-color 0.2s}
+.at-item:hover{border-color:var(--muted2)}
+.at-label{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.at-num{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;letter-spacing:-0.8px;color:var(--midnight)}
+.at-sub{font-size:11px;color:var(--salmon);font-weight:500;margin-top:2px}
+
+/* CHARTS */
 .chart-card{background:white;border:1px solid var(--border);border-radius:20px;padding:26px 28px;box-shadow:var(--shadow);margin-bottom:10px}
 .ch-hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;flex-wrap:wrap;gap:8px}
-.ch-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;letter-spacing:-0.3px}
-.ch-sub{font-size:11px;color:var(--stone);margin-top:2px}
+.ch-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;letter-spacing:-0.3px;color:var(--midnight)}
+.ch-sub{font-size:11px;color:var(--muted);margin-top:2px}
 .legend{display:flex;gap:14px;flex-wrap:wrap}
-.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--stone)}
+.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
 .leg-dot{width:7px;height:7px;border-radius:50%}
 .chart-wrap{height:220px;position:relative}
 .chart-2col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .chart-2col .chart-wrap{height:190px}
+
+/* TABS */
 .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
-.tab{padding:8px 20px;border-radius:100px;border:1px solid var(--border);background:white;font-size:12px;font-weight:500;color:var(--stone);cursor:pointer;transition:all 0.18s;font-family:'DM Sans',sans-serif}
-.tab:hover{color:var(--ink);border-color:var(--border2)}
-.tab.on{background:var(--ink);color:white;border-color:var(--ink)}
+.tab{padding:8px 20px;border-radius:100px;border:1px solid var(--border);background:white;font-size:12px;font-weight:500;color:var(--muted);cursor:pointer;transition:all 0.18s;font-family:'DM Sans',sans-serif}
+.tab:hover{color:var(--midnight);border-color:var(--border2)}
+.tab.on{background:var(--midnight);color:white;border-color:var(--midnight)}
+
 .pane{display:none}.pane.on{display:block;animation:fadeup 0.25s ease}
 @keyframes fadeup{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.tier-totals{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap}
-.tt{background:white;border:1px solid var(--border);border-radius:14px;padding:14px 20px;box-shadow:var(--shadow)}
-.tt-label{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--stone);margin-bottom:4px}
-.tt-val{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;letter-spacing:-0.5px}
-.tt-ink{color:var(--ink)}.tt-green{color:var(--green-mid)}.tt-coral{color:var(--coral)}
-.loc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
-.loc-card{background:white;border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:transform 0.2s,box-shadow 0.2s;box-shadow:var(--shadow);cursor:default}
+
+/* TIER TOTALS — horizontal KPI bar */
+.tier-kpi{display:flex;gap:0;margin-bottom:20px;border-radius:16px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow)}
+.tk{flex:1;padding:18px 22px;background:white;border-right:1px solid var(--border);position:relative;overflow:hidden}
+.tk:last-child{border-right:none}
+.tk-label{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.tk-val{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;line-height:1;letter-spacing:-1px}
+.tk-val.mid{color:var(--midnight)}.tk-val.mid2{color:var(--midnight2)}.tk-val.sal{color:var(--salmon)}
+.tk-sub{font-size:11px;color:var(--muted);margin-top:3px}
+.tk-accent{position:absolute;top:0;left:0;right:0;height:3px}
+.tk-accent.mid{background:var(--midnight)}.tk-accent.mid2{background:var(--midnight2)}.tk-accent.sal{background:var(--salmon)}
+
+/* LOCATION CARDS — visual redesign */
+.loc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.loc-card{background:white;border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:transform 0.2s,box-shadow 0.2s;box-shadow:var(--shadow);cursor:default;position:relative}
 .loc-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
-.lc-top{padding:16px 18px 12px;border-bottom:1px solid var(--border)}
-.lc-name{font-size:13px;font-weight:600;color:var(--ink);line-height:1.3;margin-bottom:4px}
-.lc-tier-badge{display:inline-block;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--stone2);background:var(--beige);border-radius:100px;padding:2px 7px}
-.lc-bottom{padding:12px 18px}
-.lc-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px}
-.lcs{display:flex;flex-direction:column;gap:1px}
-.lcs-v{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;line-height:1.1}
-.lcs-l{font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--stone2)}
-.lcs-a .lcs-v{color:var(--ink)}.lcs-r .lcs-v{color:var(--green-mid)}.lcs-lv .lcs-v{color:var(--coral)}
-.lc-bar{margin-top:10px}
-.lc-bar-label{font-size:9px;color:var(--stone2);margin-bottom:3px}
-.lc-bar-track{height:2px;background:var(--beige2);border-radius:1px;overflow:hidden}
-.lc-bar-fill{height:100%;background:var(--green-mid);border-radius:1px;opacity:0.8}
-.err{background:#fff4f1;border:1px solid #fdd;border-radius:12px;padding:14px 18px;font-size:13px;color:var(--coral);margin-bottom:16px;display:none}
-footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:11px;color:var(--stone2)}
-#pingu-btn{position:fixed;bottom:28px;right:28px;z-index:500;width:64px;height:64px;border-radius:50%;background:var(--green);border:3px solid white;box-shadow:0 8px 30px rgba(15,31,22,0.25);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:32px;animation:pbob 3.2s ease-in-out infinite;transition:transform 0.25s cubic-bezier(.34,1.56,.64,1),box-shadow 0.2s;user-select:none;flex-shrink:0}
-#pingu-btn:hover{transform:scale(1.14) rotate(-5deg)!important;box-shadow:0 14px 40px rgba(15,31,22,0.3)}
+
+/* Coloured left accent bar */
+.lc-accent{position:absolute;top:0;left:0;bottom:0;width:4px}
+.lc-accent.vip{background:linear-gradient(to bottom,var(--salmon),#ff9585)}
+.lc-accent.t1{background:linear-gradient(to bottom,var(--midnight),var(--midnight2))}
+.lc-accent.t2{background:linear-gradient(to bottom,var(--lilac),#a89fd0)}
+.lc-accent.hs{background:linear-gradient(to bottom,var(--stone-dark),var(--muted2))}
+.lc-accent.hd{background:linear-gradient(to bottom,#7dd4c2,#4ab5a0)}
+
+.lc-body{padding:16px 16px 14px 20px}
+.lc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.lc-name{font-size:13px;font-weight:600;color:var(--midnight);line-height:1.3;flex:1;padding-right:8px}
+.lc-pct{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--salmon);line-height:1;flex-shrink:0}
+.lc-pct-label{font-size:8px;color:var(--muted);letter-spacing:0.5px;text-align:right;margin-top:1px}
+
+/* Mini funnel bars */
+.lc-funnel{display:flex;flex-direction:column;gap:5px}
+.lf-row{display:flex;align-items:center;gap:8px}
+.lf-label{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--muted2);width:28px;flex-shrink:0}
+.lf-track{flex:1;height:5px;background:var(--stone);border-radius:3px;overflow:hidden}
+.lf-fill{height:100%;border-radius:3px;transition:width 1.4s cubic-bezier(.16,1,.3,1);width:0}
+.lf-fill.app{background:var(--midnight)}
+.lf-fill.reg{background:var(--midnight2)}
+.lf-fill.live{background:var(--salmon)}
+.lf-num{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:600;width:30px;text-align:right;flex-shrink:0}
+.lf-num.app{color:var(--midnight)}.lf-num.reg{color:var(--midnight2)}.lf-num.live{color:var(--salmon)}
+
+/* ERR */
+.err{background:#fff1ee;border:1px solid #ffccc4;border-radius:12px;padding:14px 18px;font-size:13px;color:var(--salmon);margin-bottom:16px;display:none}
+footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:11px;color:var(--muted2)}
+
+/* FLOATING PINGU */
+#pingu-btn{position:fixed;bottom:28px;right:28px;z-index:500;width:64px;height:64px;border-radius:50%;background:var(--midnight);border:3px solid white;box-shadow:0 8px 30px rgba(17,17,85,0.3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:32px;animation:pbob 3.2s ease-in-out infinite;transition:transform 0.25s cubic-bezier(.34,1.56,.64,1),box-shadow 0.2s;user-select:none}
+#pingu-btn:hover{transform:scale(1.14) rotate(-5deg)!important;box-shadow:0 14px 40px rgba(17,17,85,0.35)}
 @keyframes pbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-.pingu-notif{position:absolute;top:-2px;right:-2px;width:17px;height:17px;border-radius:50%;background:var(--coral);color:white;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid white}
-#pingu-bubble{position:fixed;bottom:104px;right:28px;z-index:501;width:300px;background:white;border-radius:20px 20px 4px 20px;box-shadow:var(--shadow-lg);border:1px solid var(--border);overflow:hidden;transform:scale(0.85) translateY(16px);transform-origin:bottom right;transition:transform 0.3s cubic-bezier(.34,1.56,.64,1),opacity 0.25s;opacity:0;pointer-events:none}
+.pingu-notif{position:absolute;top:-2px;right:-2px;width:17px;height:17px;border-radius:50%;background:var(--salmon);color:white;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid white}
+#pingu-bubble{position:fixed;bottom:104px;right:28px;z-index:501;width:310px;background:white;border-radius:20px 20px 4px 20px;box-shadow:var(--shadow-lg);border:1px solid var(--border);overflow:hidden;transform:scale(0.85) translateY(16px);transform-origin:bottom right;transition:transform 0.3s cubic-bezier(.34,1.56,.64,1),opacity 0.25s;opacity:0;pointer-events:none}
 #pingu-bubble.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all}
-.pb-head{background:var(--green);padding:14px 16px;display:flex;align-items:center;gap:10px}
+.pb-head{background:var(--midnight);padding:14px 16px;display:flex;align-items:center;gap:10px}
 .pb-emo{font-size:28px}
 .pb-name{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;color:white}
 .pb-role{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.45)}
 .pb-close{margin-left:auto;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;color:white;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:background 0.2s}
 .pb-close:hover{background:rgba(255,255,255,0.2)}
-.pb-msgs{padding:14px;max-height:230px;overflow-y:auto;display:flex;flex-direction:column;gap:8px}
-.pb-msg{background:var(--beige);border-radius:12px 12px 12px 3px;padding:10px 13px;font-size:12.5px;line-height:1.5;color:var(--ink2);animation:msgin 0.28s ease;border:1px solid var(--border)}
+.pb-msgs{padding:14px;max-height:240px;overflow-y:auto;display:flex;flex-direction:column;gap:8px}
+.pb-msg{background:var(--stone);border-radius:12px 12px 12px 3px;padding:10px 13px;font-size:12.5px;line-height:1.5;color:var(--ink2);animation:msgin 0.28s ease;border:1px solid var(--stone-dark)}
 @keyframes msgin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.pb-typing{background:var(--beige);border-radius:12px 12px 12px 3px;padding:12px 14px;display:flex;gap:4px;align-items:center;border:1px solid var(--border)}
-.pb-dot{width:6px;height:6px;border-radius:50%;background:var(--stone2);animation:bdot 1.1s ease infinite}
+.pb-typing{background:var(--stone);border-radius:12px 12px 12px 3px;padding:12px 14px;display:flex;gap:4px;align-items:center;border:1px solid var(--stone-dark)}
+.pb-dot{width:6px;height:6px;border-radius:50%;background:var(--muted2);animation:bdot 1.1s ease infinite}
 .pb-dot:nth-child(2){animation-delay:.18s}.pb-dot:nth-child(3){animation-delay:.36s}
 @keyframes bdot{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
 .pb-sugs{padding:0 12px 10px;display:flex;gap:5px;flex-wrap:wrap}
-.pb-sug{font-size:10px;padding:4px 10px;border-radius:100px;background:var(--green-light);border:1px solid var(--border);color:var(--green-mid);cursor:pointer;transition:all 0.15s;font-family:'DM Sans',sans-serif}
-.pb-sug:hover{background:var(--green);color:white;border-color:var(--green)}
+.pb-sug{font-size:10px;padding:4px 10px;border-radius:100px;background:rgba(29,29,85,0.06);border:1px solid var(--border);color:var(--midnight);cursor:pointer;transition:all 0.15s;font-family:'DM Sans',sans-serif}
+.pb-sug:hover{background:var(--midnight);color:white;border-color:var(--midnight)}
 .pb-foot{padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:6px}
-.pb-input{flex:1;border:1px solid var(--border);border-radius:100px;padding:7px 14px;font-size:12px;outline:none;font-family:'DM Sans',sans-serif;background:var(--beige);color:var(--ink);transition:border-color 0.2s}
+.pb-input{flex:1;border:1px solid var(--border);border-radius:100px;padding:7px 14px;font-size:12px;outline:none;font-family:'DM Sans',sans-serif;background:var(--stone);color:var(--ink);transition:border-color 0.2s}
 .pb-input:focus{border-color:var(--border2)}
-.pb-send{width:32px;height:32px;border-radius:50%;background:var(--green);border:none;color:white;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:background 0.2s,transform 0.15s;flex-shrink:0}
-.pb-send:hover{background:var(--green-mid);transform:scale(1.07)}
+.pb-send{width:32px;height:32px;border-radius:50%;background:var(--midnight);border:none;color:white;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:background 0.2s,transform 0.15s;flex-shrink:0}
+.pb-send:hover{background:var(--midnight2);transform:scale(1.07)}
+
 @media(max-width:960px){
   .photo-grid,.week-grid,.mid-grid,.chart-2col{grid-template-columns:1fr 1fr}
   .week-grid{background:none;border-radius:0;gap:10px}
   .wc{border-radius:18px;border:1px solid var(--border)}
-  .pingu-right{grid-template-columns:1fr 1fr}
+  .tier-kpi{flex-wrap:wrap}
+  .tk{min-width:45%}
   .wrap{padding:0 20px 80px}
   nav{padding:0 20px}
 }
 @media(max-width:560px){
   .photo-grid{grid-template-columns:1fr 1fr}
   .week-grid,.mid-grid,.chart-2col{grid-template-columns:1fr}
+  .loc-grid{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
@@ -182,7 +223,7 @@ footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--border);displ
 <div id="loader">
   <div class="ld-penguin">🐧</div>
   <div class="ld-logo"><em>yhangry</em> · Chef Recruitment</div>
-  <div class="ld-tag">Loading pipeline intelligence</div>
+  <div class="ld-tag">Loading pipeline data</div>
   <div class="ld-bar"><div class="ld-fill"></div></div>
 </div>
 
@@ -204,38 +245,23 @@ footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--border);displ
 
   <div class="sh"><div class="sh-label">This Week</div><div class="sh-line"></div></div>
   <div class="week-grid">
-    <div class="wc wc1"><div class="wc-eyebrow">New Applicants</div><div class="wc-num" id="w-app">—</div><div class="wc-label">Chefs who applied this week</div><div class="wc-ghost">A</div></div>
-    <div class="wc wc2"><div class="wc-eyebrow">Registrations</div><div class="wc-num" id="w-reg">—</div><div class="wc-label">Signed up on yhangry</div><div class="wc-ghost">R</div></div>
-    <div class="wc wc3"><div class="wc-eyebrow">Activations</div><div class="wc-num" id="w-act">—</div><div class="wc-label">Fully live this week</div><div class="wc-ghost">L</div></div>
+    <div class="wc wc1"><div class="wc-eyebrow">New Applicants</div><div class="wc-num" id="w-app">—</div><div class="wc-label">Chefs who applied this week</div><div class="wc-ghost" style="color:var(--midnight)">A</div></div>
+    <div class="wc wc2"><div class="wc-eyebrow">Registrations</div><div class="wc-num" id="w-reg">—</div><div class="wc-label">Signed up on yhangry</div><div class="wc-ghost" style="color:var(--midnight)">R</div></div>
+    <div class="wc wc3"><div class="wc-eyebrow">Activations</div><div class="wc-num" id="w-act">—</div><div class="wc-label">Fully live this week</div><div class="wc-ghost" style="color:var(--salmon)">L</div></div>
   </div>
 
   <div class="sh"><div class="sh-label">Featured Markets</div><div class="sh-line"></div></div>
   <div class="photo-grid" id="photo-grid"></div>
 
-  <div class="sh"><div class="sh-label">Pingu's Intelligence</div><div class="sh-line"></div></div>
-  <div class="pingu-strip">
-    <div class="pingu-left">
-      <div class="pingu-face">🐧</div>
-      <div class="pingu-name-tag">Pingu</div>
-      <div class="pingu-badge">Indeed Intel</div>
-    </div>
-    <div class="pingu-right">
-      <div class="pi"><div class="pi-label">Applied → Live</div><div class="pi-val mint" id="pi-conv">—</div><div class="pi-desc">Share of all applicants now live</div></div>
-      <div class="pi"><div class="pi-label">Active Markets</div><div class="pi-val" id="pi-markets">—</div><div class="pi-desc">Locations with at least one live chef</div></div>
-      <div class="pi"><div class="pi-label">Top Market</div><div class="pi-val coral" id="pi-top">—</div><div class="pi-desc" id="pi-top-desc">Highest applicant volume</div></div>
-      <div class="pingu-speech"><div class="ps-label">🐧 Pingu says</div><div class="ps-text" id="pi-quip">Waddling through your data...</div></div>
-    </div>
-  </div>
-
   <div class="sh"><div class="sh-label">Pipeline Overview</div><div class="sh-line"></div></div>
   <div class="mid-grid">
     <div class="card">
       <div class="card-title">Conversion Funnel</div>
-      <div class="fs"><div class="fs-top"><span class="fs-name">Applied</span><span class="fs-num fn-ink" id="f-app">—</span></div><div class="fs-track"><div class="fs-fill ff-ink" id="fb-app"></div></div></div>
-      <div style="font-size:10px;color:var(--stone2);padding:2px 0 10px 2px;display:flex;align-items:center;gap:6px"><span style="width:1px;height:10px;background:var(--border2);display:block"></span><span id="cv-reg">—</span> applied → registered</div>
-      <div class="fs"><div class="fs-top"><span class="fs-name">Registered</span><span class="fs-num fn-green" id="f-reg">—</span></div><div class="fs-track"><div class="fs-fill ff-green" id="fb-reg"></div></div></div>
-      <div style="font-size:10px;color:var(--stone2);padding:2px 0 10px 2px;display:flex;align-items:center;gap:6px"><span style="width:1px;height:10px;background:var(--border2);display:block"></span><span id="cv-live">—</span> registered → live</div>
-      <div class="fs"><div class="fs-top"><span class="fs-name">Live Chefs</span><span class="fs-num fn-coral" id="f-live">—</span></div><div class="fs-track"><div class="fs-fill ff-coral" id="fb-live"></div></div></div>
+      <div class="fs"><div class="fs-top"><span class="fs-name">Applied</span><span class="fs-num fn-mid" id="f-app">—</span></div><div class="fs-track"><div class="fs-fill ff-mid" id="fb-app"></div></div></div>
+      <div style="font-size:10px;color:var(--muted2);padding:2px 0 10px 2px;display:flex;align-items:center;gap:6px"><span style="width:1px;height:10px;background:var(--border2);display:block"></span><span id="cv-reg">—</span> applied → registered</div>
+      <div class="fs"><div class="fs-top"><span class="fs-name">Registered</span><span class="fs-num fn-mid2" id="f-reg">—</span></div><div class="fs-track"><div class="fs-fill ff-mid2" id="fb-reg"></div></div></div>
+      <div style="font-size:10px;color:var(--muted2);padding:2px 0 10px 2px;display:flex;align-items:center;gap:6px"><span style="width:1px;height:10px;background:var(--border2);display:block"></span><span id="cv-live">—</span> registered → live</div>
+      <div class="fs"><div class="fs-top"><span class="fs-name">Live Chefs</span><span class="fs-num fn-sal" id="f-live">—</span></div><div class="fs-track"><div class="fs-fill ff-sal" id="fb-live"></div></div></div>
     </div>
     <div class="card">
       <div class="card-title">All‑Time Totals</div>
@@ -252,17 +278,17 @@ footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--border);displ
   <div class="chart-card">
     <div class="ch-hd">
       <div><div class="ch-title">⭐ VIP Markets</div><div class="ch-sub">Applied · Registered · Live</div></div>
-      <div class="legend"><div class="leg"><div class="leg-dot" style="background:var(--ink)"></div>Applied</div><div class="leg"><div class="leg-dot" style="background:var(--green-mid)"></div>Registered</div><div class="leg"><div class="leg-dot" style="background:var(--coral)"></div>Live</div></div>
+      <div class="legend"><div class="leg"><div class="leg-dot" style="background:var(--midnight)"></div>Applied</div><div class="leg"><div class="leg-dot" style="background:var(--midnight2)"></div>Registered</div><div class="leg"><div class="leg-dot" style="background:var(--salmon)"></div>Live</div></div>
     </div>
     <div class="chart-wrap"><canvas id="vipChart"></canvas></div>
   </div>
   <div class="chart-2col">
     <div class="chart-card">
-      <div class="ch-hd"><div><div class="ch-title">Tier 1</div><div class="ch-sub">Applied · Registered · Live</div></div><div class="legend"><div class="leg"><div class="leg-dot" style="background:var(--ink)"></div>App</div><div class="leg"><div class="leg-dot" style="background:var(--green-mid)"></div>Reg</div><div class="leg"><div class="leg-dot" style="background:var(--coral)"></div>Live</div></div></div>
+      <div class="ch-hd"><div><div class="ch-title">Tier 1</div><div class="ch-sub">Applied · Registered · Live</div></div><div class="legend"><div class="leg"><div class="leg-dot" style="background:var(--midnight)"></div>App</div><div class="leg"><div class="leg-dot" style="background:var(--midnight2)"></div>Reg</div><div class="leg"><div class="leg-dot" style="background:var(--salmon)"></div>Live</div></div></div>
       <div class="chart-wrap"><canvas id="t1Chart"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="ch-hd"><div><div class="ch-title">Tier 2</div><div class="ch-sub">Applied · Registered · Live</div></div><div class="legend"><div class="leg"><div class="leg-dot" style="background:var(--ink)"></div>App</div><div class="leg"><div class="leg-dot" style="background:var(--green-mid)"></div>Reg</div><div class="leg"><div class="leg-dot" style="background:var(--coral)"></div>Live</div></div></div>
+      <div class="ch-hd"><div><div class="ch-title">Tier 2</div><div class="ch-sub">Applied · Registered · Live</div></div><div class="legend"><div class="leg"><div class="leg-dot" style="background:var(--midnight)"></div>App</div><div class="leg"><div class="leg-dot" style="background:var(--midnight2)"></div>Reg</div><div class="leg"><div class="leg-dot" style="background:var(--salmon)"></div>Live</div></div></div>
       <div class="chart-wrap"><canvas id="t2Chart"></canvas></div>
     </div>
   </div>
@@ -291,7 +317,7 @@ footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--border);displ
 <div id="pingu-bubble">
   <div class="pb-head"><div class="pb-emo">🐧</div><div><div class="pb-name">Pingu</div><div class="pb-role">Indeed Intelligence</div></div><button class="pb-close" onclick="togglePingu()">✕</button></div>
   <div class="pb-msgs" id="pb-msgs"></div>
-  <div class="pb-sugs" id="pb-sugs">
+  <div class="pb-sugs">
     <div class="pb-sug" onclick="askPingu('Which market is performing best?')">Best market?</div>
     <div class="pb-sug" onclick="askPingu('What is the overall conversion rate?')">Conversion?</div>
     <div class="pb-sug" onclick="askPingu('How many chefs are live?')">Live chefs?</div>
@@ -321,8 +347,8 @@ const FEATURED=['Durango','Smoky Mountains','New York','Puerto Rico'];
 let dashData={totalApp:0,totalReg:0,totalLive:0,appLivePct:'',wApp:0,wReg:0,wAct:0,marketsLive:0,topMarket:'',topMarketApp:0,topMarketLive:0,buckets:{}};
 
 async function fetchCSV(name){
-  const url=`https://docs.google.com/spreadsheets/d/${SID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(name)}`;
-  const r=await fetch(url),txt=await r.text();
+  const r=await fetch(`https://docs.google.com/spreadsheets/d/${SID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(name)}`);
+  const txt=await r.text();
   return txt.trim().split('\n').map(line=>{
     const cells=[];let cur='',inQ=false;
     for(let i=0;i<line.length;i++){
@@ -341,16 +367,18 @@ const num=x=>{if(!x&&x!==0)return 0;const p=parseFloat(x.toString().replace(/[^0
 const fmt=x=>Math.round(num(x)).toLocaleString();
 const pct=x=>{const p=parseFloat((x||'').toString().replace('%',''));return isNaN(p)?'—':p.toFixed(1)+'%'};
 
-Chart.defaults.color='#6b7d70';Chart.defaults.font.family="'DM Sans',sans-serif";Chart.defaults.font.size=11;
+Chart.defaults.color='#7a7a9a';Chart.defaults.font.family="'DM Sans',sans-serif";Chart.defaults.font.size=11;
 const charts={};
 function mkChart(id,labels,app,reg,live){
   if(charts[id])charts[id].destroy();
   const ctx=document.getElementById(id);if(!ctx)return;
   charts[id]=new Chart(ctx,{type:'bar',data:{labels,datasets:[
-    {label:'Applied',data:app,backgroundColor:'rgba(15,31,22,0.7)',borderRadius:4,borderSkipped:false},
-    {label:'Registered',data:reg,backgroundColor:'rgba(42,92,64,0.7)',borderRadius:4,borderSkipped:false},
-    {label:'Live',data:live,backgroundColor:'rgba(224,90,48,0.75)',borderRadius:4,borderSkipped:false},
-  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#fff',titleColor:'#0f1f16',bodyColor:'#6b7d70',borderColor:'rgba(26,58,42,0.1)',borderWidth:1,padding:10,cornerRadius:8}},scales:{x:{grid:{display:false},border:{display:false},ticks:{maxRotation:32}},y:{grid:{color:'rgba(26,58,42,0.04)'},border:{display:false},beginAtZero:true}}}});
+    {label:'Applied',data:app,backgroundColor:'rgba(29,29,85,0.75)',borderRadius:4,borderSkipped:false},
+    {label:'Registered',data:reg,backgroundColor:'rgba(45,45,122,0.65)',borderRadius:4,borderSkipped:false},
+    {label:'Live',data:live,backgroundColor:'rgba(255,104,84,0.8)',borderRadius:4,borderSkipped:false},
+  ]},options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{backgroundColor:'#fff',titleColor:'#111118',bodyColor:'#7a7a9a',borderColor:'rgba(29,29,85,0.1)',borderWidth:1,padding:10,cornerRadius:8}},
+    scales:{x:{grid:{display:false},border:{display:false},ticks:{maxRotation:32}},y:{grid:{color:'rgba(29,29,85,0.04)'},border:{display:false},beginAtZero:true}}}});
 }
 
 function sw(id,btn){
@@ -359,18 +387,63 @@ function sw(id,btn){
   document.getElementById('pane-'+id).classList.add('on');btn.classList.add('on');
 }
 
-function mkPanel(rows){
+// Get accent class for tier
+function accentCls(tier){
+  if(tier==='VIP')return 'vip';
+  if(tier==='Tier 1')return 't1';
+  if(tier==='Tier 2')return 't2';
+  if(tier.toLowerCase().includes('high search'))return 'hs';
+  return 'hd';
+}
+
+function mkPanel(rows,tierLabel){
   const tot=rows.reduce((s,r)=>s+num(cv(r,2)),0);
   const totR=rows.reduce((s,r)=>s+num(cv(r,3)),0);
   const totL=rows.reduce((s,r)=>s+num(cv(r,4)),0);
+  const maxApp=Math.max(...rows.map(r=>num(cv(r,2))),1);
   const sorted=[...rows].sort((a,b)=>num(cv(b,2))-num(cv(a,2)));
+  const ac=accentCls(tierLabel||'');
+
   const cards=sorted.map(r=>{
-    const name=(cv(r,1)||'').trim(),a=num(cv(r,2)),rg=num(cv(r,3)),lv=num(cv(r,4));
+    const name=(cv(r,1)||'').trim();
+    const a=num(cv(r,2)),rg=num(cv(r,3)),lv=num(cv(r,4));
     const convP=a>0?Math.round(lv/a*100):0;
-    const tier=(cv(r,0)||'').trim();
-    return `<div class="loc-card"><div class="lc-top"><div class="lc-name">${name}</div><div class="lc-tier-badge">${tier}</div></div><div class="lc-bottom"><div class="lc-stats"><div class="lcs lcs-a"><div class="lcs-v">${fmt(a)}</div><div class="lcs-l">Applied</div></div><div class="lcs lcs-r"><div class="lcs-v">${fmt(rg)}</div><div class="lcs-l">Reg.</div></div><div class="lcs lcs-lv"><div class="lcs-v">${fmt(lv)}</div><div class="lcs-l">Live</div></div></div><div class="lc-bar"><div class="lc-bar-label">${convP}% applied → live</div><div class="lc-bar-track"><div class="lc-bar-fill" style="width:${Math.min(convP*3.5,100)}%"></div></div></div></div></div>`;
+    const wApp=a>0?Math.round(a/maxApp*100):0;
+    const wReg=a>0?Math.round(rg/a*100):0;
+    const wLive=a>0?Math.round(lv/a*100):0;
+    return `<div class="loc-card">
+      <div class="lc-accent ${ac}"></div>
+      <div class="lc-body">
+        <div class="lc-top">
+          <div class="lc-name">${name}</div>
+          <div><div class="lc-pct">${convP}%</div><div class="lc-pct-label">→ live</div></div>
+        </div>
+        <div class="lc-funnel">
+          <div class="lf-row">
+            <div class="lf-label">App</div>
+            <div class="lf-track"><div class="lf-fill app" style="width:${wApp}%"></div></div>
+            <div class="lf-num app">${fmt(a)}</div>
+          </div>
+          <div class="lf-row">
+            <div class="lf-label">Reg</div>
+            <div class="lf-track"><div class="lf-fill reg" style="width:${wReg}%"></div></div>
+            <div class="lf-num reg">${fmt(rg)}</div>
+          </div>
+          <div class="lf-row">
+            <div class="lf-label">Live</div>
+            <div class="lf-track"><div class="lf-fill live" style="width:${wLive}%"></div></div>
+            <div class="lf-num live">${fmt(lv)}</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
   }).join('');
-  return `<div class="tier-totals"><div class="tt"><div class="tt-label">Applied</div><div class="tt-val tt-ink">${fmt(tot)}</div></div><div class="tt"><div class="tt-label">Registered</div><div class="tt-val tt-green">${fmt(totR)}</div></div><div class="tt"><div class="tt-label">Live</div><div class="tt-val tt-coral">${fmt(totL)}</div></div></div><div class="loc-grid">${cards}</div>`;
+
+  return `<div class="tier-kpi">
+    <div class="tk"><div class="tk-accent mid"></div><div class="tk-label">Applied</div><div class="tk-val mid">${fmt(tot)}</div><div class="tk-sub">total applicants</div></div>
+    <div class="tk"><div class="tk-accent mid2"></div><div class="tk-label">Registered</div><div class="tk-val mid2">${fmt(totR)}</div><div class="tk-sub">${tot>0?Math.round(totR/tot*100):0}% of applied</div></div>
+    <div class="tk"><div class="tk-accent sal"></div><div class="tk-label">Live</div><div class="tk-val sal">${fmt(totL)}</div><div class="tk-sub">${totR>0?Math.round(totL/totR*100):0}% of registered</div></div>
+  </div><div class="loc-grid">${cards}</div>`;
 }
 
 function buildPhotos(allRows){
@@ -382,25 +455,9 @@ function buildPhotos(allRows){
     while(top4.length<4&&extras.length)top4.push(extras.shift());
   }
   document.getElementById('photo-grid').innerHTML=top4.map(name=>{
-    const d=byName[name]||{},img=PHOTOS[name]||PHOTOS['_default'];
-    return `<div class="pc"><img src="${img}" alt="${name}" loading="lazy"><div class="pc-overlay"></div><div class="pc-tier">${d.tier||'VIP'}</div><div class="pc-info"><div class="pc-city">${name}</div><div class="pc-stats"><div class="pc-stat"><strong>${fmt(d.app)}</strong> applied</div><div class="pc-stat"><strong>${fmt(d.live)}</strong> live</div></div></div></div>`;
+    const d=byName[name]||{};
+    return `<div class="pc"><img src="${PHOTOS[name]||PHOTOS['_default']}" alt="${name}" loading="lazy"><div class="pc-overlay"></div><div class="pc-tier">${d.tier||'VIP'}</div><div class="pc-info"><div class="pc-city">${name}</div><div class="pc-stats"><div class="pc-stat"><strong>${fmt(d.app)}</strong> applied</div><div class="pc-stat"><strong>${fmt(d.live)}</strong> live</div></div></div></div>`;
   }).join('');
-}
-
-function updatePinguInsights(){
-  const d=dashData;
-  document.getElementById('pi-conv').textContent=d.appLivePct||'—';
-  document.getElementById('pi-markets').textContent=d.marketsLive||'—';
-  document.getElementById('pi-top').textContent=(d.topMarket||'').split(' ')[0]||'—';
-  document.getElementById('pi-top-desc').textContent=`${fmt(d.topMarketApp)} applied, ${fmt(d.topMarketLive)} live`;
-  const quips=[
-    `${d.topMarket} is your star market — ${fmt(d.topMarketApp)} applicants and counting! 🐟`,
-    `${d.marketsLive} markets with live chefs. The pipeline is really cooking! 🍳`,
-    `Applied → Live rate: ${d.appLivePct}. Those follow-up emails are making a difference!`,
-    `This week: ${fmt(d.wApp)} new applicants, ${fmt(d.wAct)} activations. Keep the momentum! 💪`,
-    `${fmt(d.totalLive)} live chefs across all markets. That's a lot of amazing dinners! 🍽️`,
-  ];
-  document.getElementById('pi-quip').textContent=quips[Math.floor(Date.now()/60000)%quips.length];
 }
 
 async function load(){
@@ -409,8 +466,8 @@ async function load(){
     const wRows=weekly.slice(1),dRows=dash;
     let period='',generated='',totalApp=0,totalUniq=0,totalReg=0,totalLive=0;
     let regPct='',appLivePct='',regLivePct='',wApp=0,wReg=0,wAct=0;
-    for(let i=0;i<wRows.length;i++){
-      const a=(cv(wRows[i],0)||'').toString(),b=cv(wRows[i],1),al=a.toLowerCase();
+    for(const row of wRows){
+      const a=(cv(row,0)||'').toString(),b=cv(row,1),al=a.toLowerCase();
       if(al.includes('reporting period'))period=(b||'').toString().trim()||a.replace(/reporting period:?\s*/i,'').trim();
       if(al.includes('generated'))generated=(b||'').toString().trim();
       if(al.includes('total applicants')&&al.includes('all'))totalApp=num(b);
@@ -446,7 +503,8 @@ async function load(){
     document.getElementById('at-live').textContent=fmt(totalLive);
     document.getElementById('at-lpct').textContent=pct(regLivePct)+' of reg.';
     document.getElementById('at-conv').textContent=pct(appLivePct);
-    const B={VIP:[],T1:[],T2:[],HS:[],HD:[]},allDataRows=[];
+
+    const B={VIP:[],T1:[],T2:[],HS:[],HD:[]};const allDataRows=[];
     for(const row of dRows){
       const tier=(cv(row,0)||'').trim(),region=(cv(row,1)||'').trim();
       if(!region||region==='Region'||region==='Location')continue;
@@ -459,12 +517,11 @@ async function load(){
       else if(tier.toLowerCase().includes('high search'))B.HS.push(row);
       else if(tier.toLowerCase().includes('high demand'))B.HD.push(row);
     }
-    const sortedAll=[...allDataRows].sort((a,b)=>num(cv(b,2))-num(cv(a,2)));
-    const topRow=sortedAll[0];
-    const marketsLive=allDataRows.filter(r=>num(cv(r,4))>0).length;
-    dashData={totalApp,totalReg,totalLive,appLivePct:pct(appLivePct),wApp,wReg,wAct,marketsLive,
+    const topRow=[...allDataRows].sort((a,b)=>num(cv(b,2))-num(cv(a,2)))[0];
+    dashData={totalApp,totalReg,totalLive,appLivePct:pct(appLivePct),wApp,wReg,wAct,
+      marketsLive:allDataRows.filter(r=>num(cv(r,4))>0).length,
       topMarket:(cv(topRow,1)||'').trim(),topMarketApp:num(cv(topRow,2)),topMarketLive:num(cv(topRow,4)),buckets:B};
-    updatePinguInsights();
+
     buildPhotos(allDataRows);
     const cd=rows=>{
       const s=[...rows].sort((a,b)=>num(cv(b,2))-num(cv(a,2)));
@@ -474,11 +531,11 @@ async function load(){
     const vd=cd(B.VIP);mkChart('vipChart',vd.labels,vd.app,vd.reg,vd.live);
     const t1d=cd(B.T1);mkChart('t1Chart',t1d.labels,t1d.app,t1d.reg,t1d.live);
     const t2d=cd(B.T2);mkChart('t2Chart',t2d.labels,t2d.app,t2d.reg,t2d.live);
-    document.getElementById('pane-vip').innerHTML=mkPanel(B.VIP);
-    document.getElementById('pane-t1').innerHTML=mkPanel(B.T1);
-    document.getElementById('pane-t2').innerHTML=mkPanel(B.T2);
-    document.getElementById('pane-hs').innerHTML=mkPanel(B.HS);
-    document.getElementById('pane-hd').innerHTML=mkPanel(B.HD);
+    document.getElementById('pane-vip').innerHTML=mkPanel(B.VIP,'VIP');
+    document.getElementById('pane-t1').innerHTML=mkPanel(B.T1,'Tier 1');
+    document.getElementById('pane-t2').innerHTML=mkPanel(B.T2,'Tier 2');
+    document.getElementById('pane-hs').innerHTML=mkPanel(B.HS,'High Search');
+    document.getElementById('pane-hd').innerHTML=mkPanel(B.HD,'High Demand');
     document.getElementById('loader').classList.add('gone');
   }catch(e){
     console.error(e);
@@ -495,10 +552,10 @@ function togglePingu(){
     document.getElementById('pingu-notif').style.display='none';
     if(!pinguGreeted){
       pinguGreeted=true;
-      addMsg("Noot noot! 🐧 I'm Pingu, your Indeed Intelligence penguin! Ask me anything about your chef pipeline!");
+      addMsg("Noot noot! 🐧 I'm Pingu — your Indeed Intelligence penguin! Ask me anything about the chef pipeline!");
       setTimeout(()=>{
         const d=dashData;
-        if(d.totalLive>0)addMsg(`Quick update: <strong>${fmt(d.totalLive)}</strong> live chefs across <strong>${d.marketsLive}</strong> markets. ${d.topMarket?`${d.topMarket} is your top performer! ⭐`:''}`);
+        if(d.totalLive>0)addMsg(`Quick snapshot: <strong>${fmt(d.totalLive)}</strong> live chefs across <strong>${d.marketsLive}</strong> markets. ${d.topMarket?`${d.topMarket} is leading! ⭐`:''}`);
       },900);
     }
   }
@@ -510,7 +567,7 @@ function addMsg(html,isTyping=false){
     t.innerHTML='<div class="pb-dot"></div><div class="pb-dot"></div><div class="pb-dot"></div>';
     box.appendChild(t);box.scrollTop=box.scrollHeight;return;
   }
-  const existing=document.getElementById('pb-typing');if(existing)existing.remove();
+  document.getElementById('pb-typing')?.remove();
   const m=document.createElement('div');m.className='pb-msg';m.innerHTML=html;
   box.appendChild(m);box.scrollTop=box.scrollHeight;
 }
@@ -520,30 +577,28 @@ function sendMsg(){
 }
 function askPingu(q){
   if(!pinguOpen)togglePingu();
-  addMsg(`<em style="color:var(--stone)">${q}</em>`);
+  addMsg(`<em style="color:var(--muted)">${q}</em>`);
   addMsg('',true);
   setTimeout(()=>addMsg(pinguAnswer(q)),700);
 }
 function pinguAnswer(q){
   const d=dashData,ql=q.toLowerCase();
-  if(ql.includes('best')&&ql.includes('market'))return `${d.topMarket||'Durango'} leads with <strong>${fmt(d.topMarketApp)}</strong> applicants and <strong>${fmt(d.topMarketLive)}</strong> live chefs. Noot noot! 🐟`;
-  if(ql.includes('conversion')||ql.includes('rate')||ql.includes('convert'))return `Your applied → live rate is <strong>${d.appLivePct}</strong>. Those follow-up emails are everything! 📧`;
-  if(ql.includes('live')&&(ql.includes('chef')||ql.includes('how many')))return `<strong>${fmt(d.totalLive)}</strong> live chefs across <strong>${d.marketsLive}</strong> active markets. That's a lot of incredible dinners! 🍽️`;
-  if(ql.includes('tier')&&(ql.includes('most')||ql.includes('top')||ql.includes('applicant'))){
+  if(ql.includes('best')&&ql.includes('market'))return `${d.topMarket||'—'} leads with <strong>${fmt(d.topMarketApp)}</strong> applicants and <strong>${fmt(d.topMarketLive)}</strong> live chefs! 🐟`;
+  if(ql.includes('conversion')||ql.includes('rate'))return `Overall applied → live rate is <strong>${d.appLivePct}</strong>. Keep those follow-up emails going! 📧`;
+  if(ql.includes('live')&&(ql.includes('chef')||ql.includes('how many')))return `<strong>${fmt(d.totalLive)}</strong> live chefs across <strong>${d.marketsLive}</strong> markets. That's a lot of amazing menus! 🍽️`;
+  if(ql.includes('tier')&&(ql.includes('most')||ql.includes('top'))){
     const B=d.buckets;
     const counts={'VIP':B.VIP?.reduce((s,r)=>s+num(cv(r,2)),0)||0,'Tier 1':B.T1?.reduce((s,r)=>s+num(cv(r,2)),0)||0,'Tier 2':B.T2?.reduce((s,r)=>s+num(cv(r,2)),0)||0};
     const top=Object.entries(counts).sort((a,b)=>b[1]-a[1])[0];
-    return `<strong>${top[0]}</strong> has the most applicants at <strong>${fmt(top[1])}</strong>. VIP conversion rates matter most though! ⭐`;
+    return `<strong>${top[0]}</strong> has the most applicants at <strong>${fmt(top[1])}</strong> total! ⭐`;
   }
-  if(ql.includes('week')||ql.includes('this week'))return `This week: <strong>${fmt(d.wApp)}</strong> applicants, <strong>${fmt(d.wReg)}</strong> registrations, <strong>${fmt(d.wAct)}</strong> activations. ${d.wAct>0?'Great progress! 🎉':'Keep pushing those nudge emails!'}`;
-  if(ql.includes('hello')||ql.includes('hi')||ql.includes('hey')||ql.includes('noot'))return `Noot noot! 🐧 Ready to dive into your recruitment data!`;
-  if(ql.includes('vip'))return `VIP markets have <strong>${fmt(d.buckets.VIP?.reduce((s,r)=>s+num(cv(r,4)),0)||0)}</strong> live chefs. These premium markets are worth every fish! 🐟`;
-  if(ql.includes('help')||ql.includes('what can'))return `Ask me about: conversion rates, live chef counts, top markets, weekly stats, tier breakdowns! 🐧`;
-  return `Hmm... 🐧 You've got <strong>${fmt(d.totalApp)}</strong> total applicants with <strong>${fmt(d.totalLive)}</strong> live chefs. Want me to break down anything specific?`;
+  if(ql.includes('week'))return `This week: <strong>${fmt(d.wApp)}</strong> applied, <strong>${fmt(d.wReg)}</strong> registered, <strong>${fmt(d.wAct)}</strong> activated. ${d.wAct>0?'🎉 Great week!':'Keep the momentum!'}`;
+  if(ql.includes('hello')||ql.includes('hi')||ql.includes('noot'))return `Noot noot! 🐧 What can I help you with?`;
+  if(ql.includes('vip'))return `VIP markets have <strong>${fmt(d.buckets.VIP?.reduce((s,r)=>s+num(cv(r,4)),0)||0)}</strong> live chefs. Premium markets — every fish counts! 🐟`;
+  return `Hmm! 🐧 You've got <strong>${fmt(d.totalApp)}</strong> total applicants and <strong>${fmt(d.totalLive)}</strong> live chefs. Ask me something more specific?`;
 }
 load();
 setInterval(load,15*60*1000);
-setInterval(updatePinguInsights,60000);
 </script>
 </body>
 </html>
