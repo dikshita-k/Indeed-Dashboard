@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>yhangry Chef Recruitment</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #07090d;
+    --surface: #0d1117;
+    --surface2: #131920;
+    --surface3: #1a2230;
+    --border: rgba(255,255,255,0.07);
+    --accent: #00e5b4;
+    --purple: #7c5cff;
+    --amber: #ffb547;
+    --red: #ff6b6b;
+    --blue: #4db8ff;
+    --text: #e2e8f0;
+    --muted: #4a5a6a;
+    --muted2: #7a8a9a;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'DM Mono',monospace; min-height:100vh; }
+  body::before {
+    content:''; position:fixed; inset:0;
+    background:radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0,229,180,0.05), transparent);
+    pointer-events:none; z-index:0;
+  }
+
+  #loader {
+    position:fixed; inset:0; background:var(--bg);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px;
+    z-index:999; transition:opacity 0.6s;
+  }
+  #loader.gone { opacity:0; pointer-events:none; }
+  .loader-logo { font-family:'Syne',sans-serif; font-size:24px; font-weight:800; color:var(--accent); }
+  .loader-bar { width:180px; height:2px; background:var(--surface3); border-radius:2px; overflow:hidden; }
+  .loader-fill { height:100%; background:var(--accent); animation:lbar 1.4s ease-in-out infinite; }
+  @keyframes lbar { 0%{width:0;margin-left:0} 50%{width:60%;margin-left:20%} 100%{width:0;margin-left:100%} }
+
+  .page { position:relative; z-index:1; max-width:1300px; margin:0 auto; padding:32px 24px 64px; }
+
+  header {
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:40px; flex-wrap:wrap; gap:16px;
+    padding-bottom:24px; border-bottom:1px solid var(--border);
+  }
+  .logo { font-family:'Syne',sans-serif; font-size:22px; font-weight:800; letter-spacing:-0.5px; }
+  .logo em { color:var(--accent); font-style:normal; }
+  .logo-sub { font-size:10px; color:var(--muted2); letter-spacing:2px; text-transform:uppercase; margin-top:3px; }
+  .header-right { display:flex; flex-direction:column; align-items:flex-end; gap:6px; }
+  .period-tag { background:var(--surface2); border:1px solid var(--border); border-radius:5px; padding:5px 12px; font-size:11px; color:var(--accent); letter-spacing:1px; }
+  .live-row { display:flex; align-items:center; gap:6px; font-size:10px; color:var(--muted2); }
+  .dot { width:5px; height:5px; border-radius:50%; background:var(--accent); animation:blink 2s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .err { background:rgba(255,107,107,0.08); border:1px solid rgba(255,107,107,0.2); border-radius:8px; padding:14px 18px; font-size:11px; color:var(--red); margin-bottom:24px; display:none; }
+
+  .section-hd { display:flex; align-items:center; gap:12px; font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--muted); margin-bottom:16px; margin-top:36px; }
+  .section-hd::after { content:''; flex:1; height:1px; background:var(--border); }
+
+  .week-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  .week-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:24px 22px; position:relative; overflow:hidden; transition:border-color 0.2s; }
+  .week-card:hover { border-color:rgba(255,255,255,0.12); }
+  .week-card::after { content:''; position:absolute; top:0;left:0;right:0; height:2px; }
+  .week-card.c1::after { background:var(--purple); }
+  .week-card.c2::after { background:var(--accent); }
+  .week-card.c3::after { background:var(--amber); }
+  .wc-label { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--muted2); margin-bottom:12px; }
+  .wc-num { font-family:'Syne',sans-serif; font-size:52px; font-weight:800; line-height:1; letter-spacing:-2px; margin-bottom:6px; }
+  .week-card.c1 .wc-num { color:var(--purple); }
+  .week-card.c2 .wc-num { color:var(--accent); }
+  .week-card.c3 .wc-num { color:var(--amber); }
+  .wc-desc { font-size:10px; color:var(--muted); }
+  .wc-ghost { position:absolute; bottom:-16px; right:-4px; font-family:'Syne',sans-serif; font-size:88px; font-weight:800; opacity:0.04; line-height:1; pointer-events:none; color:#fff; }
+
+  .mid-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:24px; }
+  .card-title { font-family:'Syne',sans-serif; font-size:13px; font-weight:700; margin-bottom:20px; }
+
+  .funnel-item { margin-bottom:12px; }
+  .fi-row { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; }
+  .fi-label { font-size:10px; color:var(--muted2); letter-spacing:1px; text-transform:uppercase; }
+  .fi-val { font-family:'Syne',sans-serif; font-size:20px; font-weight:700; }
+  .funnel-item:nth-child(1) .fi-val { color:var(--purple); }
+  .funnel-item:nth-child(3) .fi-val { color:var(--accent); }
+  .funnel-item:nth-child(5) .fi-val { color:var(--amber); }
+  .fi-bar { height:3px; background:var(--surface3); border-radius:2px; overflow:hidden; }
+  .fi-fill { height:100%; border-radius:2px; transition:width 1.2s cubic-bezier(.4,0,.2,1); width:0; }
+  .funnel-item:nth-child(1) .fi-fill { background:var(--purple); }
+  .funnel-item:nth-child(3) .fi-fill { background:var(--accent); }
+  .funnel-item:nth-child(5) .fi-fill { background:var(--amber); }
+  .funnel-arrow { font-size:10px; color:var(--muted); margin:6px 0 6px 2px; }
+
+  .at-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .at-item { background:var(--surface2); border-radius:8px; padding:14px; }
+  .at-label { font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+  .at-val { font-family:'Syne',sans-serif; font-size:26px; font-weight:700; }
+  .at-sub { font-size:9px; color:var(--accent); margin-top:3px; }
+
+  .loc-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:8px; }
+  .loc-card { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:14px 16px; transition:border-color 0.15s,background 0.15s; position:relative; }
+  .loc-card:hover { background:var(--surface2); border-color:rgba(255,255,255,0.1); }
+  .loc-card.is-new { border-color:rgba(0,229,180,0.25); }
+  .new-badge { position:absolute; top:8px; right:8px; font-size:8px; letter-spacing:1px; text-transform:uppercase; background:rgba(0,229,180,0.12); color:var(--accent); padding:2px 6px; border-radius:3px; }
+  .loc-name { font-size:11px; color:var(--text); margin-bottom:8px; line-height:1.3; }
+  .loc-stats { display:flex; gap:10px; }
+  .ls { display:flex; flex-direction:column; gap:2px; }
+  .ls-v { font-family:'Syne',sans-serif; font-size:15px; font-weight:700; line-height:1; }
+  .ls-l { font-size:8px; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+  .ls-a .ls-v { color:var(--text); }
+  .ls-r .ls-v { color:var(--accent); }
+  .ls-l2 .ls-v { color:var(--amber); }
+  .loc-wk { margin-top:8px; padding-top:8px; border-top:1px solid var(--border); font-size:10px; color:var(--muted); }
+  .wk-hi { color:var(--accent); }
+  .wk-zero { color:var(--muted); }
+
+  .new-locs-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:8px; }
+  .nl-card { background:rgba(0,229,180,0.04); border:1px solid rgba(0,229,180,0.18); border-radius:8px; padding:14px 16px; }
+  .nl-name { font-size:11px; color:var(--text); margin-bottom:3px; }
+  .nl-tier { font-size:9px; color:var(--accent); letter-spacing:1px; text-transform:uppercase; }
+  .nl-n { font-family:'Syne',sans-serif; font-size:24px; font-weight:700; color:var(--accent); margin-top:8px; }
+  .nl-sub { font-size:9px; color:var(--muted); }
+  .no-data { font-size:11px; color:var(--muted); padding:12px 0; }
+
+  footer { margin-top:48px; padding-top:20px; border-top:1px solid var(--border); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; font-size:9px; color:var(--muted); letter-spacing:1px; }
+
+  @media(max-width:800px) {
+    .week-grid,.mid-row { grid-template-columns:1fr; }
+    .loc-grid { grid-template-columns:1fr 1fr; }
+  }
+  @media(max-width:480px) {
+    .loc-grid { grid-template-columns:1fr; }
+    .wc-num { font-size:40px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <div class="loader-logo">yhangry</div>
+  <div style="font-size:10px;color:#4a5a6a;letter-spacing:2px;text-transform:uppercase;margin-top:-8px">Loading pipeline</div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+</div>
+
+<div class="page">
+  <header>
+    <div>
+      <div class="logo"><em>yhangry</em> Chef Recruitment</div>
+      <div class="logo-sub">Indeed Pipeline Dashboard</div>
+    </div>
+    <div class="header-right">
+      <div class="period-tag" id="period">—</div>
+      <div class="live-row"><div class="dot"></div><span id="updated">Fetching...</span></div>
+    </div>
+  </header>
+
+  <div class="err" id="err"></div>
+
+  <div class="section-hd">This week</div>
+  <div class="week-grid">
+    <div class="week-card c1"><div class="wc-label">New Applicants</div><div class="wc-num" id="w-app">—</div><div class="wc-desc">Chefs applied this week</div><div class="wc-ghost">A</div></div>
+    <div class="week-card c2"><div class="wc-label">New Registrations</div><div class="wc-num" id="w-reg">—</div><div class="wc-desc">Signed up on yhangry</div><div class="wc-ghost">R</div></div>
+    <div class="week-card c3"><div class="wc-label">New Activations</div><div class="wc-num" id="w-act">—</div><div class="wc-desc">Fully live this week</div><div class="wc-ghost">L</div></div>
+  </div>
+
+  <div class="section-hd">Pipeline overview</div>
+  <div class="mid-row">
+    <div class="card">
+      <div class="card-title">Conversion Funnel</div>
+      <div class="funnel-item"><div class="fi-row"><span class="fi-label">Applied</span><span class="fi-val" id="f-app">—</span></div><div class="fi-bar"><div class="fi-fill" style="width:100%" id="fb-app"></div></div></div>
+      <div class="funnel-arrow">↓ <span id="cv-reg">—</span> applied → registered</div>
+      <div class="funnel-item"><div class="fi-row"><span class="fi-label">Registered</span><span class="fi-val" id="f-reg">—</span></div><div class="fi-bar"><div class="fi-fill" id="fb-reg"></div></div></div>
+      <div class="funnel-arrow">↓ <span id="cv-live">—</span> registered → live</div>
+      <div class="funnel-item"><div class="fi-row"><span class="fi-label">Live Chefs</span><span class="fi-val" id="f-live">—</span></div><div class="fi-bar"><div class="fi-fill" id="fb-live"></div></div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">All-Time Totals</div>
+      <div class="at-grid">
+        <div class="at-item"><div class="at-label">Total Applicants</div><div class="at-val" id="at-app">—</div><div class="at-sub" id="at-uniq">—</div></div>
+        <div class="at-item"><div class="at-label">Registered</div><div class="at-val" id="at-reg">—</div><div class="at-sub" id="at-rpct">—</div></div>
+        <div class="at-item"><div class="at-label">Live Chefs</div><div class="at-val" id="at-live">—</div><div class="at-sub" id="at-lpct">—</div></div>
+        <div class="at-item"><div class="at-label">Applied → Live</div><div class="at-val" id="at-conv">—</div><div class="at-sub">overall rate</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-hd">New locations active this week</div>
+  <div id="new-locs">Loading...</div>
+
+  <div class="section-hd">VIP markets</div>
+  <div id="vip-grid" class="loc-grid"></div>
+
+  <div class="section-hd">Tier 1 markets</div>
+  <div id="t1-grid" class="loc-grid"></div>
+
+  <div class="section-hd">Tier 2 markets</div>
+  <div id="t2-grid" class="loc-grid"></div>
+
+  <div id="other-tiers"></div>
+
+  <footer>
+    <span>yhangry Chef Recruitment · Indeed Pipeline</span>
+    <span>Auto-refreshes every 15 min · Google Sheets</span>
+  </footer>
+</div>
+
+<script>
+const SID = '14bkdT0WFOXaAXEe3jJmWh8rWZCnj0elJrV54o_2my9g';
+const gviz = s => `https://docs.google.com/spreadsheets/d/${SID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(s)}`;
+
+async function fetchSheet(name) {
+  const r = await fetch(gviz(name));
+  const t = await r.text();
+  const json = t.replace(/^[^\(]*\(/, '').replace(/\);?\s*$/, '');
+  return JSON.parse(json).table;
+}
+
+const cv = (row,i) => row?.c?.[i]?.v ?? '';
+const num = x => { const p=parseFloat(x); return isNaN(p)?0:p; };
+const fmt = x => (x===''||x===null||x===undefined) ? '—' : num(x).toLocaleString();
+const pct = x => {
+  if (!x && x!==0) return '—';
+  const p = parseFloat(x.toString().replace('%',''));
+  return isNaN(p) ? '—' : p.toFixed(1)+'%';
+};
+
+function makeLocCard(row) {
+  const region = (cv(row,1)||'').toString().trim();
+  const app = num(cv(row,2)), reg = num(cv(row,3)), live = num(cv(row,4));
+  const wApp = num(cv(row,8)), wReg = num(cv(row,9)), wAct = num(cv(row,10));
+  const allTimeNew = app > 0 && app === wApp; // brand new this week
+  const badge = allTimeNew ? '<div class="new-badge">NEW</div>' : '';
+  const wa = wApp>0 ? `<span class="wk-hi">${wApp}</span>` : `<span class="wk-zero">0</span>`;
+  const wr = wReg>0 ? `<span class="wk-hi">${wReg}</span>` : `<span class="wk-zero">0</span>`;
+  const wl = wAct>0 ? `<span class="wk-hi">${wAct}</span>` : `<span class="wk-zero">0</span>`;
+  return `<div class="loc-card ${allTimeNew?'is-new':''}">
+    ${badge}
+    <div class="loc-name">${region}</div>
+    <div class="loc-stats">
+      <div class="ls ls-a"><div class="ls-v">${fmt(app)}</div><div class="ls-l">Applied</div></div>
+      <div class="ls ls-r"><div class="ls-v">${fmt(reg)}</div><div class="ls-l">Reg.</div></div>
+      <div class="ls ls-l2"><div class="ls-v">${fmt(live)}</div><div class="ls-l">Live</div></div>
+    </div>
+    <div class="loc-wk">This wk: ${wa} app · ${wr} reg · ${wl} live</div>
+  </div>`;
+}
+
+async function load() {
+  try {
+    const [weekly, dash] = await Promise.all([fetchSheet('Weekly Summary'), fetchSheet('Dashboard')]);
+    const wRows = weekly.rows, dRows = dash.rows;
+
+    // Weekly summary
+    let period='', generated='', totalApp=0, totalUniq=0, totalReg=0, totalLive=0;
+    let regPct='', appLivePct='', regLivePct='', wApp=0, wReg=0, wAct=0;
+
+    for (let i=0; i<wRows.length; i++) {
+      const a=(cv(wRows[i],0)||'').toString(), b=cv(wRows[i],1), al=a.toLowerCase();
+      if (al.includes('reporting period')) period = a.replace(/reporting period:?\s*/i,'').trim()||(b||'').toString().trim();
+      if (al.includes('generated')) generated = a.replace(/generated:?\s*/i,'').trim()||(b||'').toString().trim();
+      if (al.includes('total applicants')&&al.includes('all')) totalApp=num(b);
+      if (al.includes('unique applicants')) totalUniq=num(b);
+      if (al.includes('onboarded')&&al.includes('regi')) totalReg=num(b);
+      if (al.includes('total live')) totalLive=num(b);
+      if (al.includes('applied')&&al.includes('onboarded')&&!al.includes('live')) regPct=b;
+      if (al.includes('applied')&&al.includes('live')) appLivePct=b;
+      if (al.includes('onboarded')&&al.includes('live')) regLivePct=b;
+      if (al.includes('new applicants this')) wApp=num(b);
+      if (al.includes('new registrations this')) wReg=num(b);
+      if (al.includes('new activations this')) wAct=num(b);
+    }
+
+    // Also check row 1 col B for period
+    if (!period && wRows[1]) { const bv=(cv(wRows[1],1)||'').toString(); if(bv) period=bv; }
+
+    document.getElementById('period').textContent = period||'Current Week';
+    document.getElementById('updated').textContent = 'Updated '+(generated||'recently');
+    document.getElementById('w-app').textContent = fmt(wApp);
+    document.getElementById('w-reg').textContent = fmt(wReg);
+    document.getElementById('w-act').textContent = fmt(wAct);
+    document.getElementById('f-app').textContent = fmt(totalApp);
+    document.getElementById('f-reg').textContent = fmt(totalReg);
+    document.getElementById('f-live').textContent = fmt(totalLive);
+    document.getElementById('cv-reg').textContent = pct(regPct);
+    document.getElementById('cv-live').textContent = pct(regLivePct);
+    setTimeout(() => {
+      document.getElementById('fb-app').style.width='100%';
+      document.getElementById('fb-reg').style.width=(totalApp>0?totalReg/totalApp*100:0)+'%';
+      document.getElementById('fb-live').style.width=(totalApp>0?totalLive/totalApp*100:0)+'%';
+    }, 400);
+    document.getElementById('at-app').textContent=fmt(totalApp);
+    document.getElementById('at-uniq').textContent=fmt(totalUniq)+' unique';
+    document.getElementById('at-reg').textContent=fmt(totalReg);
+    document.getElementById('at-rpct').textContent=pct(regPct)+' conv.';
+    document.getElementById('at-live').textContent=fmt(totalLive);
+    document.getElementById('at-lpct').textContent=pct(regLivePct)+' of reg.';
+    document.getElementById('at-conv').textContent=pct(appLivePct);
+
+    // Regional
+    const buckets = {VIP:[], 'Tier 1':[], 'Tier 2':[], other:[]};
+    const newLocs = [];
+
+    for (let i=1; i<dRows.length; i++) {
+      const row=dRows[i];
+      const tier=(cv(row,0)||'').toString().trim();
+      const region=(cv(row,1)||'').toString().trim();
+      if (!region||region==='—') continue;
+      if (tier.includes('TOTAL')||tier.includes('GRAND')) continue;
+
+      const html = makeLocCard(row);
+      const wkApp = num(cv(row,8));
+      const totalA = num(cv(row,2));
+      const isNew = totalA>0 && totalA===wkApp;
+
+      if (isNew) newLocs.push({name:region, tier, count:wkApp});
+
+      if (tier==='VIP') buckets.VIP.push(html);
+      else if (tier==='Tier 1') buckets['Tier 1'].push(html);
+      else if (tier==='Tier 2') buckets['Tier 2'].push(html);
+      else buckets.other.push({tier, html});
+    }
+
+    // New locations
+    const nlEl = document.getElementById('new-locs');
+    if (newLocs.length===0) {
+      nlEl.innerHTML='<div class="no-data">No brand new locations this week.</div>';
+    } else {
+      nlEl.innerHTML='<div class="new-locs-grid">'+newLocs.map(l=>`
+        <div class="nl-card">
+          <div class="nl-name">${l.name}</div>
+          <div class="nl-tier">${l.tier}</div>
+          <div class="nl-n">${l.count}</div>
+          <div class="nl-sub">new applicants this week</div>
+        </div>`).join('')+'</div>';
+    }
+
+    document.getElementById('vip-grid').innerHTML = buckets.VIP.join('')||'<div class="no-data">No data</div>';
+    document.getElementById('t1-grid').innerHTML = buckets['Tier 1'].join('')||'<div class="no-data">No data</div>';
+    document.getElementById('t2-grid').innerHTML = buckets['Tier 2'].join('')||'<div class="no-data">No data</div>';
+
+    // Group other tiers
+    const otherByTier = {};
+    for (const {tier,html} of buckets.other) {
+      if (!otherByTier[tier]) otherByTier[tier]=[];
+      otherByTier[tier].push(html);
+    }
+    document.getElementById('other-tiers').innerHTML = Object.entries(otherByTier).map(([t,cards])=>
+      `<div class="section-hd">${t}</div><div class="loc-grid">${cards.join('')}</div>`
+    ).join('');
+
+    document.getElementById('loader').classList.add('gone');
+  } catch(e) {
+    console.error(e);
+    document.getElementById('loader').classList.add('gone');
+    const el=document.getElementById('err');
+    el.style.display='block';
+    el.textContent='Could not load data. Make sure Google Sheet is shared as "Anyone with the link can view". Error: '+e.message;
+  }
+}
+
+load();
+setInterval(load, 15*60*1000);
+</script>
+</body>
+</html>
