@@ -5,216 +5,288 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>yhangry · Chef Recruitment</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
 html{scroll-behavior:smooth}
-
 :root{
-  --cream:#faf8f5;
-  --warm:#f0ede8;
-  --ink:#1a1714;
-  --ink2:#3d3830;
-  --stone:#8c8279;
-  --stone2:#b5afa8;
-  --gold:#c9a84c;
-  --gold2:#e8c97a;
-  --sage:#4a7c59;
-  --sage2:#6fa882;
-  --rust:#b85c38;
-  --rust2:#d4784f;
-  --border:rgba(26,23,20,0.08);
-  --border2:rgba(26,23,20,0.15);
+  --cream:#faf8f5;--warm:#f0ede8;--ink:#1a1714;--ink2:#3d3830;
+  --stone:#8c8279;--stone2:#b5afa8;--gold:#c9a84c;--sage:#4a7c59;
+  --rust:#b85c38;--border:rgba(26,23,20,0.08);--border2:rgba(26,23,20,0.15);
   --shadow:0 2px 12px rgba(26,23,20,0.06),0 1px 3px rgba(26,23,20,0.04);
   --shadow-lg:0 8px 40px rgba(26,23,20,0.12),0 2px 8px rgba(26,23,20,0.06);
 }
-
 body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;line-height:1.6;overflow-x:hidden}
 
-/* LOADER */
-#loader{position:fixed;inset:0;background:var(--ink);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity 0.8s ease}
+/* ── LOADER ── */
+#loader{position:fixed;inset:0;background:var(--ink);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity 0.7s ease}
 #loader.gone{opacity:0;pointer-events:none}
-.ld-title{font-family:'Playfair Display',serif;font-size:36px;color:var(--cream);letter-spacing:-1px}
+.ld-bird{font-size:56px;animation:waddle 0.9s ease-in-out infinite}
+@keyframes waddle{0%,100%{transform:rotate(-10deg) translateY(0)}50%{transform:rotate(10deg) translateY(-4px)}}
+.ld-title{font-family:'Playfair Display',serif;font-size:26px;color:var(--cream);letter-spacing:-0.5px}
 .ld-title em{color:var(--gold);font-style:italic}
-.ld-bar{width:100px;height:1px;background:rgba(255,255,255,0.15);overflow:hidden}
+.ld-sub{font-size:11px;color:rgba(255,255,255,0.3);letter-spacing:2.5px;text-transform:uppercase}
+.ld-bar{width:72px;height:1px;background:rgba(255,255,255,0.1);overflow:hidden;margin-top:4px}
 .ld-fill{height:100%;background:var(--gold);animation:lb 1.4s ease-in-out infinite}
 @keyframes lb{0%{width:0;margin-left:0}50%{width:50%;margin-left:25%}100%{width:0;margin-left:100%}}
-.ld-sub{font-size:12px;color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase}
 
-/* NAV */
-nav{position:sticky;top:0;z-index:100;background:rgba(250,248,245,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 40px}
-.nav-inner{max-width:1240px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;height:58px}
-.nav-brand{display:flex;flex-direction:column;gap:1px}
-.nav-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;letter-spacing:-0.3px;color:var(--ink)}
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:100;background:rgba(250,248,245,0.93);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 40px}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;height:54px}
+.nav-logo{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;letter-spacing:-0.2px}
 .nav-logo em{color:var(--gold);font-style:italic}
-.nav-sub{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--stone)}
-.nav-right{display:flex;gap:10px;align-items:center}
-.chip{display:inline-flex;align-items:center;gap:6px;background:white;border:1px solid var(--border);border-radius:100px;padding:5px 14px;font-size:11px;color:var(--stone);font-weight:500;box-shadow:var(--shadow)}
-.chip.live-chip{color:var(--sage)}
+.nav-sub{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--stone);margin-top:1px}
+.nav-right{display:flex;gap:8px;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:5px;background:white;border:1px solid var(--border);border-radius:100px;padding:4px 12px;font-size:11px;color:var(--stone);font-weight:500}
+.chip.live{color:var(--sage)}
 .live-dot{width:5px;height:5px;border-radius:50%;background:var(--sage);animation:pulse 2s ease infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
 
-/* WRAP */
-.wrap{max-width:1240px;margin:0 auto;padding:0 40px 80px}
+/* ── LAYOUT ── */
+.wrap{max-width:1200px;margin:0 auto;padding:0 40px 110px}
 
-/* SECTION HEADER */
-.sh{display:flex;align-items:center;gap:16px;margin:52px 0 20px}
+.sh{display:flex;align-items:center;gap:14px;margin:48px 0 18px}
 .sh-label{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--stone);white-space:nowrap}
 .sh-line{flex:1;height:1px;background:var(--border)}
-.sh-num{font-family:'Playfair Display',serif;font-size:11px;color:var(--stone2)}
 
-/* HERO STATS */
+/* ── HERO WEEK ── */
 .hero-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:20px;overflow:hidden}
-.hero-card{background:white;padding:36px 32px;position:relative;overflow:hidden;cursor:default;transition:background 0.2s}
+.hero-card{background:white;padding:32px 28px;position:relative;overflow:hidden;transition:background 0.2s}
 .hero-card:hover{background:#fdfcfa}
-.hero-eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--stone);margin-bottom:14px}
-.hero-num{font-family:'Playfair Display',serif;font-size:68px;font-weight:700;line-height:1;letter-spacing:-3px;margin-bottom:6px}
-.hc1 .hero-num{color:var(--ink)}
-.hc2 .hero-num{color:var(--sage)}
-.hc3 .hero-num{color:var(--gold)}
-.hero-label{font-size:13px;color:var(--stone);font-weight:400}
-.hero-bg-num{position:absolute;bottom:-20px;right:-10px;font-family:'Playfair Display',serif;font-size:120px;font-weight:700;opacity:0.04;line-height:1;pointer-events:none;color:var(--ink)}
+.hero-eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--stone);margin-bottom:12px}
+.hero-num{font-family:'Playfair Display',serif;font-size:62px;font-weight:700;line-height:1;letter-spacing:-3px;margin-bottom:5px}
+.hc1 .hero-num{color:var(--ink)}.hc2 .hero-num{color:var(--sage)}.hc3 .hero-num{color:var(--gold)}
+.hero-label{font-size:12px;color:var(--stone)}
+.hero-bg{position:absolute;bottom:-18px;right:-6px;font-family:'Playfair Display',serif;font-size:110px;font-weight:700;opacity:0.033;line-height:1;pointer-events:none}
 
-/* INSIGHTS ROW */
-.insights-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:0}
-.insight-card{background:white;border:1px solid var(--border);border-radius:16px;padding:22px 24px;display:flex;flex-direction:column;gap:8px;transition:box-shadow 0.2s,transform 0.2s;cursor:default}
-.insight-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px)}
-.insight-icon{font-size:20px;margin-bottom:2px}
-.insight-title{font-size:12px;font-weight:600;color:var(--stone);letter-spacing:0.3px;text-transform:uppercase}
-.insight-val{font-family:'Playfair Display',serif;font-size:28px;font-weight:600;letter-spacing:-1px;color:var(--ink);line-height:1.1}
-.insight-desc{font-size:12px;color:var(--stone);line-height:1.4}
-.insight-trend{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:2px 8px;border-radius:100px}
-.trend-up{background:#f0f8f3;color:var(--sage)}
-.trend-down{background:#fdf5f2;color:var(--rust)}
-.trend-neu{background:var(--warm);color:var(--stone)}
+/* ── INSIGHTS ── */
+.ins-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.ins-card{background:white;border:1px solid var(--border);border-radius:16px;padding:22px;transition:box-shadow 0.2s,transform 0.2s}
+.ins-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px)}
+.ins-icon{font-size:20px;margin-bottom:10px;display:block}
+.ins-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--stone);margin-bottom:6px}
+.ins-val{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;letter-spacing:-1px;color:var(--ink);line-height:1.1;margin-bottom:6px;word-break:break-word}
+.ins-desc{font-size:12px;color:var(--stone);line-height:1.45}
 
-/* MID */
-.mid-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:12px}
+/* ── PIPELINE ── */
+.mid-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:10px}
+.card{background:white;border:1px solid var(--border);border-radius:18px;padding:26px;box-shadow:var(--shadow)}
+.card-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;margin-bottom:22px;letter-spacing:-0.3px}
 
-/* FUNNEL */
-.card{background:white;border:1px solid var(--border);border-radius:20px;padding:28px;box-shadow:var(--shadow)}
-.card-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;margin-bottom:24px;letter-spacing:-0.3px}
-.funnel-step{margin-bottom:18px}
-.fs-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
-.fs-name{font-size:13px;font-weight:500;color:var(--ink2)}
-.fs-num{font-family:'Playfair Display',serif;font-size:22px;font-weight:600;letter-spacing:-0.5px}
-.fn1{color:var(--ink)}
-.fn2{color:var(--sage)}
-.fn3{color:var(--gold)}
-.fs-bar{height:3px;background:var(--warm);border-radius:2px;overflow:hidden}
-.fs-fill{height:100%;border-radius:2px;transition:width 1.6s cubic-bezier(.16,1,.3,1);width:0}
-.ff1{background:var(--ink)}
-.ff2{background:var(--sage)}
-.ff3{background:var(--gold)}
-.fs-conv{font-size:11px;color:var(--stone2);margin-top:5px}
-.funnel-divider{font-size:11px;color:var(--stone2);padding:3px 0 3px 2px;display:flex;align-items:center;gap:6px}
-.funnel-divider::before{content:'';display:block;width:1px;height:10px;background:var(--border2)}
+.f-step{margin-bottom:14px}
+.f-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
+.f-name{font-size:13px;font-weight:500;color:var(--ink2)}
+.f-num{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;letter-spacing:-0.5px}
+.fn1{color:var(--ink)}.fn2{color:var(--sage)}.fn3{color:var(--gold)}
+.f-bar{height:3px;background:var(--warm);border-radius:2px;overflow:hidden}
+.f-fill{height:100%;border-radius:2px;transition:width 1.6s cubic-bezier(.16,1,.3,1);width:0}
+.ff1{background:var(--ink)}.ff2{background:var(--sage)}.ff3{background:var(--gold)}
+.f-bridge{font-size:11px;color:var(--stone2);padding:4px 0 4px 3px;display:flex;align-items:center;gap:6px}
+.f-bridge::before{content:'';display:block;width:1px;height:10px;background:var(--border2)}
 
-/* ALL TIME */
-.at-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.at-item{background:var(--cream);border-radius:14px;padding:16px 18px;border:1px solid var(--border);transition:border-color 0.2s}
-.at-item:hover{border-color:var(--border2)}
-.at-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--stone);margin-bottom:6px}
-.at-num{font-family:'Playfair Display',serif;font-size:28px;font-weight:600;letter-spacing:-1px}
-.at-sub{font-size:11px;color:var(--sage);font-weight:500;margin-top:2px}
+.at-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.at-item{background:var(--cream);border-radius:12px;padding:14px 16px;border:1px solid var(--border)}
+.at-label{font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--stone);margin-bottom:5px}
+.at-num{font-family:'Playfair Display',serif;font-size:25px;font-weight:600;letter-spacing:-0.8px}
+.at-sub{font-size:11px;color:var(--sage);margin-top:2px}
 
-/* CHARTS */
-.chart-card{background:white;border:1px solid var(--border);border-radius:20px;padding:28px;box-shadow:var(--shadow);margin-bottom:12px}
-.chart-hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;flex-wrap:wrap;gap:10px}
-.chart-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;letter-spacing:-0.3px}
+/* ── CHARTS ── */
+.chart-card{background:white;border:1px solid var(--border);border-radius:18px;padding:24px;box-shadow:var(--shadow);margin-bottom:10px}
+.chart-hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;flex-wrap:wrap;gap:8px}
+.chart-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;letter-spacing:-0.3px}
 .chart-sub{font-size:11px;color:var(--stone);margin-top:2px}
-.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:4px}
-.leg{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:500;color:var(--stone)}
+.legend{display:flex;gap:12px;flex-wrap:wrap;padding-top:2px}
+.leg{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--stone)}
 .leg-dot{width:7px;height:7px;border-radius:50%}
-.chart-wrap{height:220px;position:relative}
-.chart-2col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.chart-2col .chart-wrap{height:180px}
+.chart-wrap{height:210px}
+.chart-2col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chart-2col .chart-wrap{height:175px}
 
-/* LOCATION PHOTO CARDS */
-.photo-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:0}
-.photo-card{border-radius:16px;overflow:hidden;position:relative;aspect-ratio:4/5;cursor:pointer;box-shadow:var(--shadow)}
-.photo-card img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease}
-.photo-card:hover img{transform:scale(1.05)}
-.photo-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,23,20,0.85) 0%,rgba(26,23,20,0.1) 60%,transparent 100%)}
-.photo-info{position:absolute;bottom:0;left:0;right:0;padding:18px 16px}
-.photo-city{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:white;margin-bottom:4px}
-.photo-stats{display:flex;gap:10px}
-.photo-stat{font-size:11px;color:rgba(255,255,255,0.75)}
-.photo-stat strong{color:white;font-weight:600}
-.photo-tier{position:absolute;top:12px;right:12px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);color:white;padding:3px 8px;border-radius:100px;border:1px solid rgba(255,255,255,0.2)}
-
-/* TABS */
-.tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
-.tab{padding:7px 18px;border-radius:100px;border:1px solid var(--border);background:white;font-size:12px;font-weight:500;color:var(--stone);cursor:pointer;transition:all 0.18s;font-family:'DM Sans',sans-serif;letter-spacing:0.2px}
+/* ── TABS + PANELS ── */
+.tabs{display:flex;gap:5px;margin-bottom:14px;flex-wrap:wrap}
+.tab{padding:6px 16px;border-radius:100px;border:1px solid var(--border);background:white;font-size:12px;font-weight:500;color:var(--stone);cursor:pointer;transition:all 0.15s;font-family:'DM Sans',sans-serif}
 .tab:hover{color:var(--ink);border-color:var(--border2)}
 .tab.on{background:var(--ink);color:white;border-color:var(--ink)}
-
-/* PANELS */
-.pane{display:none}
-.pane.on{display:block;animation:fadeUp 0.25s ease}
-@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-
-.tsrow{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
-.tsbadge{background:white;border:1px solid var(--border);border-radius:12px;padding:12px 18px;box-shadow:var(--shadow)}
-.tsbadge-label{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--stone);margin-bottom:3px}
-.tsbadge-val{font-family:'Playfair Display',serif;font-size:24px;font-weight:600;letter-spacing:-0.5px}
+.pane{display:none}.pane.on{display:block;animation:fadeUp 0.2s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.tsrow{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.tsbadge{background:white;border:1px solid var(--border);border-radius:11px;padding:10px 15px}
+.tsbadge-label{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;color:var(--stone);margin-bottom:3px}
+.tsbadge-val{font-family:'Playfair Display',serif;font-size:22px;font-weight:600;letter-spacing:-0.5px}
 .c-ink{color:var(--ink)}.c-sage{color:var(--sage)}.c-gold{color:var(--gold)}
-
-/* LOC CARDS */
-.loc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:10px}
-.loc-card{background:white;border:1px solid var(--border);border-radius:14px;padding:18px;transition:transform 0.2s,box-shadow 0.2s;box-shadow:var(--shadow);cursor:default}
+.loc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:8px}
+.loc-card{background:white;border:1px solid var(--border);border-radius:13px;padding:16px;transition:transform 0.18s,box-shadow 0.18s}
 .loc-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
-.loc-name{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:12px;line-height:1.3}
+.loc-name{font-size:12px;font-weight:600;color:var(--ink);margin-bottom:10px;line-height:1.3}
 .loc-stats{display:flex;gap:10px}
 .ls{display:flex;flex-direction:column;gap:1px}
-.ls-v{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;line-height:1.1}
-.ls-l{font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--stone2)}
-.ls-a .ls-v{color:var(--ink)}
-.ls-r .ls-v{color:var(--sage)}
-.ls-lv .ls-v{color:var(--gold)}
-.loc-bar{margin-top:10px}
+.ls-v{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;line-height:1.1}
+.ls-l{font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;color:var(--stone2)}
+.ls-a .ls-v{color:var(--ink)}.ls-r .ls-v{color:var(--sage)}.ls-lv .ls-v{color:var(--gold)}
+.loc-bar{margin-top:9px}
 .loc-bar-track{height:2px;background:var(--warm);border-radius:1px;overflow:hidden;margin-top:3px}
-.loc-bar-fill{height:100%;background:var(--sage);border-radius:1px;opacity:0.7}
-.loc-bar-label{font-size:9px;color:var(--stone2);letter-spacing:0.5px}
+.loc-bar-fill{height:100%;background:var(--sage);opacity:0.65;border-radius:1px}
+.loc-bar-label{font-size:9px;color:var(--stone2)}
 
-/* ERR */
 .err{background:#fff5f5;border:1px solid #fdd;border-radius:12px;padding:14px 18px;font-size:13px;color:var(--rust);margin-bottom:16px;display:none}
+footer{margin-top:52px;padding-top:18px;border-top:1px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;font-size:11px;color:var(--stone2)}
 
-footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:11px;color:var(--stone2);letter-spacing:0.3px}
+/* ══════════════════════════════════
+   🐧  P I N G U   T H E   P E N G U I N
+══════════════════════════════════ */
+#pingu-btn{
+  position:fixed;bottom:28px;right:28px;z-index:500;
+  width:66px;height:66px;border-radius:50%;
+  background:var(--ink);
+  box-shadow:0 8px 28px rgba(0,0,0,0.22),0 2px 6px rgba(0,0,0,0.12);
+  cursor:pointer;border:none;outline:none;
+  display:flex;align-items:center;justify-content:center;
+  font-size:30px;
+  animation:floatPingu 3.2s ease-in-out infinite;
+  transition:box-shadow 0.2s,transform 0.2s;
+}
+#pingu-btn:hover{box-shadow:0 12px 36px rgba(0,0,0,0.28);transform:scale(1.08)}
+@keyframes floatPingu{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.pingu-badge{
+  position:absolute;top:-2px;right:-2px;
+  width:18px;height:18px;border-radius:50%;
+  background:#e5543a;color:white;font-size:10px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  border:2px solid var(--cream);pointer-events:none;
+}
 
-@media(max-width:900px){
-  .hero-grid,.mid-grid,.chart-2col,.photo-strip{grid-template-columns:1fr}
-  .hero-grid{background:transparent;border:none;gap:10px}
-  .hero-card{border-radius:16px;border:1px solid var(--border)}
+/* Panel */
+#pingu-panel{
+  position:fixed;bottom:106px;right:28px;z-index:501;
+  width:330px;background:white;
+  border-radius:22px 22px 4px 22px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.13),0 4px 12px rgba(0,0,0,0.06);
+  border:1px solid var(--border);overflow:hidden;
+  transform:scale(0.88) translateY(14px);transform-origin:bottom right;
+  transition:transform 0.32s cubic-bezier(.34,1.56,.64,1),opacity 0.22s;
+  opacity:0;pointer-events:none;
+}
+#pingu-panel.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all}
+
+/* Header */
+.pp-head{
+  background:var(--ink);padding:13px 15px;
+  display:flex;align-items:center;gap:10px;
+}
+.pp-avatar{
+  width:42px;height:42px;border-radius:50%;
+  background:rgba(255,255,255,0.09);
+  border:2px solid rgba(255,255,255,0.18);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;flex-shrink:0;
+  animation:avatarWiggle 4s ease-in-out infinite;
+}
+@keyframes avatarWiggle{0%,85%,100%{transform:rotate(0)}88%{transform:rotate(-10deg)}92%{transform:rotate(10deg)}96%{transform:rotate(-6deg)}}
+.pp-name{font-family:'Playfair Display',serif;font-size:15px;color:white;font-weight:600;letter-spacing:-0.2px}
+.pp-title{font-size:10px;color:rgba(255,255,255,0.42);letter-spacing:0.8px;text-transform:uppercase;margin-top:1px}
+.pp-x{
+  margin-left:auto;width:26px;height:26px;border-radius:50%;
+  background:rgba(255,255,255,0.08);border:none;color:rgba(255,255,255,0.55);
+  cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;
+  transition:background 0.15s;flex-shrink:0;
+}
+.pp-x:hover{background:rgba(255,255,255,0.16)}
+
+/* Messages */
+.pp-msgs{
+  padding:14px 14px 4px;max-height:270px;overflow-y:auto;
+  display:flex;flex-direction:column;gap:8px;scroll-behavior:smooth;
+}
+.pp-msgs::-webkit-scrollbar{width:3px}
+.pp-msgs::-webkit-scrollbar-track{background:transparent}
+.pp-msgs::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+.msg-bot{
+  background:var(--cream);border:1px solid var(--border);
+  border-radius:14px 14px 14px 3px;
+  padding:10px 13px;font-size:13px;line-height:1.55;color:var(--ink2);
+  animation:msgIn 0.28s ease;max-width:92%;
+}
+.msg-user{
+  background:var(--ink);color:white;
+  border-radius:14px 14px 3px 14px;
+  padding:9px 13px;font-size:13px;line-height:1.55;
+  animation:msgIn 0.28s ease;align-self:flex-end;max-width:92%;
+}
+.msg-bot b,.msg-bot strong{color:var(--ink);font-weight:600}
+@keyframes msgIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+.pp-typing{
+  background:var(--cream);border:1px solid var(--border);
+  border-radius:14px 14px 14px 3px;
+  padding:12px 16px;display:flex;gap:4px;align-items:center;
+  max-width:72px;
+}
+.pp-dot{width:6px;height:6px;border-radius:50%;background:var(--stone2);animation:tdot 1.2s ease infinite}
+.pp-dot:nth-child(2){animation-delay:.18s}.pp-dot:nth-child(3){animation-delay:.36s}
+@keyframes tdot{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+
+/* Suggestions */
+.pp-sugs{padding:10px 12px 8px;display:flex;gap:5px;flex-wrap:wrap}
+.pp-sug{
+  font-size:11px;padding:5px 11px;border-radius:100px;
+  background:var(--warm);border:1px solid var(--border);
+  color:var(--stone);cursor:pointer;transition:all 0.15s;
+  font-family:'DM Sans',sans-serif;line-height:1;
+}
+.pp-sug:hover{background:var(--ink);color:white;border-color:var(--ink)}
+
+/* Footer input */
+.pp-foot{padding:10px 12px 12px;border-top:1px solid var(--border);display:flex;gap:6px;align-items:center}
+.pp-input{
+  flex:1;border:1px solid var(--border);border-radius:100px;
+  padding:8px 14px;font-size:12px;outline:none;
+  font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);
+  transition:border-color 0.15s;
+}
+.pp-input:focus{border-color:var(--border2)}
+.pp-send{
+  width:32px;height:32px;min-width:32px;border-radius:50%;
+  background:var(--ink);border:none;color:white;
+  cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;
+  transition:transform 0.15s,background 0.15s;line-height:1;
+}
+.pp-send:hover{transform:scale(1.1);background:var(--ink2)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:860px){
+  .hero-grid,.mid-grid,.chart-2col,.ins-grid{grid-template-columns:1fr}
+  .hero-grid{background:transparent;border:none;gap:8px}
+  .hero-card{border-radius:14px;border:1px solid var(--border)}
   .hero-num{font-size:52px}
-  .wrap{padding:0 20px 60px}
+  .wrap{padding:0 20px 110px}
   nav{padding:0 20px}
 }
-@media(max-width:560px){
+@media(max-width:520px){
   .loc-grid{grid-template-columns:1fr 1fr}
-  .photo-strip{grid-template-columns:1fr 1fr}
-  .insights-row{grid-template-columns:1fr}
+  #pingu-panel{width:calc(100vw - 36px);right:18px}
 }
 </style>
 </head>
 <body>
 
 <div id="loader">
+  <div class="ld-bird">🐧</div>
   <div class="ld-title"><em>yhangry</em> Recruitment</div>
-  <div class="ld-sub">Loading pipeline data</div>
+  <div class="ld-sub">Waddling through the data…</div>
   <div class="ld-bar"><div class="ld-fill"></div></div>
 </div>
 
 <nav>
   <div class="nav-inner">
-    <div class="nav-brand">
+    <div>
       <div class="nav-logo"><em>yhangry</em> Chef Recruitment</div>
       <div class="nav-sub">Indeed Pipeline Dashboard</div>
     </div>
     <div class="nav-right">
-      <div class="chip" id="period-chip">Loading...</div>
-      <div class="chip live-chip"><div class="live-dot"></div><span id="updated">Syncing</span></div>
+      <div class="chip" id="period-chip">Loading…</div>
+      <div class="chip live"><div class="live-dot"></div><span id="updated">Syncing</span></div>
     </div>
   </div>
 </nav>
@@ -229,42 +301,42 @@ footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--border);displ
       <div class="hero-eyebrow">New Applicants</div>
       <div class="hero-num" id="w-app">—</div>
       <div class="hero-label">Chefs applied this week</div>
-      <div class="hero-bg-num">A</div>
+      <div class="hero-bg">A</div>
     </div>
     <div class="hero-card hc2">
       <div class="hero-eyebrow">Registrations</div>
       <div class="hero-num" id="w-reg">—</div>
       <div class="hero-label">Signed up on yhangry</div>
-      <div class="hero-bg-num">R</div>
+      <div class="hero-bg">R</div>
     </div>
     <div class="hero-card hc3">
       <div class="hero-eyebrow">Activations</div>
       <div class="hero-num" id="w-act">—</div>
       <div class="hero-label">Fully live this week</div>
-      <div class="hero-bg-num">L</div>
+      <div class="hero-bg">L</div>
     </div>
   </div>
 
   <!-- INSIGHTS -->
   <div class="sh"><div class="sh-label">Insights</div><div class="sh-line"></div></div>
-  <div class="insights-row">
-    <div class="insight-card">
-      <div class="insight-icon">🔁</div>
-      <div class="insight-title">Applied → Live Rate</div>
-      <div class="insight-val" id="ins-conv">—</div>
-      <div class="insight-desc">Of all chefs who applied, this share are now live on yhangry</div>
+  <div class="ins-grid">
+    <div class="ins-card">
+      <span class="ins-icon">🔁</span>
+      <div class="ins-label">Applied → Live Rate</div>
+      <div class="ins-val" id="ins-conv">—</div>
+      <div class="ins-desc">Of all chefs who applied, this share are now live on yhangry</div>
     </div>
-    <div class="insight-card">
-      <div class="insight-icon">📍</div>
-      <div class="insight-title">Markets Active</div>
-      <div class="insight-val" id="ins-markets">—</div>
-      <div class="insight-desc">Locations with at least one live chef across all tiers</div>
+    <div class="ins-card">
+      <span class="ins-icon">📍</span>
+      <div class="ins-label">Markets with Live Chefs</div>
+      <div class="ins-val" id="ins-markets">—</div>
+      <div class="ins-desc">Locations with at least one live chef across all tiers</div>
     </div>
-    <div class="insight-card">
-      <div class="insight-icon">🏆</div>
-      <div class="insight-title">Top Market</div>
-      <div class="insight-val" id="ins-top">—</div>
-      <div class="insight-desc" id="ins-top-desc">Most applicants of any single location</div>
+    <div class="ins-card">
+      <span class="ins-icon">🏆</span>
+      <div class="ins-label">Top Market</div>
+      <div class="ins-val" id="ins-top" style="font-size:22px;line-height:1.2">—</div>
+      <div class="ins-desc" id="ins-top-sub">Most applicants of any single location</div>
     </div>
   </div>
 
@@ -273,19 +345,19 @@ footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--border);displ
   <div class="mid-grid">
     <div class="card">
       <div class="card-title">Conversion Funnel</div>
-      <div class="funnel-step">
-        <div class="fs-top"><span class="fs-name">Applied</span><span class="fs-num fn1" id="f-app">—</span></div>
-        <div class="fs-bar"><div class="fs-fill ff1" id="fb-app"></div></div>
+      <div class="f-step">
+        <div class="f-top"><span class="f-name">Applied</span><span class="f-num fn1" id="f-app">—</span></div>
+        <div class="f-bar"><div class="f-fill ff1" id="fb-app"></div></div>
       </div>
-      <div class="funnel-divider"><span id="cv-reg">—</span> applied → registered</div>
-      <div class="funnel-step">
-        <div class="fs-top"><span class="fs-name">Registered</span><span class="fs-num fn2" id="f-reg">—</span></div>
-        <div class="fs-bar"><div class="fs-fill ff2" id="fb-reg"></div></div>
+      <div class="f-bridge"><span id="cv-reg">—</span>&nbsp;applied → registered</div>
+      <div class="f-step">
+        <div class="f-top"><span class="f-name">Registered</span><span class="f-num fn2" id="f-reg">—</span></div>
+        <div class="f-bar"><div class="f-fill ff2" id="fb-reg"></div></div>
       </div>
-      <div class="funnel-divider"><span id="cv-live">—</span> registered → live</div>
-      <div class="funnel-step">
-        <div class="fs-top"><span class="fs-name">Live Chefs</span><span class="fs-num fn3" id="f-live">—</span></div>
-        <div class="fs-bar"><div class="fs-fill ff3" id="fb-live"></div></div>
+      <div class="f-bridge"><span id="cv-live">—</span>&nbsp;registered → live</div>
+      <div class="f-step">
+        <div class="f-top"><span class="f-name">Live Chefs</span><span class="f-num fn3" id="f-live">—</span></div>
+        <div class="f-bar"><div class="f-fill ff3" id="fb-live"></div></div>
       </div>
     </div>
     <div class="card">
@@ -299,20 +371,11 @@ footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--border);displ
     </div>
   </div>
 
-  <!-- PHOTOS -->
-  <div class="sh"><div class="sh-label">Featured markets</div><div class="sh-line"></div></div>
-  <div class="photo-strip" id="photo-strip">
-    <!-- filled by JS -->
-  </div>
-
   <!-- CHARTS -->
   <div class="sh"><div class="sh-label">Market performance</div><div class="sh-line"></div></div>
   <div class="chart-card">
     <div class="chart-hd">
-      <div>
-        <div class="chart-title">⭐ VIP Markets</div>
-        <div class="chart-sub">Applicants · Registrations · Live chefs</div>
-      </div>
+      <div><div class="chart-title">⭐ VIP Markets</div><div class="chart-sub">Applicants · Registrations · Live chefs</div></div>
       <div class="legend">
         <div class="leg"><div class="leg-dot" style="background:var(--ink)"></div>Applied</div>
         <div class="leg"><div class="leg-dot" style="background:var(--sage)"></div>Registered</div>
@@ -346,7 +409,7 @@ footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--border);displ
     </div>
   </div>
 
-  <!-- REGIONAL -->
+  <!-- REGIONAL BREAKDOWN -->
   <div class="sh"><div class="sh-label">Regional breakdown</div><div class="sh-line"></div></div>
   <div class="tabs">
     <button class="tab on" onclick="sw('vip',this)">⭐ VIP</button>
@@ -363,261 +426,398 @@ footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--border);displ
 
   <footer>
     <span>yhangry · Chef Recruitment Pipeline</span>
-    <span>Refreshes every 15 min · Powered by Google Sheets</span>
+    <span>Auto-refreshes every 15 min · Google Sheets</span>
   </footer>
 </div>
 
+<!-- ════════════ 🐧 PINGU ════════════ -->
+<button id="pingu-btn" onclick="togglePingu()">
+  🐧
+  <div class="pingu-badge" id="pingu-badge">1</div>
+</button>
+
+<div id="pingu-panel">
+  <div class="pp-head">
+    <div class="pp-avatar">🐧</div>
+    <div>
+      <div class="pp-name">Pingu</div>
+      <div class="pp-title">Indeed Penguin · Always Watching</div>
+    </div>
+    <button class="pp-x" onclick="togglePingu()">✕</button>
+  </div>
+  <div class="pp-msgs" id="pp-msgs"></div>
+  <div class="pp-sugs" id="pp-sugs">
+    <div class="pp-sug" onclick="ask('Which market is performing best?')">Best market? 🏆</div>
+    <div class="pp-sug" onclick="ask('What is the conversion rate?')">Conversion rate?</div>
+    <div class="pp-sug" onclick="ask('Which tier has the most live chefs?')">Most live chefs?</div>
+    <div class="pp-sug" onclick="ask('Give me a random insight!')">Surprise me 🎲</div>
+    <div class="pp-sug" onclick="ask('How is New York doing?')">New York? 🗽</div>
+    <div class="pp-sug" onclick="ask('What happened this week?')">This week?</div>
+  </div>
+  <div class="pp-foot">
+    <input class="pp-input" id="pp-input" placeholder="Ask Pingu anything…" onkeydown="if(event.key==='Enter')sendMsg()">
+    <button class="pp-send" onclick="sendMsg()">↑</button>
+  </div>
+</div>
+
 <script>
-const SID='14bkdT0WFOXaAXEe3jJmWh8rWZCnj0elJrV54o_2my9g';
+const SID = '14bkdT0WFOXaAXEe3jJmWh8rWZCnj0elJrV54o_2my9g';
 
-// Location photos from Unsplash (free, no key needed via source.unsplash.com)
-const LOCATION_PHOTOS = {
-  'New York': 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=400&q=80',
-  'Durango': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80',
-  'Smoky Mountains': 'https://images.unsplash.com/photo-1555661530-68c8e98a2b6e?w=400&q=80',
-  'Park City': 'https://images.unsplash.com/photo-1551524559-8af4e6624178?w=400&q=80',
-  'Puerto Rico': 'https://images.unsplash.com/photo-1580541631950-7282082b53ce?w=400&q=80',
-  'Palm Springs': 'https://images.unsplash.com/photo-1597773150796-e5c14ebecbf5?w=400&q=80',
-  'Breckenridge': 'https://images.unsplash.com/photo-1605540436563-5bca919ae27a?w=400&q=80',
-  'Yosemite National Park': 'https://images.unsplash.com/photo-1472396961693-142e6e269027?w=400&q=80',
-  'Gulf Shores/Orange Beach': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80',
-  'Telluride (Colorado)': 'https://images.unsplash.com/photo-1612118260648-5e2e7e8e1e42?w=400&q=80',
-  'default': 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80'
-};
-
-// Featured locations to show in photo strip (pick top ones)
-const FEATURED = ['Durango','Smoky Mountains','New York','Puerto Rico'];
-
+// ── CSV parser ──
 async function fetchSheet(name) {
-  const url=`https://docs.google.com/spreadsheets/d/${SID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(name)}`;
-  const r=await fetch(url);
-  const text=await r.text();
-  return text.trim().split('\n').map(line=>{
-    const cells=[];let cur='',inQ=false;
-    for(let i=0;i<line.length;i++){
-      const ch=line[i];
-      if(ch==='"'&&!inQ){inQ=true}
-      else if(ch==='"'&&inQ&&line[i+1]==='"'){cur+='"';i++}
-      else if(ch==='"'&&inQ){inQ=false}
-      else if(ch===','&&!inQ){cells.push(cur.trim());cur=''}
-      else{cur+=ch}
+  const url = `https://docs.google.com/spreadsheets/d/${SID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(name)}`;
+  const r = await fetch(url);
+  const text = await r.text();
+  return text.trim().split('\n').map(line => {
+    const cells = []; let cur = '', inQ = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"' && !inQ) inQ = true;
+      else if (ch === '"' && inQ && line[i+1] === '"') { cur += '"'; i++; }
+      else if (ch === '"' && inQ) inQ = false;
+      else if (ch === ',' && !inQ) { cells.push(cur.trim()); cur = ''; }
+      else cur += ch;
     }
-    cells.push(cur.trim());
-    return cells;
+    cells.push(cur.trim()); return cells;
   });
 }
 
-const cv=(row,i)=>(row&&row[i]!==undefined)?row[i]:'';
-const num=x=>{if(!x&&x!==0)return 0;const p=parseFloat(x.toString().replace(/[^0-9.-]/g,''));return isNaN(p)?0:p;};
-const fmt=x=>Math.round(num(x)).toLocaleString();
-const pct=x=>{const p=parseFloat((x||'').toString().replace('%',''));return isNaN(p)?'—':p.toFixed(1)+'%'};
+const cv  = (r, i) => (r && r[i] != null) ? r[i] : '';
+const num = x => { const p = parseFloat((x||'').toString().replace(/[^0-9.-]/g,'')); return isNaN(p) ? 0 : p; };
+const fmt = x => Math.round(num(x)).toLocaleString();
+const pct = x => { const p = parseFloat((x||'').toString().replace('%','')); return isNaN(p) ? '—' : p.toFixed(1)+'%'; };
 
-Chart.defaults.color='#8c8279';
-Chart.defaults.font.family="'DM Sans',sans-serif";
-Chart.defaults.font.size=11;
-
-let charts={};
-function mkChart(id,labels,app,reg,live){
-  if(charts[id])charts[id].destroy();
-  const ctx=document.getElementById(id);if(!ctx)return;
-  charts[id]=new Chart(ctx,{
-    type:'bar',
-    data:{labels,datasets:[
-      {label:'Applied',data:app,backgroundColor:'rgba(26,23,20,0.7)',borderRadius:4,borderSkipped:false},
-      {label:'Registered',data:reg,backgroundColor:'rgba(74,124,89,0.7)',borderRadius:4,borderSkipped:false},
-      {label:'Live',data:live,backgroundColor:'rgba(201,168,76,0.7)',borderRadius:4,borderSkipped:false},
+// ── Charts ──
+Chart.defaults.color = '#8c8279';
+Chart.defaults.font.family = "'DM Sans',sans-serif";
+Chart.defaults.font.size = 11;
+let charts = {};
+function mkChart(id, labels, app, reg, live) {
+  if (charts[id]) charts[id].destroy();
+  const ctx = document.getElementById(id); if (!ctx) return;
+  charts[id] = new Chart(ctx, {
+    type: 'bar',
+    data: { labels, datasets: [
+      { label:'Applied',    data:app,  backgroundColor:'rgba(26,23,20,0.72)', borderRadius:4, borderSkipped:false },
+      { label:'Registered', data:reg,  backgroundColor:'rgba(74,124,89,0.72)', borderRadius:4, borderSkipped:false },
+      { label:'Live',       data:live, backgroundColor:'rgba(201,168,76,0.72)', borderRadius:4, borderSkipped:false },
     ]},
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      plugins:{
-        legend:{display:false},
-        tooltip:{backgroundColor:'#fff',titleColor:'#1a1714',bodyColor:'#8c8279',borderColor:'rgba(26,23,20,0.1)',borderWidth:1,padding:10,cornerRadius:8,titleFont:{size:12,weight:'600'}}
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins: {
+        legend: { display:false },
+        tooltip: { backgroundColor:'#fff', titleColor:'#1a1714', bodyColor:'#8c8279', borderColor:'rgba(26,23,20,0.1)', borderWidth:1, padding:10, cornerRadius:8, titleFont:{size:12,weight:'600'} }
       },
-      scales:{
-        x:{grid:{display:false},border:{display:false},ticks:{maxRotation:35}},
-        y:{grid:{color:'rgba(26,23,20,0.04)'},border:{display:false},beginAtZero:true}
+      scales: {
+        x: { grid:{display:false}, border:{display:false}, ticks:{maxRotation:35} },
+        y: { grid:{color:'rgba(26,23,20,0.04)'}, border:{display:false}, beginAtZero:true }
       }
     }
   });
 }
 
-function sw(id,btn){
-  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
-  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+// ── Tabs ──
+function sw(id, btn) {
+  document.querySelectorAll('.pane').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
   document.getElementById('pane-'+id).classList.add('on');
   btn.classList.add('on');
 }
 
-function mkPanel(rows){
-  const tot=rows.reduce((s,r)=>s+num(cv(r,2)),0);
-  const totR=rows.reduce((s,r)=>s+num(cv(r,3)),0);
-  const totL=rows.reduce((s,r)=>s+num(cv(r,4)),0);
-  const sorted=[...rows].sort((a,b)=>num(cv(b,2))-num(cv(a,2)));
-  const cards=sorted.map(r=>{
-    const name=(cv(r,1)||'').trim();
-    const a=num(cv(r,2)),rg=num(cv(r,3)),lv=num(cv(r,4));
-    const convP=a>0?Math.round(lv/a*100):0;
+// ── Panel builder ──
+function mkPanel(rows) {
+  const tot  = rows.reduce((s,r) => s+num(cv(r,2)), 0);
+  const totR = rows.reduce((s,r) => s+num(cv(r,3)), 0);
+  const totL = rows.reduce((s,r) => s+num(cv(r,4)), 0);
+  const sorted = [...rows].sort((a,b) => num(cv(b,2))-num(cv(a,2)));
+  return `<div class="tsrow">
+    <div class="tsbadge"><div class="tsbadge-label">Applied</div><div class="tsbadge-val c-ink">${fmt(tot)}</div></div>
+    <div class="tsbadge"><div class="tsbadge-label">Registered</div><div class="tsbadge-val c-sage">${fmt(totR)}</div></div>
+    <div class="tsbadge"><div class="tsbadge-label">Live</div><div class="tsbadge-val c-gold">${fmt(totL)}</div></div>
+  </div><div class="loc-grid">${sorted.map(r => {
+    const n = (cv(r,1)||'').trim();
+    const a = num(cv(r,2)), rg = num(cv(r,3)), lv = num(cv(r,4));
+    const cp = a > 0 ? Math.round(lv/a*100) : 0;
     return `<div class="loc-card">
-      <div class="loc-name">${name}</div>
+      <div class="loc-name">${n}</div>
       <div class="loc-stats">
         <div class="ls ls-a"><div class="ls-v">${fmt(a)}</div><div class="ls-l">Applied</div></div>
         <div class="ls ls-r"><div class="ls-v">${fmt(rg)}</div><div class="ls-l">Reg.</div></div>
         <div class="ls ls-lv"><div class="ls-v">${fmt(lv)}</div><div class="ls-l">Live</div></div>
       </div>
       <div class="loc-bar">
-        <div class="loc-bar-label">${convP}% applied → live</div>
-        <div class="loc-bar-track"><div class="loc-bar-fill" style="width:${Math.min(convP*4,100)}%"></div></div>
+        <div class="loc-bar-label">${cp}% applied → live</div>
+        <div class="loc-bar-track"><div class="loc-bar-fill" style="width:${Math.min(cp*4,100)}%"></div></div>
       </div>
     </div>`;
-  }).join('');
-  return `<div class="tsrow">
-    <div class="tsbadge"><div class="tsbadge-label">Applied</div><div class="tsbadge-val c-ink">${fmt(tot)}</div></div>
-    <div class="tsbadge"><div class="tsbadge-label">Registered</div><div class="tsbadge-val c-sage">${fmt(totR)}</div></div>
-    <div class="tsbadge"><div class="tsbadge-label">Live</div><div class="tsbadge-val c-gold">${fmt(totL)}</div></div>
-  </div><div class="loc-grid">${cards}</div>`;
+  }).join('')}</div>`;
 }
 
-function chartData(rows){
-  const sorted=[...rows].sort((a,b)=>num(cv(b,2))-num(cv(a,2)));
-  const clean=s=>s.replace(/ \(Colorado\)| \(Florida\)| \(Minnesota\)/g,'').replace('/ Duluth','').trim();
-  return{
-    labels:sorted.map(r=>clean((cv(r,1)||'').toString())),
-    app:sorted.map(r=>num(cv(r,2))),
-    reg:sorted.map(r=>num(cv(r,3))),
-    live:sorted.map(r=>num(cv(r,4)))
+function chartData(rows) {
+  const s = [...rows].sort((a,b) => num(cv(b,2))-num(cv(a,2)));
+  const cl = x => x.replace(/ \(Colorado\)| \(Florida\)| \(Minnesota\)/g,'').replace('/ Duluth','').trim();
+  return {
+    labels: s.map(r => cl((cv(r,1)||'').toString())),
+    app:    s.map(r => num(cv(r,2))),
+    reg:    s.map(r => num(cv(r,3))),
+    live:   s.map(r => num(cv(r,4))),
   };
 }
 
-function buildPhotoStrip(allRows){
-  const byName={};
-  allRows.forEach(r=>{
-    const name=(cv(r,1)||'').trim();
-    if(name) byName[name]={app:num(cv(r,2)),reg:num(cv(r,3)),live:num(cv(r,4)),tier:(cv(r,0)||'').trim()};
-  });
-  const toShow=FEATURED.filter(f=>byName[f]);
-  const html=toShow.map(name=>{
-    const d=byName[name]||{};
-    const img=LOCATION_PHOTOS[name]||LOCATION_PHOTOS['default'];
-    return `<div class="photo-card">
-      <img src="${img}" alt="${name}" loading="lazy">
-      <div class="photo-overlay"></div>
-      <div class="photo-tier">${d.tier||'VIP'}</div>
-      <div class="photo-info">
-        <div class="photo-city">${name}</div>
-        <div class="photo-stats">
-          <div class="photo-stat"><strong>${fmt(d.app)}</strong> applied</div>
-          <div class="photo-stat"><strong>${fmt(d.live)}</strong> live</div>
-        </div>
-      </div>
-    </div>`;
-  }).join('');
-  document.getElementById('photo-strip').innerHTML=html;
+// ════════════════════════════════
+// 🐧  PINGU  BRAIN
+// ════════════════════════════════
+let pinguOpen = false, firstOpen = true;
+const D = {}; // shared data context
+
+const GREETINGS = [
+  `Noot noot! 🐧 I'm <b>Pingu</b>, yhangry's Indeed Penguin! I've waddled through all the recruitment data so you don't have to. What do you want to know?`,
+  `Hey hey! 🐧 Pingu here — the only penguin who truly understands chef recruitment funnels. Ask me anything about the pipeline!`,
+  `Noot noot! 🐧 Welcome back! I've been keeping my flippers on the data. Markets, conversions, top performers — ask away!`,
+];
+
+function getWelcome() { return GREETINGS[Math.floor(Math.random()*GREETINGS.length)]; }
+
+function randomInsight() {
+  if (!D.allRows || !D.allRows.length) return "Still loading data… try again in a sec! 🐧";
+  const all = D.allRows;
+  const topByApp  = [...all].sort((a,b) => num(cv(b,2))-num(cv(a,2)))[0];
+  const topByLive = [...all].sort((a,b) => num(cv(b,4))-num(cv(a,4)))[0];
+  const bestConv  = [...all].filter(r=>num(cv(r,2))>15).sort((a,b) => (num(cv(b,4))/Math.max(num(cv(b,2)),1)) - (num(cv(a,4))/Math.max(num(cv(a,2)),1)))[0];
+  const pool = [
+    `🏔️ <b>${(cv(topByApp,1)||'').trim()}</b> leads all markets with <b>${fmt(num(cv(topByApp,2)))}</b> applicants — that's ${Math.round(num(cv(topByApp,2))/Math.max(D.totalApp,1)*100)}% of all pipeline volume!`,
+    `🚀 <b>${(cv(topByLive,1)||'').trim()}</b> has the most live chefs: <b>${fmt(num(cv(topByLive,4)))}</b>. That market is thriving!`,
+    `📈 Your overall applied→live rate is <b>${pct(D.appLivePct)}</b>. For every 100 applicants, ~${Math.round(parseFloat((D.appLivePct||'0').toString().replace('%',''))||0)} go fully live.`,
+    `✅ This week: <b>${fmt(D.wApp)}</b> applied, <b>${fmt(D.wReg)}</b> registered, <b>${fmt(D.wAct)}</b> activated. ${D.wAct>8?'Great week! 🔥':'Keep pushing! 💪'}`,
+    `🌍 You have live chefs in <b>${D.marketsLive}</b> out of ${D.allRows.length} tracked markets. That's great geographic coverage!`,
+    bestConv ? `⚡ Best conversion rate: <b>${(cv(bestConv,1)||'').trim()}</b> at <b>${Math.round(num(cv(bestConv,4))/Math.max(num(cv(bestConv,2)),1)*100)}%</b> applied→live. Whatever they're doing, it's working!` : `📊 Focus on activation — getting registered chefs to go live is the key bottleneck!`,
+    `🐧 Pingu fact: I've counted <b>${fmt(D.totalApp)}</b> total chef applications across all markets. That's a lot of chefs!`,
+    `💡 Registered→live rate is <b>${pct(D.regLivePct)}</b>. If you can move that needle, more chefs go live without needing more applicants!`,
+  ];
+  return pool[Math.floor(Math.random()*pool.length)];
 }
 
-async function load(){
-  try{
-    const[weekly,dash]=await Promise.all([fetchSheet('Weekly Summary'),fetchSheet('Dashboard')]);
-    const wRows=weekly.slice(1);// skip header row
-    const dRows=dash;// no header in Dashboard tab — starts with New York
+function answer(q) {
+  const ql = (q||'').toLowerCase();
+  if (!D.allRows) return "Still loading data… give me a sec! 🐧";
 
-    // Parse weekly
-    let period='',generated='',totalApp=0,totalUniq=0,totalReg=0,totalLive=0;
-    let regPct='',appLivePct='',regLivePct='',wApp=0,wReg=0,wAct=0;
-    for(let i=0;i<wRows.length;i++){
-      const a=(cv(wRows[i],0)||'').toString(),b=cv(wRows[i],1),al=a.toLowerCase();
-      if(al.includes('reporting period'))period=(b||'').toString().trim()||a.replace(/reporting period:?\s*/i,'').trim();
-      if(al.includes('generated'))generated=(b||'').toString().trim();
-      if(al.includes('total applicants')&&al.includes('all'))totalApp=num(b);
-      if(al.includes('unique applicants'))totalUniq=num(b);
-      if(al.includes('onboarded')&&al.includes('regi')&&!al.includes('not')&&!al.includes('week'))totalReg=num(b);
-      if(al.includes('total live'))totalLive=num(b);
-      if(al.includes('applied')&&al.includes('onboarded')&&!al.includes('live'))regPct=b;
-      if(al.includes('applied')&&al.includes('live')&&!al.includes('onboard'))appLivePct=b;
-      if(al.includes('onboarded')&&al.includes('live'))regLivePct=b;
-      if(al.includes('new applicants this'))wApp=num(b);
-      if(al.includes('new registrations this'))wReg=num(b);
-      if(al.includes('new activations this'))wAct=num(b);
+  if (/best market|top market|performing best/.test(ql)) {
+    const top = [...D.allRows].sort((a,b)=>num(cv(b,2))-num(cv(a,2)))[0];
+    return `🏆 Your busiest market is <b>${(cv(top,1)||'').trim()}</b> with <b>${fmt(num(cv(top,2)))}</b> applicants, <b>${fmt(num(cv(top,3)))}</b> registered, and <b>${fmt(num(cv(top,4)))}</b> live. Noot noot! 🐧`;
+  }
+  if (/conversion|rate/.test(ql)) {
+    return `📈 Applied→registered: <b>${pct(D.regPct)}</b>. Registered→live: <b>${pct(D.regLivePct)}</b>. Overall applied→live: <b>${pct(D.appLivePct)}</b>. The drop-off between register and live is the main thing to watch! 🐧`;
+  }
+  if (/this week|week/.test(ql)) {
+    return `📅 This week: <b>${fmt(D.wApp)}</b> new applicants · <b>${fmt(D.wReg)}</b> registrations · <b>${fmt(D.wAct)}</b> activations. ${D.wAct>8?'On fire! 🔥':'Solid — keep it up! 💪'} 🐧`;
+  }
+  if (/most live|most chefs/.test(ql)) {
+    const top = [...D.allRows].sort((a,b)=>num(cv(b,4))-num(cv(a,4)))[0];
+    return `🚀 Most live chefs: <b>${(cv(top,1)||'').trim()}</b> with <b>${fmt(num(cv(top,4)))}</b> live chefs. Absolute powerhouse market! 🐧`;
+  }
+  if (/vip/.test(ql)) {
+    const rows = D.B?.VIP||[];
+    const a=rows.reduce((s,r)=>s+num(cv(r,2)),0), lv=rows.reduce((s,r)=>s+num(cv(r,4)),0);
+    return `⭐ VIP tier has <b>${fmt(a)}</b> total applicants and <b>${fmt(lv)}</b> live chefs across <b>${rows.length}</b> locations. Premium pipeline! 🐧`;
+  }
+  if (/tier 1/.test(ql)) {
+    const rows = D.B?.T1||[];
+    const a=rows.reduce((s,r)=>s+num(cv(r,2)),0), lv=rows.reduce((s,r)=>s+num(cv(r,4)),0);
+    return `🥇 Tier 1 has <b>${fmt(a)}</b> applicants and <b>${fmt(lv)}</b> live chefs across <b>${rows.length}</b> markets. 🐧`;
+  }
+  if (/tier 2/.test(ql)) {
+    const rows = D.B?.T2||[];
+    const a=rows.reduce((s,r)=>s+num(cv(r,2)),0), lv=rows.reduce((s,r)=>s+num(cv(r,4)),0);
+    return `🥈 Tier 2 has <b>${fmt(a)}</b> applicants and <b>${fmt(lv)}</b> live chefs across <b>${rows.length}</b> markets. Growing steadily! 🐧`;
+  }
+  if (/new york|ny|nyc/.test(ql)) {
+    const ny = D.allRows.find(r => (cv(r,1)||'').toLowerCase().includes('new york'));
+    if (ny) return `🗽 New York: <b>${fmt(num(cv(ny,2)))}</b> applicants · <b>${fmt(num(cv(ny,3)))}</b> registered · <b>${fmt(num(cv(ny,4)))}</b> live. Big Apple, big pipeline! 🐧`;
+    return `🗽 I can see New York in the data — it's your top market! Check the VIP tab for the full breakdown. 🐧`;
+  }
+  if (/durango/.test(ql)) {
+    const d = D.allRows.find(r => (cv(r,1)||'').toLowerCase().includes('durango'));
+    if (d) return `🏔️ Durango: <b>${fmt(num(cv(d,2)))}</b> applicants · <b>${fmt(num(cv(d,3)))}</b> registered · <b>${fmt(num(cv(d,4)))}</b> live. Mountain market vibes! 🐧`;
+    return `🏔️ I couldn't find Durango specifically — check the VIP tab! 🐧`;
+  }
+  if (/total|all.?time|overall|summary/.test(ql)) {
+    return `📊 All-time: <b>${fmt(D.totalApp)}</b> applicants · <b>${fmt(D.totalReg)}</b> registered · <b>${fmt(D.totalLive)}</b> live. Overall rate: <b>${pct(D.appLivePct)}</b>. 🐧`;
+  }
+  if (/worst|lowest|struggling|problem/.test(ql)) {
+    const worst = [...D.allRows].filter(r=>num(cv(r,2))>5).sort((a,b) => (num(cv(a,4))/Math.max(num(cv(a,2)),1)) - (num(cv(b,4))/Math.max(num(cv(b,2)),1)))[0];
+    if (worst) return `😬 <b>${(cv(worst,1)||'').trim()}</b> has the toughest conversion at ${Math.round(num(cv(worst,4))/Math.max(num(cv(worst,2)),1)*100)}% applied→live. Worth investigating! 🐧`;
+    return `I need more data to judge that! Check the regional breakdown tabs. 🐧`;
+  }
+  if (/hi|hello|hey|hiya/.test(ql)) {
+    return `Noot noot! 🐧 Hey there! Ask me about markets, conversion rates, this week's numbers, VIP tier, New York — anything about the pipeline!`;
+  }
+  if (/who are you|what are you|about you/.test(ql)) {
+    return `🐧 I'm <b>Pingu</b> — yhangry's official Indeed Penguin and data analyst! I live in this dashboard, watching the chef recruitment pipeline 24/7. It's a great life. Noot noot!`;
+  }
+  if (/random|surprise|insight|fun fact|interesting/.test(ql)) {
+    return randomInsight();
+  }
+  if (/market.*count|how many market/.test(ql)) {
+    return `🗺️ You're tracking <b>${D.allRows.length}</b> total markets, <b>${D.marketsLive}</b> of which have at least one live chef. 🐧`;
+  }
+  // Fallback — give a random insight
+  return randomInsight();
+}
+
+function pinguSay(msg) {
+  const box = document.getElementById('pp-msgs');
+  const typing = document.createElement('div');
+  typing.className = 'pp-typing';
+  typing.innerHTML = '<div class="pp-dot"></div><div class="pp-dot"></div><div class="pp-dot"></div>';
+  box.appendChild(typing); box.scrollTop = box.scrollHeight;
+  setTimeout(() => {
+    typing.remove();
+    const m = document.createElement('div');
+    m.className = 'msg-bot'; m.innerHTML = msg;
+    box.appendChild(m); box.scrollTop = box.scrollHeight;
+  }, 650);
+}
+
+function addUserBubble(msg) {
+  const box = document.getElementById('pp-msgs');
+  const m = document.createElement('div');
+  m.className = 'msg-user'; m.textContent = msg;
+  box.appendChild(m); box.scrollTop = box.scrollHeight;
+}
+
+function ask(q) {
+  if (!pinguOpen) { togglePingu(); setTimeout(() => { addUserBubble(q); setTimeout(() => pinguSay(answer(q)), 220); }, 480); return; }
+  addUserBubble(q); setTimeout(() => pinguSay(answer(q)), 220);
+}
+
+function sendMsg() {
+  const inp = document.getElementById('pp-input');
+  const q = inp.value.trim(); if (!q) return;
+  inp.value = '';
+  addUserBubble(q); setTimeout(() => pinguSay(answer(q)), 220);
+}
+
+function togglePingu() {
+  pinguOpen = !pinguOpen;
+  document.getElementById('pingu-panel').classList.toggle('open', pinguOpen);
+  if (pinguOpen) {
+    document.getElementById('pingu-badge').style.display = 'none';
+    if (firstOpen) { firstOpen = false; setTimeout(() => pinguSay(getWelcome()), 420); }
+  }
+}
+
+// Random insight every 3 min if panel is open
+setInterval(() => { if (pinguOpen && D.allRows) pinguSay("💡 " + randomInsight()); }, 3*60*1000);
+
+// ════════════════════════════════
+// DATA LOAD
+// ════════════════════════════════
+async function load() {
+  try {
+    const [weekly, dash] = await Promise.all([fetchSheet('Weekly Summary'), fetchSheet('Dashboard')]);
+    const wRows = weekly.slice(1);
+    const dRows = dash;
+
+    // ── Parse Weekly Summary ──
+    let period='', generated='', totalApp=0, totalUniq=0, totalReg=0, totalLive=0;
+    let regPct='', appLivePct='', regLivePct='', wApp=0, wReg=0, wAct=0;
+    for (let i = 0; i < wRows.length; i++) {
+      const a = (cv(wRows[i],0)||'').toString(), b = cv(wRows[i],1), al = a.toLowerCase();
+      if (al.includes('reporting period')) period = (b||'').toString().trim() || a.replace(/reporting period:?\s*/i,'').trim();
+      if (al.includes('generated'))        generated = (b||'').toString().trim();
+      if (al.includes('total applicants') && al.includes('all')) totalApp  = num(b);
+      if (al.includes('unique applicants'))                       totalUniq = num(b);
+      if (al.includes('onboarded') && al.includes('regi') && !al.includes('not') && !al.includes('week')) totalReg  = num(b);
+      if (al.includes('total live'))                              totalLive = num(b);
+      if (al.includes('applied') && al.includes('onboarded') && !al.includes('live'))  regPct    = b;
+      if (al.includes('applied') && al.includes('live') && !al.includes('onboard'))    appLivePct = b;
+      if (al.includes('onboarded') && al.includes('live'))                              regLivePct = b;
+      if (al.includes('new applicants this'))   wApp = num(b);
+      if (al.includes('new registrations this')) wReg = num(b);
+      if (al.includes('new activations this'))   wAct = num(b);
     }
 
-    document.getElementById('period-chip').textContent=period||'Current Week';
-    document.getElementById('updated').textContent='Updated '+(generated||'recently');
-    document.getElementById('w-app').textContent=fmt(wApp);
-    document.getElementById('w-reg').textContent=fmt(wReg);
-    document.getElementById('w-act').textContent=fmt(wAct);
-    document.getElementById('f-app').textContent=fmt(totalApp);
-    document.getElementById('f-reg').textContent=fmt(totalReg);
-    document.getElementById('f-live').textContent=fmt(totalLive);
-    document.getElementById('cv-reg').textContent=pct(regPct);
-    document.getElementById('cv-live').textContent=pct(regLivePct);
-    setTimeout(()=>{
-      document.getElementById('fb-app').style.width='100%';
-      document.getElementById('fb-reg').style.width=(totalApp>0?totalReg/totalApp*100:0)+'%';
-      document.getElementById('fb-live').style.width=(totalApp>0?totalLive/totalApp*100:0)+'%';
-    },600);
-    document.getElementById('at-app').textContent=fmt(totalApp);
-    document.getElementById('at-uniq').textContent=fmt(totalUniq)+' unique';
-    document.getElementById('at-reg').textContent=fmt(totalReg);
-    document.getElementById('at-rpct').textContent=pct(regPct)+' conv.';
-    document.getElementById('at-live').textContent=fmt(totalLive);
-    document.getElementById('at-lpct').textContent=pct(regLivePct)+' of reg.';
-    document.getElementById('at-conv').textContent=pct(appLivePct);
+    document.getElementById('period-chip').textContent = period || 'Current Week';
+    document.getElementById('updated').textContent = 'Updated ' + (generated || 'recently');
+    document.getElementById('w-app').textContent = fmt(wApp);
+    document.getElementById('w-reg').textContent = fmt(wReg);
+    document.getElementById('w-act').textContent = fmt(wAct);
+    document.getElementById('f-app').textContent = fmt(totalApp);
+    document.getElementById('f-reg').textContent = fmt(totalReg);
+    document.getElementById('f-live').textContent = fmt(totalLive);
+    document.getElementById('cv-reg').textContent = pct(regPct);
+    document.getElementById('cv-live').textContent = pct(regLivePct);
+    setTimeout(() => {
+      document.getElementById('fb-app').style.width = '100%';
+      document.getElementById('fb-reg').style.width = (totalApp > 0 ? totalReg/totalApp*100 : 0) + '%';
+      document.getElementById('fb-live').style.width = (totalApp > 0 ? totalLive/totalApp*100 : 0) + '%';
+    }, 600);
+    document.getElementById('at-app').textContent  = fmt(totalApp);
+    document.getElementById('at-uniq').textContent  = fmt(totalUniq) + ' unique';
+    document.getElementById('at-reg').textContent  = fmt(totalReg);
+    document.getElementById('at-rpct').textContent  = pct(regPct) + ' conv.';
+    document.getElementById('at-live').textContent  = fmt(totalLive);
+    document.getElementById('at-lpct').textContent  = pct(regLivePct) + ' of reg.';
+    document.getElementById('at-conv').textContent  = pct(appLivePct);
 
-    // Parse regional
-    const B={VIP:[],T1:[],T2:[],HS:[],HD:[]};
-    const SKIP=['retired'];
-    const allDataRows=[];
-    for(let i=0;i<dRows.length;i++){
-      const row=dRows[i];
-      const tier=(cv(row,0)||'').toString().trim();
-      const region=(cv(row,1)||'').toString().trim();
-      if(!region||region==='—'||region==='Region'||region==='Location')continue;
-      if(tier.toUpperCase().includes('TOTAL')||tier.toUpperCase().includes('GRAND'))continue;
-      if(SKIP.some(s=>tier.toLowerCase().includes(s)))continue;
-      allDataRows.push(row);
-      if(tier==='VIP')B.VIP.push(row);
-      else if(tier==='Tier 1')B.T1.push(row);
-      else if(tier==='Tier 2')B.T2.push(row);
-      else if(tier.toLowerCase().includes('high search'))B.HS.push(row);
-      else if(tier.toLowerCase().includes('high demand'))B.HD.push(row);
+    // ── Parse Dashboard tab ──
+    const SKIP = ['retired'];
+    const B = { VIP:[], T1:[], T2:[], HS:[], HD:[] };
+    const allRows = [];
+    for (let i = 0; i < dRows.length; i++) {
+      const row = dRows[i];
+      const tier   = (cv(row,0)||'').toString().trim();
+      const region = (cv(row,1)||'').toString().trim();
+      if (!region) continue;
+      if (['region','location','target area','—'].includes(region.toLowerCase())) continue;
+      if (tier.toUpperCase().includes('TOTAL') || tier.toUpperCase().includes('GRAND')) continue;
+      if (SKIP.some(s => tier.toLowerCase().includes(s))) continue;
+      allRows.push(row);
+      if (tier === 'VIP')                            B.VIP.push(row);
+      else if (tier === 'Tier 1')                    B.T1.push(row);
+      else if (tier === 'Tier 2')                    B.T2.push(row);
+      else if (tier.toLowerCase().includes('high search'))  B.HS.push(row);
+      else if (tier.toLowerCase().includes('high demand'))  B.HD.push(row);
     }
 
-    // Insights
-    const marketsWithLive=allDataRows.filter(r=>num(cv(r,4))>0).length;
-    const topMarket=allDataRows.sort((a,b)=>num(cv(b,2))-num(cv(a,2)))[0];
-    document.getElementById('ins-conv').textContent=pct(appLivePct);
-    document.getElementById('ins-markets').textContent=marketsWithLive;
-    if(topMarket){
-      document.getElementById('ins-top').textContent=(cv(topMarket,1)||'').trim().split(' ')[0];
-      document.getElementById('ins-top-desc').textContent=`${fmt(num(cv(topMarket,2)))} total applicants, ${fmt(num(cv(topMarket,4)))} live`;
+    // ── Insights — use FULL name ──
+    const marketsLive = allRows.filter(r => num(cv(r,4)) > 0).length;
+    const topMarket = [...allRows].sort((a,b) => num(cv(b,2))-num(cv(a,2)))[0];
+    document.getElementById('ins-conv').textContent     = pct(appLivePct);
+    document.getElementById('ins-markets').textContent  = marketsLive;
+    if (topMarket) {
+      const topName = (cv(topMarket,1)||'').trim();
+      document.getElementById('ins-top').textContent    = topName;
+      document.getElementById('ins-top-sub').textContent = `${fmt(num(cv(topMarket,2)))} applicants · ${fmt(num(cv(topMarket,4)))} live`;
     }
 
-    // Photos
-    buildPhotoStrip(allDataRows);
+    // Store for Pingu
+    Object.assign(D, { allRows, B, totalApp, totalReg, totalLive, wApp, wReg, wAct, regPct, appLivePct, regLivePct, marketsLive });
 
-    // Charts
-    const vd=chartData(B.VIP);mkChart('vipChart',vd.labels,vd.app,vd.reg,vd.live);
-    const t1d=chartData(B.T1);mkChart('t1Chart',t1d.labels,t1d.app,t1d.reg,t1d.live);
-    const t2d=chartData(B.T2);mkChart('t2Chart',t2d.labels,t2d.app,t2d.reg,t2d.live);
+    // ── Charts ──
+    const vd  = chartData(B.VIP); mkChart('vipChart', vd.labels,  vd.app,  vd.reg,  vd.live);
+    const t1d = chartData(B.T1);  mkChart('t1Chart',  t1d.labels, t1d.app, t1d.reg, t1d.live);
+    const t2d = chartData(B.T2);  mkChart('t2Chart',  t2d.labels, t2d.app, t2d.reg, t2d.live);
 
-    // Panels
-    document.getElementById('pane-vip').innerHTML=mkPanel(B.VIP);
-    document.getElementById('pane-t1').innerHTML=mkPanel(B.T1);
-    document.getElementById('pane-t2').innerHTML=mkPanel(B.T2);
-    document.getElementById('pane-hs').innerHTML=mkPanel(B.HS);
-    document.getElementById('pane-hd').innerHTML=mkPanel(B.HD);
+    // ── Panels ──
+    document.getElementById('pane-vip').innerHTML = mkPanel(B.VIP);
+    document.getElementById('pane-t1').innerHTML  = mkPanel(B.T1);
+    document.getElementById('pane-t2').innerHTML  = mkPanel(B.T2);
+    document.getElementById('pane-hs').innerHTML  = mkPanel(B.HS);
+    document.getElementById('pane-hd').innerHTML  = mkPanel(B.HD);
 
     document.getElementById('loader').classList.add('gone');
-  }catch(e){
+  } catch(e) {
     console.error(e);
     document.getElementById('loader').classList.add('gone');
-    const el=document.getElementById('err');
-    el.style.display='block';
-    el.textContent='Could not load data. Error: '+e.message;
+    const el = document.getElementById('err');
+    el.style.display = 'block';
+    el.textContent = 'Could not load data. Error: ' + e.message;
   }
 }
 
 load();
-setInterval(load,15*60*1000);
+setInterval(load, 15*60*1000);
 </script>
 </body>
 </html>
