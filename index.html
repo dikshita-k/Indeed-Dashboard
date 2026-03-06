@@ -3,296 +3,289 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>yhangry · Recruitment</title>
+<title>yhangry · Chef Recruitment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth}
 
-* { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased; }
-html { scroll-behavior:smooth; }
-
-:root {
-  --bg: #f2f2f7;
-  --surface: #ffffff;
-  --surface2: #f9f9fb;
-  --border: rgba(0,0,0,0.07);
-  --border2: rgba(0,0,0,0.12);
-  --text: #1c1c1e;
-  --text2: #3a3a3c;
-  --muted: #8e8e93;
-  --muted2: #aeaeb2;
-  --green: #1c7a52;
-  --green-bg: #f0faf5;
-  --indigo: #3634a3;
-  --indigo-bg: #f0f0fa;
-  --orange: #b25000;
-  --orange-bg: #fff5ec;
-  --blue: #0055cc;
-  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.05);
-  --shadow-hover: 0 2px 8px rgba(0,0,0,0.08), 0 8px 32px rgba(0,0,0,0.08);
-  --r: 16px;
-  --r-sm: 12px;
+:root{
+  --cream:#faf8f5;
+  --warm:#f0ede8;
+  --ink:#1a1714;
+  --ink2:#3d3830;
+  --stone:#8c8279;
+  --stone2:#b5afa8;
+  --gold:#c9a84c;
+  --gold2:#e8c97a;
+  --sage:#4a7c59;
+  --sage2:#6fa882;
+  --rust:#b85c38;
+  --rust2:#d4784f;
+  --border:rgba(26,23,20,0.08);
+  --border2:rgba(26,23,20,0.15);
+  --shadow:0 2px 12px rgba(26,23,20,0.06),0 1px 3px rgba(26,23,20,0.04);
+  --shadow-lg:0 8px 40px rgba(26,23,20,0.12),0 2px 8px rgba(26,23,20,0.06);
 }
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Inter', -apple-system, 'SF Pro Display', BlinkMacSystemFont, sans-serif;
-  font-size: 15px;
-  line-height: 1.5;
-  letter-spacing: -0.01em;
-}
+body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;line-height:1.6;overflow-x:hidden}
 
 /* LOADER */
-#loader {
-  position:fixed; inset:0; background:#f9f9fb; z-index:999;
-  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;
-  transition:opacity 0.6s ease;
-}
-#loader.gone { opacity:0; pointer-events:none; }
-.ld-logo { font-size:22px; font-weight:700; letter-spacing:-0.5px; color:var(--text); }
-.ld-logo b { color:var(--green); font-weight:700; }
-.ld-sub { font-size:13px; color:var(--muted); font-weight:400; }
-.ld-bar { width:120px; height:2px; background:rgba(0,0,0,0.08); border-radius:2px; overflow:hidden; }
-.ld-fill { height:100%; background:var(--green); border-radius:2px; animation:lb 1.4s ease-in-out infinite; }
-@keyframes lb { 0%{width:0;margin-left:0} 50%{width:50%;margin-left:25%} 100%{width:0;margin-left:100%} }
-
-/* LAYOUT */
-.page { max-width:1160px; margin:0 auto; padding:0 20px 80px; }
+#loader{position:fixed;inset:0;background:var(--ink);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity 0.8s ease}
+#loader.gone{opacity:0;pointer-events:none}
+.ld-title{font-family:'Playfair Display',serif;font-size:36px;color:var(--cream);letter-spacing:-1px}
+.ld-title em{color:var(--gold);font-style:italic}
+.ld-bar{width:100px;height:1px;background:rgba(255,255,255,0.15);overflow:hidden}
+.ld-fill{height:100%;background:var(--gold);animation:lb 1.4s ease-in-out infinite}
+@keyframes lb{0%{width:0;margin-left:0}50%{width:50%;margin-left:25%}100%{width:0;margin-left:100%}}
+.ld-sub{font-size:12px;color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase}
 
 /* NAV */
-nav {
-  position:sticky; top:0; z-index:100;
-  background:rgba(242,242,247,0.85);
-  backdrop-filter:saturate(180%) blur(20px);
-  -webkit-backdrop-filter:saturate(180%) blur(20px);
-  border-bottom:1px solid var(--border);
-  margin:0 -20px; padding:0 20px;
-}
-.nav-inner {
-  max-width:1160px; margin:0 auto;
-  display:flex; justify-content:space-between; align-items:center;
-  height:52px;
-}
-.nav-brand { display:flex; align-items:center; gap:8px; }
-.nav-mark {
-  width:28px; height:28px; background:var(--text); border-radius:7px;
-  display:flex; align-items:center; justify-content:center;
-  font-size:14px; font-weight:800; color:white; letter-spacing:-1px;
-}
-.nav-name { font-size:15px; font-weight:600; letter-spacing:-0.3px; }
-.nav-name em { color:var(--green); font-style:normal; }
-.nav-meta { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-.chip {
-  display:inline-flex; align-items:center; gap:5px;
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:100px; padding:4px 12px;
-  font-size:12px; font-weight:500; color:var(--muted);
-  box-shadow:0 1px 2px rgba(0,0,0,0.04);
-}
-.chip.live { color:var(--green); }
-.live-dot { width:5px; height:5px; border-radius:50%; background:var(--green); animation:pulse 2s ease infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+nav{position:sticky;top:0;z-index:100;background:rgba(250,248,245,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 40px}
+.nav-inner{max-width:1240px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;height:58px}
+.nav-brand{display:flex;flex-direction:column;gap:1px}
+.nav-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;letter-spacing:-0.3px;color:var(--ink)}
+.nav-logo em{color:var(--gold);font-style:italic}
+.nav-sub{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--stone)}
+.nav-right{display:flex;gap:10px;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:6px;background:white;border:1px solid var(--border);border-radius:100px;padding:5px 14px;font-size:11px;color:var(--stone);font-weight:500;box-shadow:var(--shadow)}
+.chip.live-chip{color:var(--sage)}
+.live-dot{width:5px;height:5px;border-radius:50%;background:var(--sage);animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
 
-/* SECTION HEAD */
-.sh {
-  font-size:11px; font-weight:600; letter-spacing:1.2px; text-transform:uppercase;
-  color:var(--muted); margin:36px 0 14px;
-}
+/* WRAP */
+.wrap{max-width:1240px;margin:0 auto;padding:0 40px 80px}
 
-/* ERR */
-.err-box { background:#fff0f0; border:1px solid #f5c6c6; border-radius:var(--r-sm); padding:14px 18px; font-size:13px; color:#c0392b; margin-bottom:16px; display:none; }
+/* SECTION HEADER */
+.sh{display:flex;align-items:center;gap:16px;margin:52px 0 20px}
+.sh-label{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--stone);white-space:nowrap}
+.sh-line{flex:1;height:1px;background:var(--border)}
+.sh-num{font-family:'Playfair Display',serif;font-size:11px;color:var(--stone2)}
 
-/* HERO */
-.hero-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
-.hero-card {
-  background:var(--surface); border-radius:var(--r); padding:24px 22px;
-  box-shadow:var(--shadow); border:1px solid var(--border);
-  transition:transform 0.25s ease, box-shadow 0.25s ease;
-  cursor:default; position:relative; overflow:hidden;
-}
-.hero-card:hover { transform:translateY(-2px); box-shadow:var(--shadow-hover); }
-.hero-card::after {
-  content:''; position:absolute; top:0; left:0; right:0; height:3px;
-  background:var(--accent-color, var(--green)); opacity:0.6; border-radius:var(--r) var(--r) 0 0;
-}
-.hc-indigo { --accent-color: var(--indigo); }
-.hc-green { --accent-color: var(--green); }
-.hc-orange { --accent-color: var(--orange); }
-.hero-eyebrow { font-size:11px; font-weight:600; letter-spacing:0.5px; text-transform:uppercase; color:var(--muted); margin-bottom:10px; }
-.hero-num { font-size:56px; font-weight:800; line-height:1; letter-spacing:-3px; margin-bottom:5px; }
-.hc-indigo .hero-num { color:var(--indigo); }
-.hc-green .hero-num { color:var(--green); }
-.hc-orange .hero-num { color:var(--orange); }
-.hero-label { font-size:13px; color:var(--muted); font-weight:400; }
+/* HERO STATS */
+.hero-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.hero-card{background:white;padding:36px 32px;position:relative;overflow:hidden;cursor:default;transition:background 0.2s}
+.hero-card:hover{background:#fdfcfa}
+.hero-eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--stone);margin-bottom:14px}
+.hero-num{font-family:'Playfair Display',serif;font-size:68px;font-weight:700;line-height:1;letter-spacing:-3px;margin-bottom:6px}
+.hc1 .hero-num{color:var(--ink)}
+.hc2 .hero-num{color:var(--sage)}
+.hc3 .hero-num{color:var(--gold)}
+.hero-label{font-size:13px;color:var(--stone);font-weight:400}
+.hero-bg-num{position:absolute;bottom:-20px;right:-10px;font-family:'Playfair Display',serif;font-size:120px;font-weight:700;opacity:0.04;line-height:1;pointer-events:none;color:var(--ink)}
+
+/* INSIGHTS ROW */
+.insights-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:0}
+.insight-card{background:white;border:1px solid var(--border);border-radius:16px;padding:22px 24px;display:flex;flex-direction:column;gap:8px;transition:box-shadow 0.2s,transform 0.2s;cursor:default}
+.insight-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px)}
+.insight-icon{font-size:20px;margin-bottom:2px}
+.insight-title{font-size:12px;font-weight:600;color:var(--stone);letter-spacing:0.3px;text-transform:uppercase}
+.insight-val{font-family:'Playfair Display',serif;font-size:28px;font-weight:600;letter-spacing:-1px;color:var(--ink);line-height:1.1}
+.insight-desc{font-size:12px;color:var(--stone);line-height:1.4}
+.insight-trend{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:2px 8px;border-radius:100px}
+.trend-up{background:#f0f8f3;color:var(--sage)}
+.trend-down{background:#fdf5f2;color:var(--rust)}
+.trend-neu{background:var(--warm);color:var(--stone)}
 
 /* MID */
-.mid-grid { display:grid; grid-template-columns:1fr 1.15fr; gap:10px; }
-.card { background:var(--surface); border-radius:var(--r); padding:24px; box-shadow:var(--shadow); border:1px solid var(--border); }
-.card-title { font-size:14px; font-weight:600; color:var(--text); margin-bottom:20px; letter-spacing:-0.2px; }
+.mid-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:12px}
 
 /* FUNNEL */
-.funnel-row { margin-bottom:14px; }
-.fr-top { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:7px; }
-.fr-name { font-size:13px; font-weight:500; color:var(--text2); }
-.fr-num { font-size:17px; font-weight:700; letter-spacing:-0.5px; }
-.fr-num.n-indigo { color:var(--indigo); }
-.fr-num.n-green { color:var(--green); }
-.fr-num.n-orange { color:var(--orange); }
-.fr-track { height:3px; background:var(--bg); border-radius:2px; overflow:hidden; }
-.fr-fill { height:100%; border-radius:2px; transition:width 1.5s cubic-bezier(.16,1,.3,1); width:0; }
-.n-indigo ~ .fr-track .fr-fill, .fr-fill.fi { background:var(--indigo); }
-.funnel-bridge { font-size:11px; color:var(--muted2); padding:5px 0; display:flex; align-items:center; gap:5px; }
-.funnel-bridge::before { content:''; display:block; width:1px; height:10px; background:var(--border2); }
+.card{background:white;border:1px solid var(--border);border-radius:20px;padding:28px;box-shadow:var(--shadow)}
+.card-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;margin-bottom:24px;letter-spacing:-0.3px}
+.funnel-step{margin-bottom:18px}
+.fs-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.fs-name{font-size:13px;font-weight:500;color:var(--ink2)}
+.fs-num{font-family:'Playfair Display',serif;font-size:22px;font-weight:600;letter-spacing:-0.5px}
+.fn1{color:var(--ink)}
+.fn2{color:var(--sage)}
+.fn3{color:var(--gold)}
+.fs-bar{height:3px;background:var(--warm);border-radius:2px;overflow:hidden}
+.fs-fill{height:100%;border-radius:2px;transition:width 1.6s cubic-bezier(.16,1,.3,1);width:0}
+.ff1{background:var(--ink)}
+.ff2{background:var(--sage)}
+.ff3{background:var(--gold)}
+.fs-conv{font-size:11px;color:var(--stone2);margin-top:5px}
+.funnel-divider{font-size:11px;color:var(--stone2);padding:3px 0 3px 2px;display:flex;align-items:center;gap:6px}
+.funnel-divider::before{content:'';display:block;width:1px;height:10px;background:var(--border2)}
 
 /* ALL TIME */
-.at-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-.at-item { background:var(--bg); border-radius:var(--r-sm); padding:14px 16px; border:1px solid var(--border); }
-.at-label { font-size:10px; font-weight:600; letter-spacing:0.8px; text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
-.at-num { font-size:26px; font-weight:700; letter-spacing:-1px; }
-.at-sub { font-size:11px; color:var(--green); font-weight:500; margin-top:2px; }
+.at-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.at-item{background:var(--cream);border-radius:14px;padding:16px 18px;border:1px solid var(--border);transition:border-color 0.2s}
+.at-item:hover{border-color:var(--border2)}
+.at-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--stone);margin-bottom:6px}
+.at-num{font-family:'Playfair Display',serif;font-size:28px;font-weight:600;letter-spacing:-1px}
+.at-sub{font-size:11px;color:var(--sage);font-weight:500;margin-top:2px}
 
 /* CHARTS */
-.chart-card { background:var(--surface); border-radius:var(--r); padding:24px; box-shadow:var(--shadow); border:1px solid var(--border); margin-bottom:10px; }
-.chart-hd { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px; }
-.chart-title { font-size:14px; font-weight:600; letter-spacing:-0.2px; }
-.legend { display:flex; gap:14px; flex-wrap:wrap; }
-.leg { display:flex; align-items:center; gap:5px; font-size:11px; font-weight:500; color:var(--muted); }
-.leg-dot { width:7px; height:7px; border-radius:50%; }
-.chart-wrap { height:230px; position:relative; }
-.chart-2col { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-.chart-2col .chart-wrap { height:190px; }
+.chart-card{background:white;border:1px solid var(--border);border-radius:20px;padding:28px;box-shadow:var(--shadow);margin-bottom:12px}
+.chart-hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+.chart-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;letter-spacing:-0.3px}
+.chart-sub{font-size:11px;color:var(--stone);margin-top:2px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:4px}
+.leg{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:500;color:var(--stone)}
+.leg-dot{width:7px;height:7px;border-radius:50%}
+.chart-wrap{height:220px;position:relative}
+.chart-2col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.chart-2col .chart-wrap{height:180px}
+
+/* LOCATION PHOTO CARDS */
+.photo-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:0}
+.photo-card{border-radius:16px;overflow:hidden;position:relative;aspect-ratio:4/5;cursor:pointer;box-shadow:var(--shadow)}
+.photo-card img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease}
+.photo-card:hover img{transform:scale(1.05)}
+.photo-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,23,20,0.85) 0%,rgba(26,23,20,0.1) 60%,transparent 100%)}
+.photo-info{position:absolute;bottom:0;left:0;right:0;padding:18px 16px}
+.photo-city{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:white;margin-bottom:4px}
+.photo-stats{display:flex;gap:10px}
+.photo-stat{font-size:11px;color:rgba(255,255,255,0.75)}
+.photo-stat strong{color:white;font-weight:600}
+.photo-tier{position:absolute;top:12px;right:12px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);color:white;padding:3px 8px;border-radius:100px;border:1px solid rgba(255,255,255,0.2)}
 
 /* TABS */
-.tabs { display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap; }
-.tab {
-  padding:6px 16px; border-radius:100px;
-  border:1px solid var(--border); background:var(--surface);
-  font-size:13px; font-weight:500; color:var(--muted);
-  cursor:pointer; transition:all 0.18s ease;
-  box-shadow:0 1px 2px rgba(0,0,0,0.04);
-  font-family:inherit;
-}
-.tab:hover { color:var(--text); border-color:var(--border2); }
-.tab.on { background:var(--text); color:white; border-color:var(--text); box-shadow:none; }
+.tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.tab{padding:7px 18px;border-radius:100px;border:1px solid var(--border);background:white;font-size:12px;font-weight:500;color:var(--stone);cursor:pointer;transition:all 0.18s;font-family:'DM Sans',sans-serif;letter-spacing:0.2px}
+.tab:hover{color:var(--ink);border-color:var(--border2)}
+.tab.on{background:var(--ink);color:white;border-color:var(--ink)}
 
 /* PANELS */
-.pane { display:none; }
-.pane.on { display:block; animation:fadeUp 0.2s ease; }
-@keyframes fadeUp { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
+.pane{display:none}
+.pane.on{display:block;animation:fadeUp 0.25s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
-/* TIER SUMMARY */
-.tsrow { display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; }
-.tsbadge {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:var(--r-sm); padding:10px 16px;
-  box-shadow:0 1px 2px rgba(0,0,0,0.04);
-}
-.tsbadge-label { font-size:9px; font-weight:600; text-transform:uppercase; letter-spacing:1px; color:var(--muted); margin-bottom:3px; }
-.tsbadge-val { font-size:20px; font-weight:700; letter-spacing:-0.5px; }
-.c-indigo { color:var(--indigo); }
-.c-green { color:var(--green); }
-.c-orange { color:var(--orange); }
+.tsrow{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.tsbadge{background:white;border:1px solid var(--border);border-radius:12px;padding:12px 18px;box-shadow:var(--shadow)}
+.tsbadge-label{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--stone);margin-bottom:3px}
+.tsbadge-val{font-family:'Playfair Display',serif;font-size:24px;font-weight:600;letter-spacing:-0.5px}
+.c-ink{color:var(--ink)}.c-sage{color:var(--sage)}.c-gold{color:var(--gold)}
 
 /* LOC CARDS */
-.loc-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(165px,1fr)); gap:8px; }
-.loc-card {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:var(--r-sm); padding:16px;
-  transition:transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow:0 1px 2px rgba(0,0,0,0.04);
-}
-.loc-card:hover { transform:translateY(-2px); box-shadow:var(--shadow-hover); }
-.loc-name { font-size:12px; font-weight:600; color:var(--text); margin-bottom:10px; line-height:1.3; }
-.loc-stats { display:flex; gap:10px; }
-.ls { display:flex; flex-direction:column; gap:1px; }
-.ls-v { font-size:17px; font-weight:700; line-height:1.1; }
-.ls-l { font-size:8px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px; color:var(--muted); }
-.ls-a .ls-v { color:var(--indigo); }
-.ls-r .ls-v { color:var(--green); }
-.ls-lv .ls-v { color:var(--orange); }
-.loc-bar { margin-top:10px; }
-.loc-bar-track { height:2px; background:var(--bg); border-radius:1px; overflow:hidden; margin-top:3px; }
-.loc-bar-fill { height:100%; background:var(--green); border-radius:1px; opacity:0.6; }
-.loc-bar-label { font-size:9px; color:var(--muted); }
+.loc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:10px}
+.loc-card{background:white;border:1px solid var(--border);border-radius:14px;padding:18px;transition:transform 0.2s,box-shadow 0.2s;box-shadow:var(--shadow);cursor:default}
+.loc-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.loc-name{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:12px;line-height:1.3}
+.loc-stats{display:flex;gap:10px}
+.ls{display:flex;flex-direction:column;gap:1px}
+.ls-v{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;line-height:1.1}
+.ls-l{font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--stone2)}
+.ls-a .ls-v{color:var(--ink)}
+.ls-r .ls-v{color:var(--sage)}
+.ls-lv .ls-v{color:var(--gold)}
+.loc-bar{margin-top:10px}
+.loc-bar-track{height:2px;background:var(--warm);border-radius:1px;overflow:hidden;margin-top:3px}
+.loc-bar-fill{height:100%;background:var(--sage);border-radius:1px;opacity:0.7}
+.loc-bar-label{font-size:9px;color:var(--stone2);letter-spacing:0.5px}
 
-/* FOOTER */
-footer {
-  margin-top:56px; padding-top:20px; border-top:1px solid var(--border);
-  display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px;
-  font-size:11px; color:var(--muted2); letter-spacing:0.1px;
-}
+/* ERR */
+.err{background:#fff5f5;border:1px solid #fdd;border-radius:12px;padding:14px 18px;font-size:13px;color:var(--rust);margin-bottom:16px;display:none}
 
-@media(max-width:860px) {
-  .hero-grid, .mid-grid, .chart-2col { grid-template-columns:1fr; }
-  .hero-num { font-size:44px; }
+footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:11px;color:var(--stone2);letter-spacing:0.3px}
+
+@media(max-width:900px){
+  .hero-grid,.mid-grid,.chart-2col,.photo-strip{grid-template-columns:1fr}
+  .hero-grid{background:transparent;border:none;gap:10px}
+  .hero-card{border-radius:16px;border:1px solid var(--border)}
+  .hero-num{font-size:52px}
+  .wrap{padding:0 20px 60px}
+  nav{padding:0 20px}
 }
-@media(max-width:520px) {
-  .loc-grid { grid-template-columns:1fr 1fr; }
+@media(max-width:560px){
+  .loc-grid{grid-template-columns:1fr 1fr}
+  .photo-strip{grid-template-columns:1fr 1fr}
+  .insights-row{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
 <div id="loader">
-  <div class="ld-logo"><b>yhangry</b> Recruitment</div>
-  <div class="ld-sub">Loading chef pipeline data</div>
+  <div class="ld-title"><em>yhangry</em> Recruitment</div>
+  <div class="ld-sub">Loading pipeline data</div>
   <div class="ld-bar"><div class="ld-fill"></div></div>
 </div>
 
 <nav>
   <div class="nav-inner">
     <div class="nav-brand">
-      <div class="nav-mark">y</div>
-      <div class="nav-name"><em>yhangry</em> Chef Recruitment</div>
+      <div class="nav-logo"><em>yhangry</em> Chef Recruitment</div>
+      <div class="nav-sub">Indeed Pipeline Dashboard</div>
     </div>
-    <div class="nav-meta">
-      <div class="chip" id="period-chip">—</div>
-      <div class="chip live"><div class="live-dot"></div><span id="updated">Syncing</span></div>
+    <div class="nav-right">
+      <div class="chip" id="period-chip">Loading...</div>
+      <div class="chip live-chip"><div class="live-dot"></div><span id="updated">Syncing</span></div>
     </div>
   </div>
 </nav>
 
-<div class="page">
-  <div class="err-box" id="err"></div>
+<div class="wrap">
+  <div class="err" id="err"></div>
 
   <!-- THIS WEEK -->
-  <div class="sh">This week</div>
+  <div class="sh"><div class="sh-label">This week</div><div class="sh-line"></div></div>
   <div class="hero-grid">
-    <div class="hero-card hc-indigo">
+    <div class="hero-card hc1">
       <div class="hero-eyebrow">New Applicants</div>
       <div class="hero-num" id="w-app">—</div>
       <div class="hero-label">Chefs applied this week</div>
+      <div class="hero-bg-num">A</div>
     </div>
-    <div class="hero-card hc-green">
-      <div class="hero-eyebrow">New Registrations</div>
+    <div class="hero-card hc2">
+      <div class="hero-eyebrow">Registrations</div>
       <div class="hero-num" id="w-reg">—</div>
       <div class="hero-label">Signed up on yhangry</div>
+      <div class="hero-bg-num">R</div>
     </div>
-    <div class="hero-card hc-orange">
-      <div class="hero-eyebrow">New Activations</div>
+    <div class="hero-card hc3">
+      <div class="hero-eyebrow">Activations</div>
       <div class="hero-num" id="w-act">—</div>
       <div class="hero-label">Fully live this week</div>
+      <div class="hero-bg-num">L</div>
+    </div>
+  </div>
+
+  <!-- INSIGHTS -->
+  <div class="sh"><div class="sh-label">Insights</div><div class="sh-line"></div></div>
+  <div class="insights-row">
+    <div class="insight-card">
+      <div class="insight-icon">🔁</div>
+      <div class="insight-title">Applied → Live Rate</div>
+      <div class="insight-val" id="ins-conv">—</div>
+      <div class="insight-desc">Of all chefs who applied, this share are now live on yhangry</div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-icon">📍</div>
+      <div class="insight-title">Markets Active</div>
+      <div class="insight-val" id="ins-markets">—</div>
+      <div class="insight-desc">Locations with at least one live chef across all tiers</div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-icon">🏆</div>
+      <div class="insight-title">Top Market</div>
+      <div class="insight-val" id="ins-top">—</div>
+      <div class="insight-desc" id="ins-top-desc">Most applicants of any single location</div>
     </div>
   </div>
 
   <!-- PIPELINE -->
-  <div class="sh">Pipeline overview</div>
+  <div class="sh"><div class="sh-label">Pipeline overview</div><div class="sh-line"></div></div>
   <div class="mid-grid">
     <div class="card">
       <div class="card-title">Conversion Funnel</div>
-      <div class="funnel-row">
-        <div class="fr-top"><span class="fr-name">Applied</span><span class="fr-num n-indigo" id="f-app">—</span></div>
-        <div class="fr-track"><div class="fr-fill" id="fb-app" style="background:var(--indigo)"></div></div>
+      <div class="funnel-step">
+        <div class="fs-top"><span class="fs-name">Applied</span><span class="fs-num fn1" id="f-app">—</span></div>
+        <div class="fs-bar"><div class="fs-fill ff1" id="fb-app"></div></div>
       </div>
-      <div class="funnel-bridge"><span id="cv-reg">—</span>&nbsp;applied → registered</div>
-      <div class="funnel-row">
-        <div class="fr-top"><span class="fr-name">Registered</span><span class="fr-num n-green" id="f-reg">—</span></div>
-        <div class="fr-track"><div class="fr-fill" id="fb-reg" style="background:var(--green)"></div></div>
+      <div class="funnel-divider"><span id="cv-reg">—</span> applied → registered</div>
+      <div class="funnel-step">
+        <div class="fs-top"><span class="fs-name">Registered</span><span class="fs-num fn2" id="f-reg">—</span></div>
+        <div class="fs-bar"><div class="fs-fill ff2" id="fb-reg"></div></div>
       </div>
-      <div class="funnel-bridge"><span id="cv-live">—</span>&nbsp;registered → live</div>
-      <div class="funnel-row">
-        <div class="fr-top"><span class="fr-name">Live Chefs</span><span class="fr-num n-orange" id="f-live">—</span></div>
-        <div class="fr-track"><div class="fr-fill" id="fb-live" style="background:var(--orange)"></div></div>
+      <div class="funnel-divider"><span id="cv-live">—</span> registered → live</div>
+      <div class="funnel-step">
+        <div class="fs-top"><span class="fs-name">Live Chefs</span><span class="fs-num fn3" id="f-live">—</span></div>
+        <div class="fs-bar"><div class="fs-fill ff3" id="fb-live"></div></div>
       </div>
     </div>
     <div class="card">
@@ -306,15 +299,24 @@ footer {
     </div>
   </div>
 
+  <!-- PHOTOS -->
+  <div class="sh"><div class="sh-label">Featured markets</div><div class="sh-line"></div></div>
+  <div class="photo-strip" id="photo-strip">
+    <!-- filled by JS -->
+  </div>
+
   <!-- CHARTS -->
-  <div class="sh">Market performance</div>
+  <div class="sh"><div class="sh-label">Market performance</div><div class="sh-line"></div></div>
   <div class="chart-card">
     <div class="chart-hd">
-      <div class="chart-title">⭐ VIP Markets</div>
+      <div>
+        <div class="chart-title">⭐ VIP Markets</div>
+        <div class="chart-sub">Applicants · Registrations · Live chefs</div>
+      </div>
       <div class="legend">
-        <div class="leg"><div class="leg-dot" style="background:var(--indigo)"></div>Applied</div>
-        <div class="leg"><div class="leg-dot" style="background:var(--green)"></div>Registered</div>
-        <div class="leg"><div class="leg-dot" style="background:var(--orange)"></div>Live</div>
+        <div class="leg"><div class="leg-dot" style="background:var(--ink)"></div>Applied</div>
+        <div class="leg"><div class="leg-dot" style="background:var(--sage)"></div>Registered</div>
+        <div class="leg"><div class="leg-dot" style="background:var(--gold)"></div>Live</div>
       </div>
     </div>
     <div class="chart-wrap"><canvas id="vipChart"></canvas></div>
@@ -322,22 +324,22 @@ footer {
   <div class="chart-2col">
     <div class="chart-card">
       <div class="chart-hd">
-        <div class="chart-title">Tier 1</div>
+        <div><div class="chart-title">Tier 1</div><div class="chart-sub">Applied · Reg · Live</div></div>
         <div class="legend">
-          <div class="leg"><div class="leg-dot" style="background:var(--indigo)"></div>App</div>
-          <div class="leg"><div class="leg-dot" style="background:var(--green)"></div>Reg</div>
-          <div class="leg"><div class="leg-dot" style="background:var(--orange)"></div>Live</div>
+          <div class="leg"><div class="leg-dot" style="background:var(--ink)"></div>App</div>
+          <div class="leg"><div class="leg-dot" style="background:var(--sage)"></div>Reg</div>
+          <div class="leg"><div class="leg-dot" style="background:var(--gold)"></div>Live</div>
         </div>
       </div>
       <div class="chart-wrap"><canvas id="t1Chart"></canvas></div>
     </div>
     <div class="chart-card">
       <div class="chart-hd">
-        <div class="chart-title">Tier 2</div>
+        <div><div class="chart-title">Tier 2</div><div class="chart-sub">Applied · Reg · Live</div></div>
         <div class="legend">
-          <div class="leg"><div class="leg-dot" style="background:var(--indigo)"></div>App</div>
-          <div class="leg"><div class="leg-dot" style="background:var(--green)"></div>Reg</div>
-          <div class="leg"><div class="leg-dot" style="background:var(--orange)"></div>Live</div>
+          <div class="leg"><div class="leg-dot" style="background:var(--ink)"></div>App</div>
+          <div class="leg"><div class="leg-dot" style="background:var(--sage)"></div>Reg</div>
+          <div class="leg"><div class="leg-dot" style="background:var(--gold)"></div>Live</div>
         </div>
       </div>
       <div class="chart-wrap"><canvas id="t2Chart"></canvas></div>
@@ -345,7 +347,7 @@ footer {
   </div>
 
   <!-- REGIONAL -->
-  <div class="sh">Regional detail</div>
+  <div class="sh"><div class="sh-label">Regional breakdown</div><div class="sh-line"></div></div>
   <div class="tabs">
     <button class="tab on" onclick="sw('vip',this)">⭐ VIP</button>
     <button class="tab" onclick="sw('t1',this)">Tier 1</button>
@@ -361,117 +363,99 @@ footer {
 
   <footer>
     <span>yhangry · Chef Recruitment Pipeline</span>
-    <span>Auto-refreshes every 15 min</span>
+    <span>Refreshes every 15 min · Powered by Google Sheets</span>
   </footer>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
-const SID = '14bkdT0WFOXaAXEe3jJmWh8rWZCnj0elJrV54o_2my9g';
+const SID='14bkdT0WFOXaAXEe3jJmWh8rWZCnj0elJrV54o_2my9g';
 
-// Use CSV export — guaranteed to return ALL rows, no header-eating
+// Location photos from Unsplash (free, no key needed via source.unsplash.com)
+const LOCATION_PHOTOS = {
+  'New York': 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=400&q=80',
+  'Durango': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80',
+  'Smoky Mountains': 'https://images.unsplash.com/photo-1555661530-68c8e98a2b6e?w=400&q=80',
+  'Park City': 'https://images.unsplash.com/photo-1551524559-8af4e6624178?w=400&q=80',
+  'Puerto Rico': 'https://images.unsplash.com/photo-1580541631950-7282082b53ce?w=400&q=80',
+  'Palm Springs': 'https://images.unsplash.com/photo-1597773150796-e5c14ebecbf5?w=400&q=80',
+  'Breckenridge': 'https://images.unsplash.com/photo-1605540436563-5bca919ae27a?w=400&q=80',
+  'Yosemite National Park': 'https://images.unsplash.com/photo-1472396961693-142e6e269027?w=400&q=80',
+  'Gulf Shores/Orange Beach': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80',
+  'Telluride (Colorado)': 'https://images.unsplash.com/photo-1612118260648-5e2e7e8e1e42?w=400&q=80',
+  'default': 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80'
+};
+
+// Featured locations to show in photo strip (pick top ones)
+const FEATURED = ['Durango','Smoky Mountains','New York','Puerto Rico'];
+
 async function fetchSheet(name) {
-  const url = `https://docs.google.com/spreadsheets/d/${SID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(name)}`;
-  const r = await fetch(url);
-  const text = await r.text();
-  // Parse CSV into rows of values
-  const rows = text.trim().split('\n').map(line => {
-    // Handle quoted fields with commas inside
-    const cells = [];
-    let cur = '', inQ = false;
-    for (let i = 0; i < line.length; i++) {
-      const ch = line[i];
-      if (ch === '"' && !inQ) { inQ = true; }
-      else if (ch === '"' && inQ && line[i+1] === '"') { cur += '"'; i++; }
-      else if (ch === '"' && inQ) { inQ = false; }
-      else if (ch === ',' && !inQ) { cells.push(cur.trim()); cur = ''; }
-      else { cur += ch; }
+  const url=`https://docs.google.com/spreadsheets/d/${SID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(name)}`;
+  const r=await fetch(url);
+  const text=await r.text();
+  return text.trim().split('\n').map(line=>{
+    const cells=[];let cur='',inQ=false;
+    for(let i=0;i<line.length;i++){
+      const ch=line[i];
+      if(ch==='"'&&!inQ){inQ=true}
+      else if(ch==='"'&&inQ&&line[i+1]==='"'){cur+='"';i++}
+      else if(ch==='"'&&inQ){inQ=false}
+      else if(ch===','&&!inQ){cells.push(cur.trim());cur=''}
+      else{cur+=ch}
     }
     cells.push(cur.trim());
     return cells;
   });
-  return rows; // array of string arrays
 }
 
-const cv = (row,i) => (row && row[i] !== undefined) ? row[i] : '';
-const num = x => { if(x===null||x===undefined||x==='') return 0; const p=parseFloat(x.toString().replace(/[^0-9.-]/g,'')); return isNaN(p)?0:p; };
-const fmt = x => (x===''||x===null||x===undefined)?'—':Math.round(num(x)).toLocaleString();
-const pct = x => {
-  if(x===''||x===null||x===undefined) return '—';
-  const p = parseFloat(x.toString().replace('%',''));
-  return isNaN(p)?'—':p.toFixed(1)+'%';
-};
+const cv=(row,i)=>(row&&row[i]!==undefined)?row[i]:'';
+const num=x=>{if(!x&&x!==0)return 0;const p=parseFloat(x.toString().replace(/[^0-9.-]/g,''));return isNaN(p)?0:p;};
+const fmt=x=>Math.round(num(x)).toLocaleString();
+const pct=x=>{const p=parseFloat((x||'').toString().replace('%',''));return isNaN(p)?'—':p.toFixed(1)+'%'};
 
-// Detect columns from header row
-function detectCols(headerRow) {
-  const c = { tier:0, region:1, app:2, reg:3, live:4 };
-  if(!headerRow?.c) return c;
-  headerRow.c.forEach((cell,i) => {
-    const v=(cell?.v||'').toString().toLowerCase();
-    if(v.match(/^tier/) && !v.includes('total')) c.tier=i;
-    else if(v.match(/target|region|area|location/) && !v.includes('total')) c.region=i;
-    else if(v.match(/total.*applic|applic.*total/)) c.app=i;
-    else if(v.match(/onboarded|registered/) && !v.includes('not') && !v.includes('week')) { if(c.reg===3||i<c.reg) c.reg=i; }
-    else if(v.match(/\blive\b|activat/) && !v.includes('week') && !v.includes('applied') && !v.includes('not')) c.live=i;
-  });
-  console.log('[Dashboard cols]', JSON.stringify(c));
-  return c;
-}
+Chart.defaults.color='#8c8279';
+Chart.defaults.font.family="'DM Sans',sans-serif";
+Chart.defaults.font.size=11;
 
-Chart.defaults.color = '#8e8e93';
-Chart.defaults.font.family = "'Inter', -apple-system, sans-serif";
-Chart.defaults.font.size = 11;
-Chart.defaults.font.weight = '500';
-
-let charts={}, COLS={tier:0,region:1,app:2,reg:3,live:4};
-
-function mkChart(id, labels, app, reg, live) {
-  if(charts[id]) charts[id].destroy();
-  const ctx=document.getElementById(id); if(!ctx) return;
+let charts={};
+function mkChart(id,labels,app,reg,live){
+  if(charts[id])charts[id].destroy();
+  const ctx=document.getElementById(id);if(!ctx)return;
   charts[id]=new Chart(ctx,{
     type:'bar',
-    data:{
-      labels,
-      datasets:[
-        {label:'Applied',data:app,backgroundColor:'rgba(54,52,163,0.65)',borderRadius:4,borderSkipped:false},
-        {label:'Registered',data:reg,backgroundColor:'rgba(28,122,82,0.65)',borderRadius:4,borderSkipped:false},
-        {label:'Live',data:live,backgroundColor:'rgba(178,80,0,0.65)',borderRadius:4,borderSkipped:false},
-      ]
-    },
+    data:{labels,datasets:[
+      {label:'Applied',data:app,backgroundColor:'rgba(26,23,20,0.7)',borderRadius:4,borderSkipped:false},
+      {label:'Registered',data:reg,backgroundColor:'rgba(74,124,89,0.7)',borderRadius:4,borderSkipped:false},
+      {label:'Live',data:live,backgroundColor:'rgba(201,168,76,0.7)',borderRadius:4,borderSkipped:false},
+    ]},
     options:{
       responsive:true,maintainAspectRatio:false,
       plugins:{
         legend:{display:false},
-        tooltip:{
-          backgroundColor:'#fff',titleColor:'#1c1c1e',bodyColor:'#8e8e93',
-          borderColor:'rgba(0,0,0,0.08)',borderWidth:1,padding:10,cornerRadius:8,
-          titleFont:{size:12,weight:'600'},bodyFont:{size:11}
-        }
+        tooltip:{backgroundColor:'#fff',titleColor:'#1a1714',bodyColor:'#8c8279',borderColor:'rgba(26,23,20,0.1)',borderWidth:1,padding:10,cornerRadius:8,titleFont:{size:12,weight:'600'}}
       },
       scales:{
-        x:{grid:{display:false},border:{display:false},ticks:{maxRotation:35,minRotation:0}},
-        y:{grid:{color:'rgba(0,0,0,0.04)'},border:{display:false},beginAtZero:true}
+        x:{grid:{display:false},border:{display:false},ticks:{maxRotation:35}},
+        y:{grid:{color:'rgba(26,23,20,0.04)'},border:{display:false},beginAtZero:true}
       }
     }
   });
 }
 
-function sw(id,btn) {
+function sw(id,btn){
   document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
   document.getElementById('pane-'+id).classList.add('on');
   btn.classList.add('on');
 }
 
-function mkPanel(rows) {
-  const C=COLS;
-  const tot=rows.reduce((s,r)=>s+num(cv(r,C.app)),0);
-  const totR=rows.reduce((s,r)=>s+num(cv(r,C.reg)),0);
-  const totL=rows.reduce((s,r)=>s+num(cv(r,C.live)),0);
-  const sorted=[...rows].sort((a,b)=>num(cv(b,C.app))-num(cv(a,C.app)));
+function mkPanel(rows){
+  const tot=rows.reduce((s,r)=>s+num(cv(r,2)),0);
+  const totR=rows.reduce((s,r)=>s+num(cv(r,3)),0);
+  const totL=rows.reduce((s,r)=>s+num(cv(r,4)),0);
+  const sorted=[...rows].sort((a,b)=>num(cv(b,2))-num(cv(a,2)));
   const cards=sorted.map(r=>{
-    const name=(cv(r,C.region)||'').toString().trim();
-    const a=num(cv(r,C.app)),rg=num(cv(r,C.reg)),lv=num(cv(r,C.live));
+    const name=(cv(r,1)||'').trim();
+    const a=num(cv(r,2)),rg=num(cv(r,3)),lv=num(cv(r,4));
     const convP=a>0?Math.round(lv/a*100):0;
     return `<div class="loc-card">
       <div class="loc-name">${name}</div>
@@ -482,63 +466,78 @@ function mkPanel(rows) {
       </div>
       <div class="loc-bar">
         <div class="loc-bar-label">${convP}% applied → live</div>
-        <div class="loc-bar-track"><div class="loc-bar-fill" style="width:${Math.min(convP*3,100)}%"></div></div>
+        <div class="loc-bar-track"><div class="loc-bar-fill" style="width:${Math.min(convP*4,100)}%"></div></div>
       </div>
     </div>`;
   }).join('');
   return `<div class="tsrow">
-    <div class="tsbadge"><div class="tsbadge-label">Applied</div><div class="tsbadge-val c-indigo">${fmt(tot)}</div></div>
-    <div class="tsbadge"><div class="tsbadge-label">Registered</div><div class="tsbadge-val c-green">${fmt(totR)}</div></div>
-    <div class="tsbadge"><div class="tsbadge-label">Live</div><div class="tsbadge-val c-orange">${fmt(totL)}</div></div>
-  </div>
-  <div class="loc-grid">${cards}</div>`;
+    <div class="tsbadge"><div class="tsbadge-label">Applied</div><div class="tsbadge-val c-ink">${fmt(tot)}</div></div>
+    <div class="tsbadge"><div class="tsbadge-label">Registered</div><div class="tsbadge-val c-sage">${fmt(totR)}</div></div>
+    <div class="tsbadge"><div class="tsbadge-label">Live</div><div class="tsbadge-val c-gold">${fmt(totL)}</div></div>
+  </div><div class="loc-grid">${cards}</div>`;
 }
 
-function chartData(rows) {
-  const C=COLS;
-  const sorted=[...rows].sort((a,b)=>num(cv(b,C.app))-num(cv(a,C.app)));
-  const clean=s=>s.replace(/ \(Colorado\)| \(Florida\)| \(Minnesota\)/g,'').replace('Lutsen / Duluth','Lutsen/Duluth').trim();
-  return {
-    labels:sorted.map(r=>clean((cv(r,C.region)||'').toString())),
-    app:sorted.map(r=>num(cv(r,C.app))),
-    reg:sorted.map(r=>num(cv(r,C.reg))),
-    live:sorted.map(r=>num(cv(r,C.live)))
+function chartData(rows){
+  const sorted=[...rows].sort((a,b)=>num(cv(b,2))-num(cv(a,2)));
+  const clean=s=>s.replace(/ \(Colorado\)| \(Florida\)| \(Minnesota\)/g,'').replace('/ Duluth','').trim();
+  return{
+    labels:sorted.map(r=>clean((cv(r,1)||'').toString())),
+    app:sorted.map(r=>num(cv(r,2))),
+    reg:sorted.map(r=>num(cv(r,3))),
+    live:sorted.map(r=>num(cv(r,4)))
   };
 }
 
-async function load() {
-  try {
-    // Fetch Dashboard with headers=0 so gviz doesn't eat the first row as column headers
-    const [weekly,dash]=await Promise.all([
-      fetchSheet('Weekly Summary'),
-      fetch(gviz('Dashboard', 0)).then(r=>r.text()).then(t=>JSON.parse(t.replace(/^[^\(]*\(/,'').replace(/\);?\s*$/,'')).table)
-    ]);
-    // CSV: weekly[0] is header row, weekly[1+] is data; dash[0] is first data row (New York!)
-    const wRows = weekly.slice(1); // skip header
-    const dRows = dash; // ALL rows are data — no header row in Dashboard tab
+function buildPhotoStrip(allRows){
+  const byName={};
+  allRows.forEach(r=>{
+    const name=(cv(r,1)||'').trim();
+    if(name) byName[name]={app:num(cv(r,2)),reg:num(cv(r,3)),live:num(cv(r,4)),tier:(cv(r,0)||'').trim()};
+  });
+  const toShow=FEATURED.filter(f=>byName[f]);
+  const html=toShow.map(name=>{
+    const d=byName[name]||{};
+    const img=LOCATION_PHOTOS[name]||LOCATION_PHOTOS['default'];
+    return `<div class="photo-card">
+      <img src="${img}" alt="${name}" loading="lazy">
+      <div class="photo-overlay"></div>
+      <div class="photo-tier">${d.tier||'VIP'}</div>
+      <div class="photo-info">
+        <div class="photo-city">${name}</div>
+        <div class="photo-stats">
+          <div class="photo-stat"><strong>${fmt(d.app)}</strong> applied</div>
+          <div class="photo-stat"><strong>${fmt(d.live)}</strong> live</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('photo-strip').innerHTML=html;
+}
 
-    // Parse Weekly Summary
+async function load(){
+  try{
+    const[weekly,dash]=await Promise.all([fetchSheet('Weekly Summary'),fetchSheet('Dashboard')]);
+    const wRows=weekly.slice(1);// skip header row
+    const dRows=dash;// no header in Dashboard tab — starts with New York
+
+    // Parse weekly
     let period='',generated='',totalApp=0,totalUniq=0,totalReg=0,totalLive=0;
     let regPct='',appLivePct='',regLivePct='',wApp=0,wReg=0,wAct=0;
-
     for(let i=0;i<wRows.length;i++){
       const a=(cv(wRows[i],0)||'').toString(),b=cv(wRows[i],1),al=a.toLowerCase();
-      if(al.includes('reporting period')) period=(b||'').toString().trim()||a.replace(/reporting period:?\s*/i,'').trim();
-      if(al.includes('generated')) generated=(b||'').toString().trim()||a.replace(/generated:?\s*/i,'').trim();
-      if(al.includes('total applicants')&&al.includes('all')) totalApp=num(b);
-      if(al.includes('unique applicants')) totalUniq=num(b);
-      if(al.includes('onboarded')&&al.includes('regi')&&!al.includes('not')&&!al.includes('week')) totalReg=num(b);
-      if(al.includes('total live')) totalLive=num(b);
-      if(al.includes('applied')&&al.includes('onboarded')&&!al.includes('live')) regPct=b;
-      if(al.includes('applied')&&al.includes('live')&&!al.includes('onboard')) appLivePct=b;
-      if(al.includes('onboarded')&&al.includes('live')) regLivePct=b;
-      if(al.includes('new applicants this')) wApp=num(b);
-      if(al.includes('new registrations this')) wReg=num(b);
-      if(al.includes('new activations this')) wAct=num(b);
+      if(al.includes('reporting period'))period=(b||'').toString().trim()||a.replace(/reporting period:?\s*/i,'').trim();
+      if(al.includes('generated'))generated=(b||'').toString().trim();
+      if(al.includes('total applicants')&&al.includes('all'))totalApp=num(b);
+      if(al.includes('unique applicants'))totalUniq=num(b);
+      if(al.includes('onboarded')&&al.includes('regi')&&!al.includes('not')&&!al.includes('week'))totalReg=num(b);
+      if(al.includes('total live'))totalLive=num(b);
+      if(al.includes('applied')&&al.includes('onboarded')&&!al.includes('live'))regPct=b;
+      if(al.includes('applied')&&al.includes('live')&&!al.includes('onboard'))appLivePct=b;
+      if(al.includes('onboarded')&&al.includes('live'))regLivePct=b;
+      if(al.includes('new applicants this'))wApp=num(b);
+      if(al.includes('new registrations this'))wReg=num(b);
+      if(al.includes('new activations this'))wAct=num(b);
     }
-
-    // Fallback: try row 2 col B for period
-    if(!period&&wRows[1]){const bv=(cv(wRows[1],1)||'').toString();if(bv)period=bv;}
 
     document.getElementById('period-chip').textContent=period||'Current Week';
     document.getElementById('updated').textContent='Updated '+(generated||'recently');
@@ -554,7 +553,7 @@ async function load() {
       document.getElementById('fb-app').style.width='100%';
       document.getElementById('fb-reg').style.width=(totalApp>0?totalReg/totalApp*100:0)+'%';
       document.getElementById('fb-live').style.width=(totalApp>0?totalLive/totalApp*100:0)+'%';
-    },500);
+    },600);
     document.getElementById('at-app').textContent=fmt(totalApp);
     document.getElementById('at-uniq').textContent=fmt(totalUniq)+' unique';
     document.getElementById('at-reg').textContent=fmt(totalReg);
@@ -563,44 +562,42 @@ async function load() {
     document.getElementById('at-lpct').textContent=pct(regLivePct)+' of reg.';
     document.getElementById('at-conv').textContent=pct(appLivePct);
 
-    // CSV columns are positional: 0=Tier, 1=Region, 2=App, 3=Reg, 4=Live
-    COLS = {tier:0, region:1, app:2, reg:3, live:4};
-
-    // Check if row 0 is actual data (not a header row)
-    const row0tier = (cv(dRows[0], 0)||'').toString().trim();
-    const row0isData = ['VIP','Tier 1','Tier 2','High search','High demand','Retired'].some(
-      t => row0tier.toLowerCase() === t.toLowerCase()
-    );
-    const startRow = 0; // headers=0 means ALL rows are data
-    console.log('[Start row]', startRow, 'row0tier='+row0tier);
-
-    // Parse regional data
+    // Parse regional
     const B={VIP:[],T1:[],T2:[],HS:[],HD:[]};
     const SKIP=['retired'];
-
-    console.log('[Dashboard rows]', dRows.length, 'rows');
+    const allDataRows=[];
     for(let i=0;i<dRows.length;i++){
       const row=dRows[i];
-      const tier=(cv(row,COLS.tier)||'').toString().trim();
-      const region=(cv(row,COLS.region)||'').toString().trim();
-      console.log(`Row ${i}: tier="${tier}" region="${region}" app=${num(cv(row,COLS.app))}`);
-      if(!region||region==='—') continue;
-      if(tier.toUpperCase().includes('TOTAL')||tier.toUpperCase().includes('GRAND')) continue;
-      if(SKIP.some(s=>tier.toLowerCase().includes(s))) continue;
-      if(tier==='VIP') B.VIP.push(row);
-      else if(tier==='Tier 1') B.T1.push(row);
-      else if(tier==='Tier 2') B.T2.push(row);
-      else if(tier.toLowerCase().includes('high search')) B.HS.push(row);
-      else if(tier.toLowerCase().includes('high demand')) B.HD.push(row);
-      else console.log(`  ⚠️ unmatched tier: "${tier}"`);
+      const tier=(cv(row,0)||'').toString().trim();
+      const region=(cv(row,1)||'').toString().trim();
+      if(!region||region==='—'||region==='Region'||region==='Location')continue;
+      if(tier.toUpperCase().includes('TOTAL')||tier.toUpperCase().includes('GRAND'))continue;
+      if(SKIP.some(s=>tier.toLowerCase().includes(s)))continue;
+      allDataRows.push(row);
+      if(tier==='VIP')B.VIP.push(row);
+      else if(tier==='Tier 1')B.T1.push(row);
+      else if(tier==='Tier 2')B.T2.push(row);
+      else if(tier.toLowerCase().includes('high search'))B.HS.push(row);
+      else if(tier.toLowerCase().includes('high demand'))B.HD.push(row);
     }
 
-    console.log('[Buckets]', {VIP:B.VIP.length,T1:B.T1.length,T2:B.T2.length,HS:B.HS.length,HD:B.HD.length});
+    // Insights
+    const marketsWithLive=allDataRows.filter(r=>num(cv(r,4))>0).length;
+    const topMarket=allDataRows.sort((a,b)=>num(cv(b,2))-num(cv(a,2)))[0];
+    document.getElementById('ins-conv').textContent=pct(appLivePct);
+    document.getElementById('ins-markets').textContent=marketsWithLive;
+    if(topMarket){
+      document.getElementById('ins-top').textContent=(cv(topMarket,1)||'').trim().split(' ')[0];
+      document.getElementById('ins-top-desc').textContent=`${fmt(num(cv(topMarket,2)))} total applicants, ${fmt(num(cv(topMarket,4)))} live`;
+    }
+
+    // Photos
+    buildPhotoStrip(allDataRows);
 
     // Charts
-    const vd=chartData(B.VIP); mkChart('vipChart',vd.labels,vd.app,vd.reg,vd.live);
-    const t1d=chartData(B.T1); mkChart('t1Chart',t1d.labels,t1d.app,t1d.reg,t1d.live);
-    const t2d=chartData(B.T2); mkChart('t2Chart',t2d.labels,t2d.app,t2d.reg,t2d.live);
+    const vd=chartData(B.VIP);mkChart('vipChart',vd.labels,vd.app,vd.reg,vd.live);
+    const t1d=chartData(B.T1);mkChart('t1Chart',t1d.labels,t1d.app,t1d.reg,t1d.live);
+    const t2d=chartData(B.T2);mkChart('t2Chart',t2d.labels,t2d.app,t2d.reg,t2d.live);
 
     // Panels
     document.getElementById('pane-vip').innerHTML=mkPanel(B.VIP);
@@ -610,12 +607,12 @@ async function load() {
     document.getElementById('pane-hd').innerHTML=mkPanel(B.HD);
 
     document.getElementById('loader').classList.add('gone');
-  } catch(e) {
+  }catch(e){
     console.error(e);
     document.getElementById('loader').classList.add('gone');
     const el=document.getElementById('err');
     el.style.display='block';
-    el.textContent='Could not load data. Make sure Google Sheet is shared publicly. Error: '+e.message;
+    el.textContent='Could not load data. Error: '+e.message;
   }
 }
 
