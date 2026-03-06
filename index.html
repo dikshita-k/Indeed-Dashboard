@@ -543,12 +543,20 @@ async function load() {
     // Detect columns from Dashboard header row
     COLS = detectCols(dRows[0]);
 
-    // Parse regional data — log every row for debugging
+    // Check if row 0 is actual data (not a header row)
+    const row0tier = (cv(dRows[0], 0)||'').toString().trim();
+    const row0isData = ['VIP','Tier 1','Tier 2','High search','High demand','Retired'].some(
+      t => row0tier.toLowerCase() === t.toLowerCase()
+    );
+    const startRow = row0isData ? 0 : 1;
+    console.log('[Start row]', startRow, 'row0tier='+row0tier);
+
+    // Parse regional data
     const B={VIP:[],T1:[],T2:[],HS:[],HD:[]};
     const SKIP=['retired'];
 
     console.log('[Dashboard rows]', dRows.length, 'rows');
-    for(let i=1;i<dRows.length;i++){
+    for(let i=startRow;i<dRows.length;i++){
       const row=dRows[i];
       const tier=(cv(row,COLS.tier)||'').toString().trim();
       const region=(cv(row,COLS.region)||'').toString().trim();
