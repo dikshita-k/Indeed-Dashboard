@@ -368,7 +368,7 @@ footer {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
 const SID = '14bkdT0WFOXaAXEe3jJmWh8rWZCnj0elJrV54o_2my9g';
-const gviz = s => `https://docs.google.com/spreadsheets/d/${SID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(s)}`;
+const gviz = (s, headers=1) => `https://docs.google.com/spreadsheets/d/${SID}/gviz/tq?tqx=out:json&headers=${headers}&sheet=${encodeURIComponent(s)}`;
 
 async function fetchSheet(name) {
   const r = await fetch(gviz(name));
@@ -491,7 +491,11 @@ function chartData(rows) {
 
 async function load() {
   try {
-    const [weekly,dash]=await Promise.all([fetchSheet('Weekly Summary'),fetchSheet('Dashboard')]);
+    // Fetch Dashboard with headers=0 so gviz doesn't eat the first row as column headers
+    const [weekly,dash]=await Promise.all([
+      fetchSheet('Weekly Summary'),
+      fetch(gviz('Dashboard', 0)).then(r=>r.text()).then(t=>JSON.parse(t.replace(/^[^\(]*\(/,'').replace(/\);?\s*$/,'')).table)
+    ]);
     const wRows=weekly.rows, dRows=dash.rows;
 
     // Parse Weekly Summary
@@ -548,7 +552,7 @@ async function load() {
     const row0isData = ['VIP','Tier 1','Tier 2','High search','High demand','Retired'].some(
       t => row0tier.toLowerCase() === t.toLowerCase()
     );
-    const startRow = row0isData ? 0 : 1;
+    const startRow = 0; // headers=0 means ALL rows are data
     console.log('[Start row]', startRow, 'row0tier='+row0tier);
 
     // Parse regional data
