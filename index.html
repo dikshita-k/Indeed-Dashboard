@@ -388,59 +388,6 @@ footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--border);displ
     </div>
   </div>
 
-  <!-- ALL TIME -->
-  <div style="font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);margin:18px 0 10px">All Time</div>
-  <div class="channel-grid">
-    <div class="channel-card">
-      <div class="cc-header"><div class="cc-badge indeed">Indeed</div><div class="cc-title">All Time</div></div>
-      <div class="cc-rows">
-        <div>
-          <div class="cc-week-label">Registrations</div>
-          <div class="cc-row">
-            <div class="cc-row-data">
-              <div class="cc-row-top"><span class="cc-num reg" id="at-ind-reg">—</span><span class="cc-pct reg" id="at-ind-reg-pct">—</span></div>
-              <div class="cc-track"><div class="cc-fill reg" id="at-ind-reg-bar"></div></div>
-            </div>
-          </div>
-        </div>
-        <div class="cc-divider"></div>
-        <div>
-          <div class="cc-week-label">Activations</div>
-          <div class="cc-row">
-            <div class="cc-row-data">
-              <div class="cc-row-top"><span class="cc-num act" id="at-ind-act">—</span><span class="cc-pct act" id="at-ind-act-pct">—</span></div>
-              <div class="cc-track"><div class="cc-fill act" id="at-ind-act-bar"></div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="channel-card">
-      <div class="cc-header"><div class="cc-badge other">Other Channels</div><div class="cc-title">All Time</div></div>
-      <div class="cc-rows">
-        <div>
-          <div class="cc-week-label">Registrations</div>
-          <div class="cc-row">
-            <div class="cc-row-data">
-              <div class="cc-row-top"><span class="cc-num reg" id="at-oth-reg">—</span><span class="cc-pct reg" id="at-oth-reg-pct">—</span></div>
-              <div class="cc-track"><div class="cc-fill reg" id="at-oth-reg-bar"></div></div>
-            </div>
-          </div>
-        </div>
-        <div class="cc-divider"></div>
-        <div>
-          <div class="cc-week-label">Activations</div>
-          <div class="cc-row">
-            <div class="cc-row-data">
-              <div class="cc-row-top"><span class="cc-num act" id="at-oth-act">—</span><span class="cc-pct act" id="at-oth-act-pct">—</span></div>
-              <div class="cc-track"><div class="cc-fill act" id="at-oth-act-bar"></div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <footer>
     <span>yhangry · Chef Recruitment Pipeline</span>
     <span>Auto-refreshes every 15 min · Google Sheets</span>
@@ -561,12 +508,12 @@ function mkPanel(rows,tierLabel){
           <div class="lf-row">
             <div class="lf-label">Reg</div>
             <div class="lf-track"><div class="lf-fill reg" style="width:${wReg}%"></div></div>
-            <div class="lf-num reg">${fmt(rg)}</div>
+            <div class="lf-num reg">${fmt(rg)}<span style="font-size:9px;color:var(--muted2);font-family:'DM Sans',sans-serif;font-weight:400;margin-left:2px">${a>0?Math.round(rg/a*100)+'%':''}</span></div>
           </div>
           <div class="lf-row">
             <div class="lf-label">Live</div>
             <div class="lf-track"><div class="lf-fill live" style="width:${wLive}%"></div></div>
-            <div class="lf-num live">${fmt(lv)}</div>
+            <div class="lf-num live">${fmt(lv)}<span style="font-size:9px;color:var(--muted2);font-family:'DM Sans',sans-serif;font-weight:400;margin-left:2px">${rg>0?Math.round(lv/rg*100)+'%':''}</span></div>
           </div>
         </div>
       </div>
@@ -772,12 +719,6 @@ async function loadChannelComparison(){
     const wkIndReg  = count(wkReg, true),  wkOthReg  = count(wkReg, false);
     const wkIndAct  = count(wkAct, true),  wkOthAct  = count(wkAct, false);
 
-    // All time
-    const atRegTotal = allReg.length;
-    const atActTotal = allAct.length;
-    const atIndReg  = count(allReg, true), atOthReg  = count(allReg, false);
-    const atIndAct  = count(allAct, true), atOthAct  = count(allAct, false);
-
     // Populate
     const set = (id, val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
     const bar = (id, pct) => { const el=document.getElementById(id); if(el){ setTimeout(()=>el.style.width=pct+'%', 500); }};
@@ -786,11 +727,6 @@ async function loadChannelComparison(){
     set('wk-oth-reg', wkOthReg); set('wk-oth-reg-pct', pctStr(wkOthReg, wkRegTotal)+' of '+wkRegTotal+' total'); bar('wk-oth-reg-bar', barW(wkOthReg, wkRegTotal));
     set('wk-ind-act', wkIndAct); set('wk-ind-act-pct', pctStr(wkIndAct, wkActTotal)+' of '+wkActTotal+' total'); bar('wk-ind-act-bar', barW(wkIndAct, wkActTotal));
     set('wk-oth-act', wkOthAct); set('wk-oth-act-pct', pctStr(wkOthAct, wkActTotal)+' of '+wkActTotal+' total'); bar('wk-oth-act-bar', barW(wkOthAct, wkActTotal));
-
-    set('at-ind-reg', atIndReg); set('at-ind-reg-pct', pctStr(atIndReg, atRegTotal)+' of '+atRegTotal+' total'); bar('at-ind-reg-bar', barW(atIndReg, atRegTotal));
-    set('at-oth-reg', atOthReg); set('at-oth-reg-pct', pctStr(atOthReg, atRegTotal)+' of '+atRegTotal+' total'); bar('at-oth-reg-bar', barW(atOthReg, atRegTotal));
-    set('at-ind-act', atIndAct); set('at-ind-act-pct', pctStr(atIndAct, atActTotal)+' of '+atActTotal+' total'); bar('at-ind-act-bar', barW(atIndAct, atActTotal));
-    set('at-oth-act', atOthAct); set('at-oth-act-pct', pctStr(atOthAct, atActTotal)+' of '+atActTotal+' total'); bar('at-oth-act-bar', barW(atOthAct, atActTotal));
 
   } catch(e){ console.error('Channel comparison error:', e); }
 }
