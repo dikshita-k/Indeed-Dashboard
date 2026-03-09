@@ -202,6 +202,32 @@ footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--border);displ
 .pb-send{width:32px;height:32px;border-radius:50%;background:var(--midnight);border:none;color:white;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:background 0.2s,transform 0.15s;flex-shrink:0}
 .pb-send:hover{background:var(--midnight2);transform:scale(1.07)}
 
+/* ── CHANNEL COMPARISON ── */
+.channel-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.channel-card{background:white;border:1px solid var(--border);border-radius:20px;padding:26px 28px;box-shadow:var(--shadow)}
+.cc-header{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.cc-badge{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:100px}
+.cc-badge.indeed{background:var(--midnight);color:white}
+.cc-badge.other{background:var(--stone);color:var(--ink2)}
+.cc-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--midnight)}
+.cc-rows{display:flex;flex-direction:column;gap:14px}
+.cc-row{display:flex;align-items:center;gap:12px}
+.cc-row-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted2);width:70px;flex-shrink:0}
+.cc-row-data{flex:1}
+.cc-row-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
+.cc-num{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;line-height:1;letter-spacing:-0.5px}
+.cc-num.reg{color:var(--midnight)}
+.cc-num.act{color:var(--salmon)}
+.cc-pct{font-size:12px;font-weight:600;padding:2px 8px;border-radius:100px}
+.cc-pct.reg{background:rgba(29,29,85,0.08);color:var(--midnight)}
+.cc-pct.act{background:rgba(255,104,84,0.1);color:var(--salmon)}
+.cc-track{height:4px;background:var(--stone);border-radius:2px;overflow:hidden}
+.cc-fill{height:100%;border-radius:2px;transition:width 1.6s cubic-bezier(.16,1,.3,1);width:0}
+.cc-fill.reg{background:var(--midnight)}
+.cc-fill.act{background:var(--salmon)}
+.cc-divider{height:1px;background:var(--border);margin:4px 0}
+.cc-week-label{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);margin-bottom:12px}
+
 @media(max-width:960px){
   .photo-grid,.week-grid,.mid-grid,.chart-2col{grid-template-columns:1fr 1fr}
   .week-grid{background:none;border-radius:0;gap:10px}
@@ -306,6 +332,114 @@ footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--border);displ
   <div id="pane-t2" class="pane"></div>
   <div id="pane-hs" class="pane"></div>
   <div id="pane-hd" class="pane"></div>
+
+  <div class="sh"><div class="sh-label">Indeed vs Other Channels</div><div class="sh-line"></div></div>
+
+  <!-- THIS WEEK -->
+  <div style="font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);margin-bottom:10px">This Week</div>
+  <div class="channel-grid">
+    <div class="channel-card">
+      <div class="cc-header"><div class="cc-badge indeed">Indeed</div><div class="cc-title">This Week</div></div>
+      <div class="cc-rows">
+        <div>
+          <div class="cc-week-label">Registrations</div>
+          <div class="cc-row">
+            <div class="cc-row-data">
+              <div class="cc-row-top"><span class="cc-num reg" id="wk-ind-reg">—</span><span class="cc-pct reg" id="wk-ind-reg-pct">—</span></div>
+              <div class="cc-track"><div class="cc-fill reg" id="wk-ind-reg-bar"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="cc-divider"></div>
+        <div>
+          <div class="cc-week-label">Activations</div>
+          <div class="cc-row">
+            <div class="cc-row-data">
+              <div class="cc-row-top"><span class="cc-num act" id="wk-ind-act">—</span><span class="cc-pct act" id="wk-ind-act-pct">—</span></div>
+              <div class="cc-track"><div class="cc-fill act" id="wk-ind-act-bar"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="channel-card">
+      <div class="cc-header"><div class="cc-badge other">Other Channels</div><div class="cc-title">This Week</div></div>
+      <div class="cc-rows">
+        <div>
+          <div class="cc-week-label">Registrations</div>
+          <div class="cc-row">
+            <div class="cc-row-data">
+              <div class="cc-row-top"><span class="cc-num reg" id="wk-oth-reg">—</span><span class="cc-pct reg" id="wk-oth-reg-pct">—</span></div>
+              <div class="cc-track"><div class="cc-fill reg" id="wk-oth-reg-bar"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="cc-divider"></div>
+        <div>
+          <div class="cc-week-label">Activations</div>
+          <div class="cc-row">
+            <div class="cc-row-data">
+              <div class="cc-row-top"><span class="cc-num act" id="wk-oth-act">—</span><span class="cc-pct act" id="wk-oth-act-pct">—</span></div>
+              <div class="cc-track"><div class="cc-fill act" id="wk-oth-act-bar"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALL TIME -->
+  <div style="font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);margin:18px 0 10px">All Time</div>
+  <div class="channel-grid">
+    <div class="channel-card">
+      <div class="cc-header"><div class="cc-badge indeed">Indeed</div><div class="cc-title">All Time</div></div>
+      <div class="cc-rows">
+        <div>
+          <div class="cc-week-label">Registrations</div>
+          <div class="cc-row">
+            <div class="cc-row-data">
+              <div class="cc-row-top"><span class="cc-num reg" id="at-ind-reg">—</span><span class="cc-pct reg" id="at-ind-reg-pct">—</span></div>
+              <div class="cc-track"><div class="cc-fill reg" id="at-ind-reg-bar"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="cc-divider"></div>
+        <div>
+          <div class="cc-week-label">Activations</div>
+          <div class="cc-row">
+            <div class="cc-row-data">
+              <div class="cc-row-top"><span class="cc-num act" id="at-ind-act">—</span><span class="cc-pct act" id="at-ind-act-pct">—</span></div>
+              <div class="cc-track"><div class="cc-fill act" id="at-ind-act-bar"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="channel-card">
+      <div class="cc-header"><div class="cc-badge other">Other Channels</div><div class="cc-title">All Time</div></div>
+      <div class="cc-rows">
+        <div>
+          <div class="cc-week-label">Registrations</div>
+          <div class="cc-row">
+            <div class="cc-row-data">
+              <div class="cc-row-top"><span class="cc-num reg" id="at-oth-reg">—</span><span class="cc-pct reg" id="at-oth-reg-pct">—</span></div>
+              <div class="cc-track"><div class="cc-fill reg" id="at-oth-reg-bar"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="cc-divider"></div>
+        <div>
+          <div class="cc-week-label">Activations</div>
+          <div class="cc-row">
+            <div class="cc-row-data">
+              <div class="cc-row-top"><span class="cc-num act" id="at-oth-act">—</span><span class="cc-pct act" id="at-oth-act-pct">—</span></div>
+              <div class="cc-track"><div class="cc-fill act" id="at-oth-act-bar"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <footer>
     <span>yhangry · Chef Recruitment Pipeline</span>
@@ -597,8 +731,74 @@ function pinguAnswer(q){
   if(ql.includes('vip'))return `VIP markets have <strong>${fmt(d.buckets.VIP?.reduce((s,r)=>s+num(cv(r,4)),0)||0)}</strong> live chefs. Premium markets — every fish counts! 🐟`;
   return `Hmm! 🐧 You've got <strong>${fmt(d.totalApp)}</strong> total applicants and <strong>${fmt(d.totalLive)}</strong> live chefs. Ask me something more specific?`;
 }
+// ── CHANNEL COMPARISON ──
+async function loadChannelComparison(){
+  try{
+    const [regRows, actRows] = await Promise.all([
+      fetchCSV('Chef Registrations'),
+      fetchCSV('Chef Activations')
+    ]);
+
+    // Skip header row, parse col B (date) and col C (Indeed yes/no)
+    const parse = rows => rows.slice(1).map(r => ({
+      date: (cv(r,1)||'').trim(),
+      indeed: (cv(r,2)||'').trim().toLowerCase() === 'yes'
+    })).filter(r => r.date);
+
+    const regs = parse(regRows);
+    const acts = parse(actRows);
+
+    // Work out "this week" = last 7 days
+    const now = new Date();
+    const weekAgo = new Date(now - 7*24*60*60*1000);
+    const isThisWeek = d => {
+      const dt = new Date(d);
+      return dt >= weekAgo && dt <= now;
+    };
+
+    // Split by channel
+    const wkReg  = regs.filter(r => isThisWeek(r.date));
+    const wkAct  = acts.filter(r => isThisWeek(r.date));
+    const allReg = regs;
+    const allAct = acts;
+
+    const count = (arr, indeed) => arr.filter(r => r.indeed === indeed).length;
+    const pctStr = (n, total) => total > 0 ? Math.round(n/total*100)+'%' : '—';
+    const barW   = (n, total) => total > 0 ? Math.min(Math.round(n/total*100), 100) : 0;
+
+    // This week
+    const wkRegTotal = wkReg.length;
+    const wkActTotal = wkAct.length;
+    const wkIndReg  = count(wkReg, true),  wkOthReg  = count(wkReg, false);
+    const wkIndAct  = count(wkAct, true),  wkOthAct  = count(wkAct, false);
+
+    // All time
+    const atRegTotal = allReg.length;
+    const atActTotal = allAct.length;
+    const atIndReg  = count(allReg, true), atOthReg  = count(allReg, false);
+    const atIndAct  = count(allAct, true), atOthAct  = count(allAct, false);
+
+    // Populate
+    const set = (id, val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
+    const bar = (id, pct) => { const el=document.getElementById(id); if(el){ setTimeout(()=>el.style.width=pct+'%', 500); }};
+
+    set('wk-ind-reg', wkIndReg); set('wk-ind-reg-pct', pctStr(wkIndReg, wkRegTotal)+' of '+wkRegTotal+' total'); bar('wk-ind-reg-bar', barW(wkIndReg, wkRegTotal));
+    set('wk-oth-reg', wkOthReg); set('wk-oth-reg-pct', pctStr(wkOthReg, wkRegTotal)+' of '+wkRegTotal+' total'); bar('wk-oth-reg-bar', barW(wkOthReg, wkRegTotal));
+    set('wk-ind-act', wkIndAct); set('wk-ind-act-pct', pctStr(wkIndAct, wkActTotal)+' of '+wkActTotal+' total'); bar('wk-ind-act-bar', barW(wkIndAct, wkActTotal));
+    set('wk-oth-act', wkOthAct); set('wk-oth-act-pct', pctStr(wkOthAct, wkActTotal)+' of '+wkActTotal+' total'); bar('wk-oth-act-bar', barW(wkOthAct, wkActTotal));
+
+    set('at-ind-reg', atIndReg); set('at-ind-reg-pct', pctStr(atIndReg, atRegTotal)+' of '+atRegTotal+' total'); bar('at-ind-reg-bar', barW(atIndReg, atRegTotal));
+    set('at-oth-reg', atOthReg); set('at-oth-reg-pct', pctStr(atOthReg, atRegTotal)+' of '+atRegTotal+' total'); bar('at-oth-reg-bar', barW(atOthReg, atRegTotal));
+    set('at-ind-act', atIndAct); set('at-ind-act-pct', pctStr(atIndAct, atActTotal)+' of '+atActTotal+' total'); bar('at-ind-act-bar', barW(atIndAct, atActTotal));
+    set('at-oth-act', atOthAct); set('at-oth-act-pct', pctStr(atOthAct, atActTotal)+' of '+atActTotal+' total'); bar('at-oth-act-bar', barW(atOthAct, atActTotal));
+
+  } catch(e){ console.error('Channel comparison error:', e); }
+}
+
 load();
-setInterval(load,15*60*1000);
+loadChannelComparison();
+setInterval(load, 15*60*1000);
+setInterval(loadChannelComparison, 15*60*1000);
 </script>
 </body>
 </html>
